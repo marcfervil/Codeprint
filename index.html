@@ -1,0 +1,96 @@
+<html>
+    <head>
+        <title>Codeprint</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id="app">
+            <blueprint-view :blueprints="blueprints"> </blueprint-view>
+            <component-menu></component-menu>
+            
+           
+    
+            
+        </div>
+    </body>
+    
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="page.js"></script>
+<script type="text/javascript" src="button.js"></script>
+<script type="text/javascript" src="text.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript" src="page.js"></script>
+
+<script type="text/javascript">
+    //$root.selected = this
+
+    /*:style="isSelected(this)"
+                            @click.native = "tester(blueprint.id)"*/
+
+
+                            
+                    
+    function unreact(obj){
+        return JSON.parse(JSON.stringify(obj));
+    }
+                            
+                            
+    Vue.component('BlueprintView', {
+        template: /*html*/`
+            <div>
+            <component  v-for="blueprint in blueprints" 
+                            :is-child="blueprint.isChild" 
+                            :view-id="blueprint.id+'fiewfoij'"
+                            :id="blueprint.id"
+                            :is="blueprint.name" 
+                            :key="blueprint.id"
+                        >
+                
+                </component>
+            </div>
+        `,
+        methods: {
+            //1px black solid
+            isSelected: function (me) {
+                console.log(me)
+                return {};
+                
+            },
+            
+            oneTimeId: function(id){
+                console.log(JSON.parse(JSON.stringify(id)));
+                return JSON.parse(JSON.stringify(id));
+            },
+
+            tester: function(me){
+                console.log(me);
+            }
+        },
+       
+        props:["blueprints"]
+    });
+
+    
+
+    new Vue({
+        el: '#app',
+        data: {
+            isDragging: false, 
+            hovered: null,
+            blueprints: [],
+            selected: null,
+
+        },
+
+        methods: {
+            addBlueprint: function (component) {
+                this.blueprints.push(unreact(component));
+            }
+        },
+    });
+</script>
