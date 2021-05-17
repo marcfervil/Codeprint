@@ -2,7 +2,7 @@
 
 Vue.component('Paragraph', {
     template:/*html */`
-        <div v-bind:style="this.getStyle" class="text">{{text}}</div>
+        <div v-bind:style="this.getStyle" class="text">{{live.text}}</div>
     `,
 
     created: function(){
@@ -40,8 +40,9 @@ Vue.component('Paragraph', {
             blueprints: [],
             isDragging: !this.isChild,
             name: "Paragraph",
-
-            text: "placeholder",
+            live:{
+                text: "placeholder",
+            },
             style: {     
                 top: "0px",
                 left: "0px",

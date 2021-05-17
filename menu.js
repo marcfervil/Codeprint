@@ -1,7 +1,7 @@
 Vue.component('component-menu', {
     
     template:/*html */`
-        <div class="menu">
+        <div>
           <h2>Components</h2>
           <div v-for="component in components">
             <div class="menu-item" @mousedown="create(component)"">

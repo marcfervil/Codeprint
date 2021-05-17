@@ -10,7 +10,7 @@ Vue.component('Page', {
                         v-bind:key="this.id"
                         :is="blueprint.name">
             </component>-->
-            id: {{viewId}} 
+            
             <blueprint-view :blueprints="this.blueprints"> </blueprint-view>
     
         </div>
@@ -76,8 +76,8 @@ Vue.component('Page', {
             style: {
                 width: "30%",
                 minHeight: "70%",
-                top: "0px",
-                left: "0px",
+                top:  "90px",
+                left: "430px",
                 position: "absolute",
                 opacity: 0,
                 zIndex: 1,

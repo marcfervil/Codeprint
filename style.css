@@ -20,16 +20,11 @@ body{
 .menu {
     background-color: lightgray;
     padding: 10px;
-    height: 100%;
     width: 15%;
+    height: 100%;
 }
 
-.inspector {
-    background-color: lightgray;
-    padding: 10px;
-    height: 100%;
-    width: 15%;
-}
+
 
 .page{
     background-color: white;

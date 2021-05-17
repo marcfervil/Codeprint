@@ -5,12 +5,12 @@
     </head>
 
     <body>
-        <div id="app">
+        <div id="app" style="float:right">
             <blueprint-view :blueprints="blueprints"> </blueprint-view>
-            <component-menu></component-menu>
-            
-           
-    
+            <div class="menu">
+                <component-menu></component-menu>
+                <inspector></inspector>
+            </div>
             
         </div>
     </body>
@@ -20,6 +20,7 @@
 
 
 <script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="inspector.js"></script>
 <script type="text/javascript" src="page.js"></script>
 <script type="text/javascript" src="button.js"></script>
 <script type="text/javascript" src="text.js"></script>
@@ -34,21 +35,20 @@
 
 
                             
-                    
-    function unreact(obj){
-        return JSON.parse(JSON.stringify(obj));
-    }
-                            
+                   
                             
     Vue.component('BlueprintView', {
         template: /*html*/`
             <div>
             <component  v-for="blueprint in blueprints" 
                             :is-child="blueprint.isChild" 
-                            :view-id="blueprint.id+'fiewfoij'"
+                            :view-id="blueprint.id"
                             :id="blueprint.id"
                             :is="blueprint.name" 
                             :key="blueprint.id"
+                            :ref="blueprint.id"
+                            :style="($root.selectedId==blueprint.id) ? {border: '1px blue dotted'} : {}"
+                            @click.native="select($event, blueprint.id)"
                         >
                 
                 </component>
@@ -56,19 +56,12 @@
         `,
         methods: {
             //1px black solid
-            isSelected: function (me) {
-                console.log(me)
-                return {};
-                
-            },
-            
-            oneTimeId: function(id){
-                console.log(JSON.parse(JSON.stringify(id)));
-                return JSON.parse(JSON.stringify(id));
-            },
+           
+            select: function(e, id){
+                e.stopPropagation();
+                this.$root.selectedId = id;
+                this.$root.selected = this.$refs[id][0];
 
-            tester: function(me){
-                console.log(me);
             }
         },
        
@@ -83,8 +76,8 @@
             isDragging: false, 
             hovered: null,
             blueprints: [],
-            selected: null,
-
+            selectedId: null,
+            selected: null
         },
 
         methods: {

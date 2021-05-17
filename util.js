@@ -1,3 +1,22 @@
+                   
+    function unreact(obj, deep = false){
+        if(!deep){
+            return JSON.parse(JSON.stringify(obj));
+        }else{
+            let seen = [];
+            return JSON.parse(JSON.stringify(obj, function(key, val) {
+                if (val != null && typeof val == "object") {
+                    if (seen.indexOf(val) >= 0) {
+                        return;
+                    }
+                    seen.push(val);
+                }
+                return val;
+            }));
+        }
+    }
+          
+
 drag = function(){
         
     let mouseMove = (e) => {
