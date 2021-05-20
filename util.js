@@ -4,3 +4,8 @@ function get(id){
     return document.getElementById(id);
 
 }
+
+function isObj(obj){
+
+    return typeof obj === 'object' && obj !== null;
+}

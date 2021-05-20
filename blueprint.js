@@ -17,7 +17,7 @@ class Gizmo extends HTMLElement {
 
     attachGizmos(gizmos, generator=null){
         for(let gizmo of gizmos){
- 
+            
             let newGizmo = (generator!=null)?generator(gizmo) : gizmo;
             if(Array.isArray(newGizmo)){
                 
@@ -40,9 +40,10 @@ class Gizmo extends HTMLElement {
     makeReactive(name, obj, update){
         
         if(Array.isArray(obj)){
+            //console.log(obj.reactive);
             var proxy = new Proxy(obj, {
                 apply: function(target, thisArg, argumentsList) {
-                  return thisArg[target].apply(this, argumentList);
+                    return thisArg[target].apply(this, argumentList);
                 },
                 deleteProperty: function(target, property) {
                     
@@ -50,12 +51,16 @@ class Gizmo extends HTMLElement {
                 },
                 set: function(target, property, value, receiver) {      
                     target[property] = value;
-                    update(value)
+                    
+                    update(property, value)
                     return true;
                 }
-              });
-              this[name] = proxy;
-              obj = 4
+            });
+            
+            if(obj.reactive!==undefined){
+                obj.reactive.obj[obj.reactive.key] = proxy
+            }
+            return proxy;
         }else{
             this.state[name] = obj;
             Object.defineProperty(this, name, {
@@ -85,7 +90,24 @@ class Gizmo extends HTMLElement {
 class GizmoView extends Gizmo {
     constructor(gizmos) {
         super();
-        this.attachGizmos(gizmos);
+        if(Array.isArray(gizmos)){
+            this.attachGizmos(gizmos);
+        }else{
+            let state = {}
+
+            for(let itemName in gizmos.state){
+                
+                state[itemName] = gizmos.state[itemName]
+                //console.log(state[itemName] , gizmos[itemName])
+                state[itemName].reactive = {
+                    obj: state,
+                    key: itemName
+                }
+
+            }
+            this.attachGizmos(gizmos.render(state))
+        }
+        
     }
   
 }
@@ -93,15 +115,19 @@ class GizmoView extends Gizmo {
 
 
 class ListView extends Gizmo{
-    constructor(gizmos, generator) {
+    constructor(items, generator) {
         super();
         this.generator = generator
-        this.makeReactive("gizmos", gizmos, (value)=>{
-            this.innerHTML = '';
-            this.attachGizmos(gizmos, generator)
+        
+        this.items = this.makeReactive("items", items, (property, value)=>{
+            //this.innerHTML = '';
+            //this.attachGizmos(items, generator)
+            if(property == this.items.length-1){
+                this.attachGizmos([value], generator)
+            }
         });
         
-        this.attachGizmos(gizmos, generator)
+        this.attachGizmos(items, generator)
     }
 
    

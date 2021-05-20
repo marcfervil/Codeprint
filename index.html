@@ -21,21 +21,43 @@
 <script type="text/javascript">
 
 
-
-
-    
+/*
     get("app").appendChild(new GizmoView([
 
         new ListView(["item1", "item2", "item3"], (item) => 
 
             new TextView(item).br().event("click", (self, event) => {
                 self.text = "clicked!"
+                get("yuh").items.push("clicked "+self.text)
+               
             })
 
-         )
-    ]));
-   
+         ).prop("id", "yuh")
+    ]));*/
+
+
     
+    
+    get("app").appendChild(new GizmoView({
+
+        state: {
+            items: ["item1", "item2", "item3"]
+        },
+
+        
+        render: (state) => [
+
+            new ListView(state.items, (item) => 
+
+                new TextView(item).br().event("click", (self, event) => {
+                    state.items.push(self.text+" clicked!")
+                    self.text = "I've been clicked"
+                })
+
+            )
+        ]
+    }));
+
    
     
     
