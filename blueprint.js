@@ -16,15 +16,18 @@ class Gizmo extends HTMLElement {
     }
 
     attachGizmos(gizmos, generator=null){
+        let index = 0
         for(let gizmo of gizmos){
             
-            let newGizmo = (generator!=null)?generator(gizmo) : gizmo;
+            let newGizmo = (generator!=null)?generator(gizmo, index) : gizmo;
             if(Array.isArray(newGizmo)){
                 
                 this.attachGizmos(newGizmo);
             }else{
+                
                 this.appendChild(newGizmo);
             }
+            index+=1;
             
         }
     }
@@ -39,9 +42,13 @@ class Gizmo extends HTMLElement {
 
     makeReactive(name, obj, update){
         
+        
         if(Array.isArray(obj)){
-            //console.log(obj.reactive);
-            var proxy = new Proxy(obj, {
+            let newList = []
+            
+  
+       
+            let proxy = new Proxy(newList, {
                 apply: function(target, thisArg, argumentsList) {
                     return thisArg[target].apply(this, argumentList);
                 },
@@ -49,17 +56,40 @@ class Gizmo extends HTMLElement {
                     
                     return true;
                 },
-                set: function(target, property, value, receiver) {      
+                get: function(target, property) {
+                    return target[property];
+                },
+                set: function(target, property, value, receiver) {  
+                 
                     target[property] = value;
                     
                     update(property, value)
                     return true;
                 }
             });
+
+            for(let [i, el] of obj.entries()){
+                
+                if(typeof el == "string"){
+                    el = new String(el)
+                }
+
+                el.reactive = {
+                    obj: proxy,
+                    key: i
+                }
+
+                newList.push(el)
+            }
             
+            //console.log(JSON.parse(JSON.stringify(g.reactive)));
             if(obj.reactive!==undefined){
                 obj.reactive.obj[obj.reactive.key] = proxy
             }
+
+            //proxy.hi="whooahhh"
+           // console.log(proxy.hi)
+
             return proxy;
         }else{
             
@@ -71,25 +101,18 @@ class Gizmo extends HTMLElement {
                     return self.state[name];
                 },
                 set(value){
-                    //console.log("feopkwkop", self)
-                    self.state[name] = value;
-                   
+                    self.state[name] = value;    
                     update(value)
                 }
             }
 
             Object.defineProperty(this, name, getset);
 
-            if(obj.reactive!==undefined)
-            Object.defineProperty(obj.reactive.obj, obj.reactive.key, getset);
-
-            /*
+           
             if(obj.reactive!==undefined){
+                Object.defineProperty(obj.reactive.obj, obj.reactive.key, getset);
                 
-                obj.reactive.obj[obj.reactive.key] = this[name]
-                
-            }*/
-
+            }
 
         }
       
@@ -121,7 +144,6 @@ class GizmoView extends Gizmo {
                 }
 
                 state[itemName] = val
-                //console.log(state[itemName] , gizmos[itemName])
                 
                 state[itemName].reactive = {
                     obj: state,
@@ -146,12 +168,15 @@ class ListView extends Gizmo{
         this.items = this.makeReactive("items", items, (property, value)=>{
             //this.innerHTML = '';
             //this.attachGizmos(items, generator)
-            if(property == this.items.length-1){
-                this.attachGizmos([value], generator)
+            if(this.lastlen < this.items.length){
+                this.attachGizmos([value], generator);
+                this.lastlen += 1;
             }
+
         });
+        this.lastlen = this.items.length;
         
-        this.attachGizmos(items, generator)
+        this.attachGizmos(this.items, generator)
     }
 
    
