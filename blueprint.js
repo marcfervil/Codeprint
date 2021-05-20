@@ -129,23 +129,6 @@ class Gizmo extends HTMLElement {
     }
 }
 
-        /*
-                    let newVal = {}
-                    for(let key in val){
-                        
-                        if(typeof val[key] == "string"){
-                            if(state[itemName]==undefined)state[itemName] = {}
-                            newVal[key] = new String(val[key]);
-                            newVal[key].reactive = {
-                                obj: state[itemName],
-                                key: key
-                            }
-                           
-                        }
-                        
-                        
-                    }
-                    val = newVal*/
 
 class GizmoView extends Gizmo {
 

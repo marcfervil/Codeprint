@@ -75,7 +75,7 @@
     }))*/
     
 
-    /*
+    
     get("app").appendChild(new GizmoView({
 
         state: {
@@ -92,32 +92,30 @@
 
             )
         ]
-    }));*/
+    }).br().br());
 
     
 
     get("app").appendChild(new GizmoView({
 
         state: {
-            summer: "time",
+            c: ["ha", "la", "pa"],
             red: "white",
-            greeting: {
-                yo: {
-                    fye: "eokwpfp"
-                }
-            },
+            a: {
+                b:{c:["ha", "la", "pa"]},
+
+            }
   
         },
 
         render: (state) => [
-            new TextView(state.greeting.yo.fye).br().event("click", (self, event) => {
-           
-                //state.greeting.yo = "I've been clicked"
-                state.greeting.yo.fye = "hello"
-                
-    
-              //  state.summer = "summerrr"
-            })
+            new ListView(state.a.b.c, (item, index) => 
+
+                new TextView(item).br().event("click", (self, event) => {
+                    state.a.b.c[index] = "he was # "+index
+                })
+
+            ).event("click", (self, event) => state.a.b.c.push(`list is ${state.a.b.c.length} long`))
         ]
     }))
     

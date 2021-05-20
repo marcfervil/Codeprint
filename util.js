@@ -7,5 +7,5 @@ function get(id){
 
 function isObj(obj){
 
-    return typeof obj === 'object' && obj !== null;
+    return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 }
