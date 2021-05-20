@@ -65,14 +65,13 @@ class Gizmo extends HTMLElement {
             
             let self = this;
             self.state[name] = obj;
-            console.log(self[name])
 
             let getset = {
                 get(){
                     return self.state[name];
                 },
                 set(value){
-                    console.log("feopkwkop", self)
+                    //console.log("feopkwkop", self)
                     self.state[name] = value;
                    
                     update(value)
@@ -83,7 +82,6 @@ class Gizmo extends HTMLElement {
 
             if(obj.reactive!==undefined)
             Object.defineProperty(obj.reactive.obj, obj.reactive.key, getset);
-            //console.log(this[name])
 
             /*
             if(obj.reactive!==undefined){
