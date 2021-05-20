@@ -62,17 +62,37 @@ class Gizmo extends HTMLElement {
             }
             return proxy;
         }else{
-            this.state[name] = obj;
-            Object.defineProperty(this, name, {
+            
+            let self = this;
+            self.state[name] = obj;
+            console.log(self[name])
+
+            let getset = {
                 get(){
-                    return this.state[name];
+                    return self.state[name];
                 },
                 set(value){
-                    this.state[name] = value;
+                    console.log("feopkwkop", self)
+                    self.state[name] = value;
                    
                     update(value)
                 }
-            });
+            }
+
+            Object.defineProperty(this, name, getset);
+
+            if(obj.reactive!==undefined)
+            Object.defineProperty(obj.reactive.obj, obj.reactive.key, getset);
+            //console.log(this[name])
+
+            /*
+            if(obj.reactive!==undefined){
+                
+                obj.reactive.obj[obj.reactive.key] = this[name]
+                
+            }*/
+
+
         }
       
     }
@@ -96,9 +116,15 @@ class GizmoView extends Gizmo {
             let state = {}
 
             for(let itemName in gizmos.state){
-                
-                state[itemName] = gizmos.state[itemName]
+                let val = gizmos.state[itemName]
+
+                if(typeof val == "string"){
+                    val = new String(val)
+                }
+
+                state[itemName] = val
                 //console.log(state[itemName] , gizmos[itemName])
+                
                 state[itemName].reactive = {
                     obj: state,
                     key: itemName

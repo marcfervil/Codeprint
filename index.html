@@ -27,8 +27,9 @@
         new ListView(["item1", "item2", "item3"], (item) => 
 
             new TextView(item).br().event("click", (self, event) => {
-                self.text = "clicked!"
+                
                 get("yuh").items.push("clicked "+self.text)
+                self.text = "clicked!"
                
             })
 
@@ -37,7 +38,7 @@
 
 
     
-    
+    /*
     get("app").appendChild(new GizmoView({
 
         state: {
@@ -56,9 +57,22 @@
 
             )
         ]
-    }));
+    }));*/
 
-   
+
+    
+    get("app").appendChild(new GizmoView({
+
+        state: {
+            greeting: "hi"
+        },
+
+        render: (state) => [
+            new TextView(state.greeting).br().event("click", (self, event) => {
+                state.greeting = "I've been clicked"
+            })
+        ]
+    }))
     
     
 </script>
