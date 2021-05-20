@@ -41,8 +41,8 @@ class Gizmo extends HTMLElement {
     }
 
     makeReactive(name, obj, update){
-        
-        
+       
+                
         if(Array.isArray(obj)){
             let newList = []
             
@@ -110,6 +110,7 @@ class Gizmo extends HTMLElement {
 
            
             if(obj.reactive!==undefined){
+                //console.log(obj.reactive.obj, obj.reactive.key)
                 Object.defineProperty(obj.reactive.obj, obj.reactive.key, getset);
                 
             }
@@ -128,29 +129,60 @@ class Gizmo extends HTMLElement {
     }
 }
 
+        /*
+                    let newVal = {}
+                    for(let key in val){
+                        
+                        if(typeof val[key] == "string"){
+                            if(state[itemName]==undefined)state[itemName] = {}
+                            newVal[key] = new String(val[key]);
+                            newVal[key].reactive = {
+                                obj: state[itemName],
+                                key: key
+                            }
+                           
+                        }
+                        
+                        
+                    }
+                    val = newVal*/
+
 class GizmoView extends Gizmo {
+
+
+
+    parseState(ogState){
+        let state = {}
+
+        for(let itemName in ogState){
+            
+            let val = ogState[itemName]
+
+            if(typeof val == "string"){
+                val = new String(val)
+            }else if(isObj(val)){
+
+                val = this.parseState(val)
+                
+            }
+
+            state[itemName] = val
+            
+            state[itemName].reactive = {
+                obj: state,
+                key: itemName
+            }
+
+        }
+        return state
+    }
+
     constructor(gizmos) {
         super();
         if(Array.isArray(gizmos)){
             this.attachGizmos(gizmos);
         }else{
-            let state = {}
-
-            for(let itemName in gizmos.state){
-                let val = gizmos.state[itemName]
-
-                if(typeof val == "string"){
-                    val = new String(val)
-                }
-
-                state[itemName] = val
-                
-                state[itemName].reactive = {
-                    obj: state,
-                    key: itemName
-                }
-
-            }
+            let state = this.parseState(gizmos.state)
             this.attachGizmos(gizmos.render(state))
         }
         

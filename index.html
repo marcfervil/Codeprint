@@ -75,7 +75,7 @@
     }))*/
     
 
-    
+    /*
     get("app").appendChild(new GizmoView({
 
         state: {
@@ -92,6 +92,33 @@
 
             )
         ]
-    }));
+    }));*/
+
+    
+
+    get("app").appendChild(new GizmoView({
+
+        state: {
+            summer: "time",
+            red: "white",
+            greeting: {
+                yo: {
+                    fye: "eokwpfp"
+                }
+            },
+  
+        },
+
+        render: (state) => [
+            new TextView(state.greeting.yo.fye).br().event("click", (self, event) => {
+           
+                //state.greeting.yo = "I've been clicked"
+                state.greeting.yo.fye = "hello"
+                
+    
+              //  state.summer = "summerrr"
+            })
+        ]
+    }))
     
 </script>
