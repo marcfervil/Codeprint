@@ -1,52 +1,6 @@
-                   
-    function unreact(obj, deep = false){
-        if(!deep){
-            return JSON.parse(JSON.stringify(obj));
-        }else{
-            let seen = [];
-            return JSON.parse(JSON.stringify(obj, function(key, val) {
-                if (val != null && typeof val == "object") {
-                    if (seen.indexOf(val) >= 0) {
-                        return;
-                    }
-                    seen.push(val);
-                }
-                return val;
-            }));
-        }
-    }
-          
+const camel_to_snake = str => str[0].toLowerCase() + str.slice(1, str.length).replace(/[A-Z]/g, letter => `-${letter.toLowerCase()}`);
 
-drag = function(){
-        
-    let mouseMove = (e) => {
-        this.style.opacity = 0.5;
-        this.style.left = e.clientX+"px";
-        this.style.top = e.clientY+"px";
-        this.style.pointerEvents = "none";
-        this.$root.isDragging = true;
-    
-    };
+function get(id){
+    return document.getElementById(id);
 
-    let mouseUp = (e) => {
-        document.removeEventListener("mouseup", mouseUp);
-        document.removeEventListener("mousemove", mouseMove);
-        this.style.opacity = 1;
-        this.isDragging = false;
-        this.$root.isDragging = false;
-        this.style.pointerEvents = "auto";
-
-        if(this.$root.hovered!=null){
-            
-            this.$root.blueprints.splice(this.$root.blueprints.indexOf(this.name), 1);
-           
-            this.$root.hovered.blueprints.push(unreact({name: this.name, isChild: true, id: Math.random()}));
-            this.$root.hovered.mouseExit(true);
-            this.$root.hovered = null;
-        }
-        
-    };
-
-    document.addEventListener("mousemove", mouseMove);
-    document.addEventListener("mouseup", mouseUp);
 }

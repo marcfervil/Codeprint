@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Codeprint</title>
+        <link rel="stylesheet" href="style.css">
+    </head>
+
+    <body>
+        <div id="app" style="float:right">
+            <blueprint-view :blueprints="blueprints"> </blueprint-view>
+            <div class="menu">
+                <component-menu></component-menu>
+                <inspector></inspector>
+            </div>
+            
+        </div>
+    </body>
+    
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+
+
+<script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="inspector.js"></script>
+<script type="text/javascript" src="page.js"></script>
+<script type="text/javascript" src="button.js"></script>
+<script type="text/javascript" src="text.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript" src="page.js"></script>
+
+<script type="text/javascript">
+    //$root.selected = this
+
+    /*:style="isSelected(this)"
+                            @click.native = "tester(blueprint.id)"*/
+
+
+                            
+                   
+                            
+    Vue.component('BlueprintView', {
+        template: /*html*/`
+            <div>
+            <component  v-for="blueprint in blueprints" 
+                            :is-child="blueprint.isChild" 
+                            :view-id="blueprint.id"
+                            :id="blueprint.id"
+                            :is="blueprint.name" 
+                            :key="blueprint.id"
+                            :ref="blueprint.id"
+                            :style="($root.selectedId==blueprint.id) ? {border: '1px blue dotted'} : {}"
+                            @mousedown.native="select($event, blueprint.id)"
+                        >
+                
+                </component>
+            </div>
+        `,
+        methods: {
+            //1px black solid
+           
+            select: function(e, id){
+                e.stopPropagation();
+                this.$root.selectedId = id;
+                this.$root.selected = this.$refs[id][0];
+                drag.bind(this.$root.selected)(this.blueprints)
+            }
+        },
+       
+        props:["blueprints"]
+    });
+
+    
+
+    new Vue({
+        el: '#app',
+        data: {
+            isDragging: false, 
+            hovered: null,
+            blueprints: [],
+            selectedId: null,
+            selected: this.$root
+        },
+
+        methods: {
+            addBlueprint: function (component) {
+                this.blueprints.push(unreact(component));
+            }
+        },
+    });
+</script>

@@ -23,11 +23,16 @@ Vue.component('Page', {
         }else{
             this.style.opacity = 1;
             
-            delete this.style.top;
-            delete this.style.left;
+            if(this.$parent.$parent!=this.$root){
+                delete this.style.top;
+                delete this.style.left;
+            }
             delete this.style.position;
             delete this.style.width;
-            this.style.position = "static"
+            
+
+            console.log(this.$parent.$parent==this.$root);
+            this.style.position = (this.$parent.$parent!=this.$root) ? "static" : "fixed";
            
             this.style.minHeight = "10vh";
             
@@ -37,7 +42,7 @@ Vue.component('Page', {
 
     },
 
-    props: ["is-child", "view-id"],
+    props: ["is-child", "view-id",],
 
     methods: {
         mouseOver: function(e, enter = false){
@@ -50,7 +55,7 @@ Vue.component('Page', {
         },
         mouseExit: function(e, exit = false){
             if((this.$root.isDragging && !this.isDragging)||exit){
-                this.$root.hovered = null;
+                this.$root.hovered = this.$root;
             }
         }
        
@@ -59,9 +64,21 @@ Vue.component('Page', {
 
     computed: {
         getStyle: function () {
-            let style = {...this.style}
-            if(this.$root.hovered == this)style.backgroundColor = "lightgray";
-            if(this.$root.selected == this)style.border = "1px blue dotted";
+            let style = this.style
+            if(this.$root.hovered == this){
+                style.backgroundColor = "lightgray";
+                //style.zIndex = 10;
+
+            }else{
+                style.backgroundColor = "white";
+               // style.zIndex = 1;
+            }
+
+            if(this.$root.selected == this){
+                style.border = "1px blue dotted";
+            }else{
+                style.border = "1px black solid";
+            }
             return style;
             
         }
@@ -78,7 +95,7 @@ Vue.component('Page', {
                 minHeight: "70%",
                 top:  "90px",
                 left: "430px",
-                position: "absolute",
+                position: "fixed",
                 opacity: 0,
                 zIndex: 1,
                 backgroundColor: "white"
