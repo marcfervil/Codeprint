@@ -74,7 +74,7 @@
         ]
     }))*/
     
-
+/*
     
     get("app").appendChild(new GizmoView({
 
@@ -92,30 +92,34 @@
 
             )
         ]
-    }).br().br());
+    }).br().br());*/
 
     
-
+    
     get("app").appendChild(new GizmoView({
 
         state: {
-            c: ["ha", "la", "pa"],
-            red: "white",
-            a: {
-                b:{c:["ha", "la", "pa"]},
-
-            }
-  
+           lst: ["fepwok"]
+            
         },
-
+        /*
         render: (state) => [
-            new ListView(state.a.b.c, (item, index) => 
+            new TextView(state.lst[0]).br().event("click", (self, event) => {
+                state.lst[0] = "he was # "
+            })
+        ]*/
+       
+        render: (state) => [
+            
+            
+            new TextView(state.lst[0]).br().event("click", (self, event) => {
+                // / = "ifwej"
+                state.lst[0] = "ewofpk"
+                
+                console.log(state.lst);
+            })
 
-                new TextView(item).br().event("click", (self, event) => {
-                    state.a.b.c[index] = "he was # "+index
-                })
-
-            ).event("click", (self, event) => state.a.b.c.push(`list is ${state.a.b.c.length} long`))
+        
         ]
     }))
     

@@ -62,7 +62,7 @@ class Gizmo extends HTMLElement {
                 set: function(target, property, value, receiver) {  
                  
                     target[property] = value;
-                    
+                    //console.log("fwpk")
                     update(property, value)
                     return true;
                 }
