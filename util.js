@@ -9,3 +9,9 @@ function isObj(obj){
 
     return typeof obj === 'object' && obj !== null && !Array.isArray(obj);
 }
+
+function isPrimitive(obj){
+    let t = typeof obj;
+    return t == "number" || t == "boolean" || t == "string"
+    
+}

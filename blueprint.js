@@ -165,7 +165,7 @@ class GizmoView extends Gizmo {
         if(Array.isArray(gizmos)){
             this.attachGizmos(gizmos);
         }else{
-            let state = this.parseState(gizmos.state)
+            let state = new State(gizmoso);
             this.attachGizmos(gizmos.render(state))
         }
         

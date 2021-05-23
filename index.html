@@ -15,6 +15,7 @@
 
 
 <script type="text/javascript" src="util.js"></script>
+<script type="text/javascript" src="stateful.js"></script>
 <script type="text/javascript" src="blueprint.js"></script>
 
 
@@ -95,32 +96,81 @@
     }).br().br());*/
 
     
-    
+    /*
     get("app").appendChild(new GizmoView({
 
         state: {
-           lst: ["fepwok"]
+           str: "Stateful !"
             
         },
-        /*
-        render: (state) => [
-            new TextView(state.lst[0]).br().event("click", (self, event) => {
-                state.lst[0] = "he was # "
-            })
-        ]*/
+       
        
         render: (state) => [
             
             
-            new TextView(state.lst[0]).br().event("click", (self, event) => {
+            new TextView(state.str).br().event("click", (self, event) => {
                 // / = "ifwej"
-                state.lst[0] = "ewofpk"
+                state.str = "hi"
                 
-                console.log(state.lst);
+                
             })
 
         
         ]
-    }))
+    }))*/
+
+
+    /*
+    let state = new State({hello: "world"})
+   
+
+    
+    state.notify.hello = {
+        update: (value) => {
+            console.log("updated hello to", value)
+        }
+    }
+
+    state.hello = "wow";
+
+    console.log(state.hello)*/
+
+   
+    f = [1, 2]
+    
+    Object.defineProperty(f, "push", {
+    configurable: true,
+    enumerable: false,
+    writable: false, // Previous values based on Object.getOwnPropertyDescriptor(Array.prototype, "push")
+    value: function (...args)
+    {
+        let result = Array.prototype.push.apply(this, args); // Original push() implementation based on https://github.com/vuejs/vue/blob/f2b476d4f4f685d84b4957e6c805740597945cde/src/core/observer/array.js and https://github.com/vuejs/vue/blob/daed1e73557d57df244ad8d46c9afff7208c9a2d/src/core/util/lang.js
+
+        console.log("ewjfoew");
+
+        return result; // Original push() implementation
+    }
+    });
+  //  f.push(2)
+    f[0] = "ioewj"
+   // console.log(f)
+    console.log(JSON.parse(JSON.stringify(f)))
+
+    let state = new State({nums: [1, 2, 3]})
+    
+    
+    state.notify.nums = {
+        append: (value) => {
+            console.log("appended", value)
+        },
+        update: (value, index) => {
+            console.log(`updated ${index} to ${value}`)
+        },
+    }
+
+    state.nums.push("hey!")
+
+    console.log(state.nums)
+
     
 </script>

@@ -15,6 +15,7 @@ Vue.component('component-menu', {
 
     methods: {
       create:function (component) {
+          console.log(this.components)
         component.isChild = false;
         component.id = Math.random();
         this.$parent.addBlueprint(component);
@@ -25,7 +26,7 @@ Vue.component('component-menu', {
     
     data: function () {
       return {
-        
+       
         components: [
           {
             name: "Page",
