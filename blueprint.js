@@ -12,16 +12,19 @@ class Gizmo extends HTMLElement {
         this.id = editor.idNum++;
         this.hover();
         this.setParent(null);
-        $(this).mouseover(this.hover);
-        $(this).mouseout(this.unhover);
+        if(this.hasChildren()){
+            $(this).mouseover(this.hover);
+            $(this).mouseout(this.unhover);
+        }
     }
 
-   
+    hasChildren(){
+        return false;
+    }
 
     hover(event){
 
         if(editor.dragging!=false && editor.dragging!=this){
-            console.log("hover", this.id)
             this.style.backgroundColor = "lightgrey";
             if(editor.hovered!=null)editor.hovered.unhover();
             editor.hovered = this;
@@ -42,13 +45,10 @@ class Gizmo extends HTMLElement {
         if(gizmo!=null){
             
             this.style.position = "static"
-            this.style.width = null;
-            this.style.minHeight = "100px";
-            this.style.height = "100%";
+            
             
         }else{
-            this.style.width = "20%";
-            this.style.minHeight = "50%";
+            
         }
     }
 
@@ -74,7 +74,6 @@ class Gizmo extends HTMLElement {
             $(document).off("mousemove");
             this.style.pointerEvents = null;
             if(editor.hovered != null){
-                //console.log(editor.hovered.id, editor.dragging.id)
                 editor.hovered.addGizmo(editor.dragging)
                 editor.hovered.unhover()
             }
@@ -86,7 +85,9 @@ class Gizmo extends HTMLElement {
 class TextGizmo extends Gizmo{
     constructor() {
         super();
+        this.text = $(this).text("placeholder");
     }
+    
 }
 
 class ViewGizmo extends Gizmo{
@@ -94,12 +95,30 @@ class ViewGizmo extends Gizmo{
         super();
         this.className = "page"
     }
+
+    hasChildren(){
+        return true;
+    }
+
+    setParent(gizmo){
+        super.setParent(gizmo)
+        this.parent = gizmo;
+        if(gizmo!=null){
+            this.style.width = null;
+            this.style.minHeight = "100px";
+            this.style.height = "100%";
+            
+        }else{
+            this.style.width = "20%";
+            this.style.minHeight = "50%";
+        }
+    }
 }
 
 class ButtonGizmo extends Gizmo{
     constructor() {
         super();
-
+        this.button = $(this).append($("<button/>").text("Click me!"))
     }
 }
 
