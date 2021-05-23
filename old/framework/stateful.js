@@ -16,6 +16,7 @@ class Stateful {
             },
             set(newValue){
                 value = newValue;    
+                console.log("proxy update", self)
                 if(self.notifier.update!=undefined)self.notifier.update(newValue);
             },
         }
@@ -28,6 +29,8 @@ class Stateful {
         obj.notify = new Proxy({}, {
             set: function(target, key, value) {
                  self.notifier = value;
+                 console.log(self.notifier, self)
+                // console.log("Fewko")
                  //console.log(proxyObj[key].notifier)
                  return true;
             },
@@ -36,6 +39,7 @@ class Stateful {
                 return self.notifier
             },
         });
+        return obj.notify
     }
 
     arrayProxy(obj){
@@ -158,6 +162,7 @@ class State {
 
     constructor(state){
         this.state = {};
+        //console.log(this.state);
         for(let key in state){
             this.state[key] = new Stateful(state[key]);
         }
@@ -197,11 +202,12 @@ class State {
     
 
     setState(key, value){
+        
         this.state[key].value = value
     }
 
     getState(key){
-
+        //console.log(this.state)
         //console.log(key)
         //if(this.state[key].type=="array")return this.state[key].proxy.target
         return this.state[key].value;

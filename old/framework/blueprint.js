@@ -165,7 +165,9 @@ class GizmoView extends Gizmo {
         if(Array.isArray(gizmos)){
             this.attachGizmos(gizmos);
         }else{
-            let state = new State(gizmoso);
+            let state = new State(gizmos.state);
+          
+            //this.attachGizmos(gizmos.render(state))
             this.attachGizmos(gizmos.render(state))
         }
         
@@ -203,7 +205,12 @@ class TextView extends Gizmo{
     constructor(text) {
         super();
 
-        this.makeReactive("text", text, (value) => this.textNode.nodeValue = value);
+        //this.makeReactive("text", text, (value) => this.textNode.nodeValue = value);
+        new Stateful(text).attach(this, "text").notify = {
+            update: (value) => {
+                this.textNode.nodeValue = value
+            },
+        }
 
         this.textNode = document.createTextNode(this.text);
         this.appendChild(this.textNode)
