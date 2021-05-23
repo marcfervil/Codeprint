@@ -23,6 +23,7 @@ class Gizmo extends HTMLElement {
     }
 
     hover(event){
+        
         if(!this.hasChildren())return;
         if((editor.dragging!=false && editor.dragging!=this )|| event==true){
             this.style.backgroundColor = "lightgrey";
@@ -33,6 +34,7 @@ class Gizmo extends HTMLElement {
     }
 
     unhover(event){
+       
         console.log("unhoverrr")
         if(editor.dragging!=false && editor.dragging!=this){
             this.style.backgroundColor = null;
@@ -85,6 +87,7 @@ class Gizmo extends HTMLElement {
     }
 
     drag(position = "absolute"){
+        document.body.style.cursor = "pointer"
         editor.dragging = this;
         this.style.position = position;
         this.style.display = "none"; 
@@ -102,7 +105,9 @@ class Gizmo extends HTMLElement {
             if(editor.hovered != null){
                 editor.hovered.addGizmo(editor.dragging)
                 editor.hovered.unhover()
+               
             }
+            document.body.style.cursor = null;
             editor.dragging = false;
             this.redrag()
         });
