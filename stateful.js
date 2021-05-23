@@ -7,18 +7,35 @@ class Stateful {
         this.notifier = {};
     }
 
-    primitiveProxy(obj){
-        let value = obj
+    primitiveProxy(obj, attach=this, key="proxy"){
+        let value = obj;
+        let self = this;
         let getset = {
             get(){
                 return value;
             },
             set(newValue){
                 value = newValue;    
-                if(this.notifier.update!=undefined)this.notifier.update(newValue);
+                if(self.notifier.update!=undefined)self.notifier.update(newValue);
             },
         }
-        return Object.defineProperty(this, "proxy", getset);
+        return Object.defineProperty(attach, key, getset);
+    }
+
+    attach(obj, key){
+        this.primitiveProxy(this.obj, obj, key);
+        self = this;
+        obj.notify = new Proxy({}, {
+            set: function(target, key, value) {
+                 self.notifier = value;
+                 //console.log(proxyObj[key].notifier)
+                 return true;
+            },
+            get: function(target, key) {
+                //console.log(key,self.state[key].notifier)
+                return self.notifier
+            },
+        });
     }
 
     arrayProxy(obj){
@@ -29,16 +46,10 @@ class Stateful {
         let lastLen = stateList.length;
         let self = this;
         this.proxy = new Proxy(stateList, {
-            /*
-            apply: function(target, thisArg, argumentsList) {
-                return thisArg[target].apply(this, argumentList);
-            },*/
-            deleteProperty: function(target, property) {
-                
-                return true;
-            },
+           
             get: function(target, property) {
                 if(property=="target")return target;
+                else if(property=="pretty") return target.map((item)=>item.value);
                 //console.log('get',target,property)
                 let prop = stateList[property] ;
                 return (prop instanceof Stateful) ? prop.value : prop;
@@ -56,6 +67,7 @@ class Stateful {
                 if(lastLen < target.length){
                     lastLen += 1;
                     if(self.notifier.append!=undefined)self.notifier.append(value);
+                    stateList[property] = new Stateful(value);
                 }else if(prop instanceof Stateful){
                     
                     if(self.notifier.update!=undefined)self.notifier.update(value, property);
@@ -64,9 +76,57 @@ class Stateful {
                 return true;
             }
         });
-
+        
         
        
+    }
+
+    objectProxy(obj){
+       
+        let proxyObj = {}
+        for(let itemName in obj){
+            let value = obj[itemName]
+            
+            proxyObj[itemName] = new Stateful(value);
+        }
+        
+        function getNotify(){
+            let notify = {};
+    
+            return new Proxy(notify, {
+                set: function(target, key, value) {
+                     proxyObj[key].notifier = value;
+                     //console.log(proxyObj[key].notifier)
+                     return true;
+                },
+                get: function(target, key) {
+                    //console.log(key,self.state[key].notifier)
+                    return proxyObj[key].notifier
+                },
+            });
+        }
+
+        this.proxy = new Proxy(proxyObj, {
+           
+            get: function(target, property) {
+ 
+                if(property=="pretty") return "wait";
+                else if(property=="notify") return getNotify();
+                //console.log('get',target,property)
+                let prop = proxyObj[property] ;
+                return (prop instanceof Stateful) ? prop.value : prop;
+                
+            },
+            set: function(target, property, value, receiver) {  
+                let self = proxyObj[property];
+                let notifiers = self.notifier;
+                if(self.notifier.update!=undefined)self.notifier.update(value, property);
+                proxyObj[property] = new Stateful(value);
+                proxyObj[property].notifier = notifiers;
+                return true;
+            }
+        });
+       // this.proxy = proxyObj;
     }
 
     setProxy(obj){
@@ -76,6 +136,9 @@ class Stateful {
         }else if(Array.isArray(obj)){
             this.type = "array"
             this.arrayProxy(obj)
+        }else{
+            this.type = "object"
+            this.objectProxy(obj)
         }
         
     }
@@ -86,13 +149,7 @@ class Stateful {
     }
 
     get value(){
-        if(this.type=="array"){
-            //this.proxy.target.length = 10;
-            //this.proxy.target.push("dewjio")
-           // return this.proxy.target;
-            //return Object.values(this.proxy).map((item)=>item)
-        }
-        //if(this.type=="array")return this.proxy.target
+        
         return this.proxy;
     }
 }
@@ -116,7 +173,7 @@ class State {
                 return self.state[key].notifier = value;
             },
             get: function(target, key) {
-                console.log(key)
+                //console.log(key,self.state[key].notifier)
                 return self.state[key].notifier
             },
         });

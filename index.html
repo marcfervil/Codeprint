@@ -136,27 +136,26 @@
     console.log(state.hello)*/
 
    
-    f = [1, 2]
+
     
-    Object.defineProperty(f, "push", {
-    configurable: true,
-    enumerable: false,
-    writable: false, // Previous values based on Object.getOwnPropertyDescriptor(Array.prototype, "push")
-    value: function (...args)
-    {
-        let result = Array.prototype.push.apply(this, args); // Original push() implementation based on https://github.com/vuejs/vue/blob/f2b476d4f4f685d84b4957e6c805740597945cde/src/core/observer/array.js and https://github.com/vuejs/vue/blob/daed1e73557d57df244ad8d46c9afff7208c9a2d/src/core/util/lang.js
-
-        console.log("ewjfoew");
-
-        return result; // Original push() implementation
+    let state = new State({
+        nums: [1, 2, 3], 
+        primitive: "some value",
+        obj: {
+            name: "yup"
+        }
+    })
+    
+    
+    state.notify.primitive = {
+       
+        update: (value, index) => {
+            console.log(`updated to ${value}`)
+        },
     }
-    });
-  //  f.push(2)
-    f[0] = "ioewj"
-   // console.log(f)
-    console.log(JSON.parse(JSON.stringify(f)))
 
-    let state = new State({nums: [1, 2, 3]})
+    state.primitive = "1) primitive works"
+    state.primitive = "1.5) primitive works"
     
     
     state.notify.nums = {
@@ -168,9 +167,41 @@
         },
     }
 
-    state.nums.push("hey!")
+    state.nums.push("2) array appending works")
+    state.nums[0] = "3) array mutation works"
 
-    console.log(state.nums)
+    state.notify.nums[0] = {
+        
+        update: (value ) => {
+            console.log(`updated to ${value}`)
+        },
+    }
 
+    state.nums[0] = "4) array mutation notification works"
+    state.nums[0] = "5) array remutation notification works"
     
+
+    state.obj.notify.name = {
+        update: (value) => {
+            console.log(`updated to ${value}`)
+        },
+    }
+  
+    state.obj.name = "6) object updates work"
+    state.obj.name = "7) object updates work"
+
+
+    attachState = {}
+
+    new Stateful(3).attach(attachState, "hi")
+    //console.log(attachState)
+    attachState.notify.hi = {
+        update: (value) => {
+            console.log(`updated to ${value}`)
+        },
+    }
+    
+    attachState.hi = "attachments work!"
+
+
 </script>

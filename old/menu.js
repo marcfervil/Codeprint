@@ -6,6 +6,7 @@ Vue.component('component-menu', {
           <div v-for="component in components">
             <div class="menu-item" @mousedown="create(component)"">
               {{component.name}}
+              {{lala[0]}}
             </div>
             <br>
           </div>
@@ -15,7 +16,8 @@ Vue.component('component-menu', {
 
     methods: {
       create:function (component) {
-          console.log(this.components)
+        this.lala[0] = "fokok"
+        console.log(this.lala[0])
         component.isChild = false;
         component.id = Math.random();
         this.$parent.addBlueprint(component);
@@ -26,7 +28,7 @@ Vue.component('component-menu', {
     
     data: function () {
       return {
-       
+        lala: ["w", 10, 2],
         components: [
           {
             name: "Page",
