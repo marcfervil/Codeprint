@@ -6,7 +6,7 @@ Vue.component('component-menu', {
           <div v-for="component in components">
             <div class="menu-item" @mousedown="create(component)"">
               {{component.name}}
-              {{lala[0]}}
+    
             </div>
             <br>
           </div>
