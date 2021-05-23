@@ -23,16 +23,17 @@ class Gizmo extends HTMLElement {
     }
 
     hover(event){
-
-        if(editor.dragging!=false && editor.dragging!=this){
+        if(!this.hasChildren())return;
+        if((editor.dragging!=false && editor.dragging!=this )|| event==true){
             this.style.backgroundColor = "lightgrey";
-            if(editor.hovered!=null)editor.hovered.unhover();
+            //if(editor.hovered!=null)editor.hovered.unhover();
             editor.hovered = this;
-            event.stopPropagation();
+            if(event!=true)event.stopPropagation();
         }
     }
 
     unhover(event){
+        console.log("unhoverrr")
         if(editor.dragging!=false && editor.dragging!=this){
             this.style.backgroundColor = null;
             editor.hovered = null;
@@ -48,7 +49,8 @@ class Gizmo extends HTMLElement {
             
             
         }else{
-            
+            $("#app").append(this)
+            this.style.position = "absolute"
         }
     }
 
@@ -59,11 +61,35 @@ class Gizmo extends HTMLElement {
         gizmo.setParent(this)
     }
 
-    drag(){
+    redrag(){
+        if(this.hasRedrag==true)return;
+        this.hasRedrag = true;
+        
+        $(this).mousedown((event)=>{
+           // console.log("foepkw")
+            let x = event.clientX;
+            let y = event.clientY;
+            $(document).mousemove((event) => {
+                let cx = event.clientX;
+                let cy = event.clientY;
+                let dist = Math.hypot(cx-x, cy-y);
+                if(dist>15 || this.parent==null){
+                    $(document).off("mousemove mouseup");
+                    if(this.parent!=null)this.parent.hover(true)
+                    this.drag("fixed");
+                }
+            });
+            $(document).mouseup(()=>$(document).off("mousemove mouseup"));
+            event.stopPropagation();
+        });
+    }
+
+    drag(position = "absolute"){
         editor.dragging = this;
-        this.style.position = "absolute";
+        this.style.position = position;
         this.style.display = "none"; 
         this.style.pointerEvents = "none"
+        this.setParent(null)
         $(document).mousemove((event)=>{
             this.style.top = event.clientY;
             this.style.left = event.clientX;
@@ -71,13 +97,14 @@ class Gizmo extends HTMLElement {
             
         });
         $(document).mouseup((event)=>{
-            $(document).off("mousemove");
+            $(document).off("mousemove mouseup");
             this.style.pointerEvents = null;
             if(editor.hovered != null){
                 editor.hovered.addGizmo(editor.dragging)
                 editor.hovered.unhover()
             }
             editor.dragging = false;
+            this.redrag()
         });
     }
 }
@@ -106,7 +133,7 @@ class ViewGizmo extends Gizmo{
         if(gizmo!=null){
             this.style.width = null;
             this.style.minHeight = "100px";
-            this.style.height = "100%";
+            //this.style.height = "100%";
             
         }else{
             this.style.width = "20%";
