@@ -31,14 +31,33 @@ body{
     height: 100%;
 }
 
+
 .blueprint{
     background-color: white;
     border: 1px black solid;
     position: absolute;
-    width: 10%;
+    
     height: 30%;
     
 }
+
+.blueprint > input{
+    background-color: lightgray;
+    outline-width: 0;
+    
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid grey 1px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
 
 .page{
     background-color: white;

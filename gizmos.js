@@ -170,6 +170,19 @@ class UIGizmo extends Gizmo{
                 }
             }
         });
+        this.notifiers = this.getNotifiers();
+    }
+
+    prop(name, value){
+        if(value != undefined){
+            this.notifiers[name].set(value)
+        }else{
+            return this.notifiers[name].get()
+        }
+    }
+   
+    getNotifiers(){
+
     }
 
     createBlueprint(){
@@ -191,7 +204,14 @@ class TextGizmo extends UIGizmo{
         super();
         this.text = $(this).text("placeholder");
     }
-    
+    getNotifiers(){
+        return {
+            "text": {
+                get: ()=> this.text.text(),
+                set: (value) => this.text.text(value)
+            }
+        }
+    }
 }
 
 class ViewGizmo extends UIGizmo{
@@ -215,7 +235,7 @@ class ViewGizmo extends UIGizmo{
             
         }else{
             this.style.width = "20%";
-            this.style.minHeight = "50%";
+            this.style.minHeight = "60%";
         }
     }
 }
