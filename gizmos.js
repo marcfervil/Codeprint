@@ -24,9 +24,13 @@ class Gizmo extends HTMLElement {
     }
 
     pos(x, y){
-       
+        if(x===undefined && y===undefined){
+            let rect = this.getBoundingClientRect();
+            return {x: rect.left, y: rect.top}
+        }
         this.style.left = x;
         this.style.top = y;
+
     }
 
     hover(event){
@@ -50,6 +54,8 @@ class Gizmo extends HTMLElement {
         }
     }
 
+
+
     setParent(gizmo){
         this.parent = gizmo;
         if(gizmo!=null){
@@ -67,6 +73,7 @@ class Gizmo extends HTMLElement {
         //console.log(gizmo==this)
         this.appendChild(gizmo)
         this.gizmos.push(gizmo)
+        gizmo.redrag();
         gizmo.setParent(this)
     }
 
@@ -103,10 +110,25 @@ class Gizmo extends HTMLElement {
         this.style.position = position;
         
         this.style.pointerEvents = "none"
-        this.setParent(null)
+        this.setParent(null);
+        let offset = null;
         $(document).mousemove((event)=>{
-            this.style.top = event.clientY;
-            this.style.left = event.clientX;
+            if(offset==null){
+                //console.log(event.offsetY,event.offsetY)
+                
+                offset = {
+                    x: event.offsetX - parseFloat(this.style.left),
+                    y: event.offsetY - parseFloat(this.style.top)
+                }
+        
+                if(isNaN(offset.x)|| isNaN(offset.y)){
+                    offset = {x: 0, y: 0}
+                }
+            }
+
+            this.style.left = event.clientX - offset.x;
+            this.style.top = event.clientY - offset.y;
+            
             this.style.display = "block"; 
             
         });
@@ -120,6 +142,10 @@ class Gizmo extends HTMLElement {
             }
             document.body.style.cursor = null;
             editor.dragging = false;
+            if(this.parent!=null){
+                this.style.top = null;
+                this.style.left = null;
+            }
             this.redrag();
             if(!this.inited){
                 this.inited = true;
@@ -133,10 +159,15 @@ class UIGizmo extends Gizmo{
     constructor() {
         super();
         this.blueprint = null;
-        $(this).dblclick(()=>{
+        $(this).dblclick((e)=>{
             if(this instanceof UIGizmo){
                 this.blueprint = this.createBlueprint();
                 $(this).off("dblclick")
+                e.stopPropagation();
+                e.preventDefault();
+                if(editor.hovered!=null){
+                    editor.hovered.unhover()
+                }
             }
         });
     }

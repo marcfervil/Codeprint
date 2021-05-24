@@ -17,10 +17,10 @@ class UIBlueprint extends Blueprint {
         $(this).append($("<span/>").text(this.gizmo.constructor.name))
         $(this).append($("<hr>").css({padding:0, margin: 0}))
 
-        let left = parseFloat(gizmo.style.left.replace(/[^-\d\.]/g, ''));
+        
 
 
-        this.pos(left+gizmo.clientWidth+50, gizmo.style.top)
+        this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
     }
 
 }
