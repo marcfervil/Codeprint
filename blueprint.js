@@ -19,6 +19,12 @@ class UIBlueprint extends Blueprint {
 
         this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
         this.hookNotifiers();
+
+        $(this).on("repaint", ()=>{
+            
+            $(this).children().trigger("repaint.div")
+            
+        })
     }
 
     getInput(hook){
@@ -31,15 +37,38 @@ class UIBlueprint extends Blueprint {
             space: "preserve",
 
         });
+        input.hooked = null;
+        let path = null;
+        input.on("repaint.hook", ()=>{
+            
+            console.log("im hooked!")
+        })
+       
+       
 
-        
-        let path = $($svg("path")).attr("stroke", "black") .appendTo(svg)
+        $(input).mouseover((e)=>{
+            if(editor.hooking!=false && editor.hooking!=input){
+                input.css("backgroundColor", "lightgrey")
+                editor.hovered = input;
+            }
+        });
+        $(input).mouseout(()=>{
+
+            if(editor.hooking!=false && editor.hooking!=input){
+                input.css("backgroundColor", "white");
+                editor.hovered = null;
+            }
+        });
+
         
 
         input.mousedown((e) => {
 
             input.append(svg);
             e.stopPropagation();
+            editor.hooking = input;
+            path = $($svg("path")).attr("stroke", "black").appendTo(svg)
+            
             $(document).on("mousemove.hook", (e) => {
                 let xoff = input.offset().left;
                 let yoff = input.offset().top;
@@ -47,6 +76,15 @@ class UIBlueprint extends Blueprint {
             });
             $(document).on("mouseup.hook", (e)=>{
                 $(document).off(".hook");
+                editor.hooking=false;
+                if(editor.hovered==null){
+                    svg.remove();
+                    path.remove();
+                }else{
+                    input.hooked = editor.hovered
+                    input.trigger("repaint.hook")
+                }
+                editor.hovered = null;
             })
         });
         
@@ -81,7 +119,11 @@ class UIBlueprint extends Blueprint {
             }).attr("autocomplete","off"));
 
             div.append(this.getInput(notifier))
-            $(this).append(div.addClass("blueprintItem"))
+            $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
+                div.children().trigger("repaint.hook")
+                //console.log("efkpw")
+
+            }))
         }
     }
 

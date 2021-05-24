@@ -28,19 +28,31 @@ body{
    
 }
 
+
+
+
 .in {
     width: 9px;
     height: 9px;
     padding: 0px;
     margin: 0px;
+   
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
     
     border-radius: 25px;
     border: 1px black solid;
     
-    display:inline-block
+    display:inline-block;
+  
   }
+
+  svg{
+    position: relative;
+    z-index: 10000;
+  }
+
+ 
 
 .menu {
     background-color: lightgray;

@@ -1,7 +1,8 @@
 editor = {
     dragging: false,
     hovered: null,
-    idNum: 0
+    idNum: 0,
+    hooking: false
 }
 
 
