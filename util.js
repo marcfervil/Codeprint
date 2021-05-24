@@ -15,3 +15,7 @@ function isPrimitive(obj){
     return t == "number" || t == "boolean" || t == "string"
     
 }
+
+function $svg(svgName){
+    return document.createElementNS('http://www.w3.org/2000/svg', svgName)
+}

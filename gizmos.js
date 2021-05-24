@@ -209,7 +209,8 @@ class TextGizmo extends UIGizmo{
             "text": {
                 get: ()=> this.text.text(),
                 set: (value) => this.text.text(value)
-            }
+            },
+            
         }
     }
 }

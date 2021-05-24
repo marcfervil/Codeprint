@@ -9,8 +9,12 @@ body{
     -ms-user-select: none;        /* Internet Explorer/Edge */
     -moz-user-select: none;       /* Old versions of Firefox */
     user-select: none;    
-    overflow: hidden;   
+    overflow: hidden;
+    position:relative; 
+
+    transform: translateZ(0)
 }
+
 
 
 #app{
@@ -19,17 +23,19 @@ body{
     padding: 0px;
     height:100%;
     display: grid ;
-    grid-template-columns: 10% 40% 60%;
+    grid-template-columns: 10% 90%;
     grid-template-rows: 100%;
+   
 }
 
 .in {
-    width: 10px;
-    height: 10px;
+    width: 9px;
+    height: 9px;
     padding: 0px;
     margin: 0px;
     -webkit-border-radius: 25px;
     -moz-border-radius: 25px;
+    
     border-radius: 25px;
     border: 1px black solid;
     
@@ -51,7 +57,7 @@ body{
     border: 1px black solid;
     position: absolute;
     
-    height: 30%;
+    
     
 }
 

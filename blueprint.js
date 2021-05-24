@@ -22,7 +22,34 @@ class UIBlueprint extends Blueprint {
     }
 
     getInput(hook){
-        let input = $("<span/>").text("").addClass("in")
+        let input = $("<span/>").addClass("in")
+        let svg = $($svg("svg")).attr({
+            
+            width: 10, 
+            height: 10, 
+            overflow: "visible",
+            space: "preserve",
+
+        });
+
+        
+        let path = $($svg("path")).attr("stroke", "black") .appendTo(svg)
+        
+
+        input.mousedown((e) => {
+
+            input.append(svg);
+            e.stopPropagation();
+            $(document).on("mousemove.hook", (e) => {
+                let xoff = input.offset().left;
+                let yoff = input.offset().top;
+                path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
+            });
+            $(document).on("mouseup.hook", (e)=>{
+                $(document).off(".hook");
+            })
+        });
+        
         return input
     }
 

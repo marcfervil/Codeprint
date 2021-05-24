@@ -15,8 +15,12 @@
                 <h2>Components</h2>
                 
             </div>
-           
-                
+            
+            <!--
+                <svg style="position: fixed; left:100; background-color:red" id="svgenius">
+                    
+                </svg>
+            -->
             
             
         </div>
@@ -31,9 +35,20 @@
 <script type="text/javascript" src="gizmos.js"></script>
 <script type="text/javascript" src="blueprint.js"></script>
 
+<!---->
 <script type="text/javascript">
     initGizmos();
     initMenu();
+    
+    
+
+    /*
+    $(document).mousemove((e) => {
+        let m = $("#svgenius");
+        console.log()
+        $("#woo").attr("d",`m 0 0 L ${e.clientX - m.offset().left} ${e.clientY + m.offset().top}`)
+    });*/
+    //.attr("d")
 
     let defaultView = new ViewGizmo();
     let defaultText = new TextGizmo();
