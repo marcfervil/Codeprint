@@ -7,17 +7,17 @@
     </head>
 
     <body>
-        <div id="app" style="margin: 10px">
-            <div>
-                <h2>Components</h2>
-
-                <div id="menu-items" class="menu" >
-                    
-                    
-                </div>
+        <div id="app">
+            
                 
+
+            <div id="menu-items" class="menu" >
+                <h2>Components</h2>
                 
             </div>
+           
+                
+            
             
         </div>
     </body>
@@ -27,5 +27,17 @@
 
 <script type="text/javascript" src="util.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="editor.js"></script>
+<script type="text/javascript" src="gizmos.js"></script>
 <script type="text/javascript" src="blueprint.js"></script>
 
+<script type="text/javascript">
+    initGizmos();
+    initMenu();
+
+    let defaultView = new ViewGizmo();
+    $("#app").append(defaultView);
+    defaultView.pos(344, 160);
+    defaultView.createBlueprint();
+    defaultView.redrag();
+</script>

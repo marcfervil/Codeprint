@@ -14,17 +14,31 @@ body{
 
 #app{
     width:100%; 
+    margin: 0px;
+    padding: 0px;
     height:100%;
+    display: grid ;
+    grid-template-columns: 10% 40% 60%;
+    grid-template-rows: 100%;
 }
 
 .menu {
     background-color: lightgray;
     padding: 10px;
-    width: 15%;
+    margin: 0px;
+    width: 100%;
+    grid-column-start: col-start 0;
     height: 100%;
 }
 
-
+.blueprint{
+    background-color: white;
+    border: 1px black solid;
+    position: absolute;
+    width: 10%;
+    height: 30%;
+    
+}
 
 .page{
     background-color: white;
