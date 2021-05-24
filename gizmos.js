@@ -125,13 +125,13 @@ class Gizmo extends HTMLElement {
                     offset = {x: 0, y: 0}
                 }
             }
-            $(this).children().trigger("repaint")
+            
             //console.log(this)
             this.style.left = event.clientX - offset.x;
             this.style.top = event.clientY - offset.y;
             
             this.style.display = "block"; 
-            
+            $(this).children().trigger("repaint")
         });
         $(document).mouseup((event)=>{
             $(document).off("mousemove mouseup");

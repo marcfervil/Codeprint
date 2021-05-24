@@ -38,10 +38,24 @@ class UIBlueprint extends Blueprint {
 
         });
         input.hooked = null;
+        input.hookedTo = null;
         let path = null;
         input.on("repaint.hook", ()=>{
-            
-            console.log("im hooked!")
+            if(input.hooked != null){
+                //input.remove();
+
+                let xoff = input.offset().left;
+                let yoff = input.offset().top;
+
+                let x = input.hooked[0].getBoundingClientRect().left - xoff
+                let y = input.hooked[0].getBoundingClientRect().top - yoff
+                //console.log(x,y)
+                //input.hooked.remove()
+                
+                path.attr("d",`m 5 5L ${x+5} ${y+5}`)
+            }else if(input.hookedTo != null){
+                input.hookedTo.trigger("repaint.hook");
+            }
         })
        
        
@@ -68,10 +82,11 @@ class UIBlueprint extends Blueprint {
             e.stopPropagation();
             editor.hooking = input;
             path = $($svg("path")).attr("stroke", "black").appendTo(svg)
-            
+            input.css("pointerEvents", "none")
             $(document).on("mousemove.hook", (e) => {
                 let xoff = input.offset().left;
                 let yoff = input.offset().top;
+
                 path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
             });
             $(document).on("mouseup.hook", (e)=>{
@@ -82,8 +97,11 @@ class UIBlueprint extends Blueprint {
                     path.remove();
                 }else{
                     input.hooked = editor.hovered
+                    editor.hovered.hookedTo = input;
                     input.trigger("repaint.hook")
+                    //editor.hovered.remove();
                 }
+                editor.hovered.css("backgroundColor", "white")
                 editor.hovered = null;
             })
         });
