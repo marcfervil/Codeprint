@@ -75,6 +75,10 @@ class Blueprint extends Gizmo {
             e.stopPropagation();
             editor.hooking = hook;
             let path = $($svg("path")).attr("stroke", "black").appendTo(svg)
+            $(svg).click((e)=>{
+                console.log("fewok")
+                $(e).target.remove();
+            })
             hook.css("pointerEvents", "none")
             //console.log("okprw")
             $(document).on("mousemove.hook", (e) => {
@@ -83,7 +87,7 @@ class Blueprint extends Gizmo {
                 path.attr("fill","transparent")
                 path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
             });
-            $(document).on("mouseup.hook", (e)=>{
+            $(document).on("mouseup.hook", (e) => {
                 $(document).off(".hook");
                 hook.css("pointerEvents", "")
                 editor.hooking=false;
@@ -93,6 +97,8 @@ class Blueprint extends Gizmo {
                 }else{
                     hook.outputs.push({hook: editor.hovered, path: path})
                     editor.hovered.inputs.push(hook);
+                    editor.hovered.notifier.set(hook.notifier.get())
+                    editor.hovered.notifier.updateField(hook.notifier.get())
                     path = null;
                     hook.trigger("repaint.hook")
                     editor.hovered.css("backgroundColor", "white")
@@ -157,7 +163,7 @@ class UIBlueprint extends Blueprint {
                             } 
                         }
                     },
-                    attr:{"autocomplete": "off"},
+                    attr:{"autocomplete": "off", "spellcheck":"false"},
                 }).attr("autocomplete","off");
             }
             notifier.setHooks(input, output);

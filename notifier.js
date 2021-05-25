@@ -26,6 +26,7 @@ class Notifier{
         this.value = value
         for(let uiHook of this.outputHook.outputs){
             uiHook.hook.notifier.set(value);
+            uiHook.hook.notifier.updateField(value)
         }
     }
 
@@ -45,14 +46,14 @@ class TextInputNotifier extends Notifier{
         return this.textbox.text() 
     }
 
-    updateField(data){
-        this.field.text("oepkwoqwkdpoqwkodpkqw")
+    updateField(value){
+        this.field.val(value)
     }
 
     set(value){
         super.set(value)
         this.textbox.text(value)
-        this.field.val(value)
+        //this.field.val(value)
         //this.field.remove();
         //console.log(this.field)
     }
