@@ -98,6 +98,15 @@ button:focus {
     outline: none;
 }
 
+.italic {
+    font-style:italic;
+}
+
+.selfNotifier{
+    border: 1px black solid;
+    margin: 4px;
+    padding: 2px;
+}
 
 .page{
     background-color: white;

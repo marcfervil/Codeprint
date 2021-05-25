@@ -22,6 +22,10 @@ class Notifier{
 
     }
 
+    hasOutput(){
+        return true;
+    }
+
     set(value){
         this.value = value
         for(let uiHook of this.outputHook.outputs){
@@ -37,6 +41,21 @@ class SelfNotifier extends Notifier{
     constructor(self){
         super(self);
     }
+    hasOutput(){
+        return false;
+    }
+
+    updateField(value){
+        if(value!=null && value!=undefined){
+            this.field.text(value.constructor.name)
+            this.field.removeClass("italic")
+            this.field.addClass("selfNotifier")
+
+        }
+        
+    }
+
+
 }
 
 class TextInputNotifier extends Notifier{

@@ -160,12 +160,14 @@ class Blueprint extends Gizmo {
                     },
                     attr:{"autocomplete": "off", "spellcheck":"false"},
                 }).attr("autocomplete","off");
+            }else if(notifier instanceof SelfNotifier){
+                notifierField = $("<span/>").text("nothing").addClass("italic");
             }
             notifier.setHooks(input, output);
             notifier.setField(notifierField)
             div.append(notifierField);
 
-            div.append(output)
+            if(notifier.hasOutput())div.append(output)
             $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
                 div.children().trigger("repaint.hook")
                 if(this.selfHook!==undefined){
@@ -192,7 +194,11 @@ class UIBlueprint extends Blueprint {
 
         this.selfNotifier = new SelfNotifier(gizmo);
         this.selfHook = this.getHook(this.selfNotifier, "output");
-        this.heading.prepend(this.selfHook)
+        this.heading.append(this.selfHook.css({
+            "float": "right",
+            "margin": "5px",
+            "marginBottom": "0px"
+        }))
     }
 
 }
