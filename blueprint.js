@@ -7,8 +7,18 @@ class Blueprint extends Gizmo {
         this.heading = $("<span/>");
         
         
-        $(this).append(this.heading.text(headingText+this.id).addClass("blueprintHeading"))
+        $(this).append(this.heading.text(headingText).addClass("blueprintHeading"))
         $(this).append($("<hr>").css({padding:0, margin: 0}))
+
+        
+
+        $(this).on("repaint", ()=>{
+            
+            $(this).children().trigger("repaint.div")
+            
+        });
+
+        
     }
 
     //TODO: just make hook class
@@ -25,8 +35,10 @@ class Blueprint extends Gizmo {
         hook.inputs = []
         hook.outputs = [];
         hook.notifier = notifier
-       
-        hook.on("repaint.hook", ()=>{
+        
+        
+
+        let repaint = ()=>{
            // console.log(input.hooked, input.hooks)
             if(hook.outputs.length>0){
                 
@@ -53,12 +65,13 @@ class Blueprint extends Gizmo {
                 for(let input of hook.inputs){
                     //console.log(input.length)
                     input.trigger("repaint.hook");
-                    
+                    input.trigger("repaint.div");
                 }
             }
-        })
-       
-       
+        }
+
+
+        hook.on("repaint.hook", repaint);
 
         $(hook).mouseover((e)=>{
             if(editor.hooking!=false && editor.hooking!=hook){
@@ -119,34 +132,10 @@ class Blueprint extends Gizmo {
         return hook
     }
 
-}
-
-
-class UIBlueprint extends Blueprint {
-
-    constructor(gizmo){
-        super(" "+gizmo.constructor.name);
-        this.gizmo = gizmo;
-       
-
-        this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
-        this.hookNotifiers();
-
-        $(this).on("repaint", ()=>{
-            
-            $(this).children().trigger("repaint.div")
-            
-        })
-        this.selfNotifier = new SelfNotifier(gizmo);
-        this.selfHook = this.getHook(this.selfNotifier, "output");
-        this.heading.prepend(this.selfHook)
-    }
-
-
-    hookNotifiers(){
+    hookNotifiers(notifiers){
         
-        for(let key in this.gizmo.notifiers){
-            let notifier = this.gizmo.notifiers[key]
+        for(let key in notifiers){
+            let notifier = notifiers[key]
             let div = $("<div/>");
             let input = this.getHook(notifier, "input");
             let output = this.getHook(notifier, "output")
@@ -179,18 +168,61 @@ class UIBlueprint extends Blueprint {
             div.append(output)
             $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
                 div.children().trigger("repaint.hook")
+                if(this.selfHook!==undefined){
+                    this.selfHook.trigger("repaint.hook")
+                }
             }))
         }
     }
 
+
 }
 
-class ClickEventGizmo extends Blueprint{
+
+class UIBlueprint extends Blueprint {
+
+    constructor(gizmo){
+        super(" "+gizmo.constructor.name+editor.idNum);
+        this.gizmo = gizmo;
+       
+
+        this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
+        
+        this.hookNotifiers(this.gizmo.notifiers);
+
+        this.selfNotifier = new SelfNotifier(gizmo);
+        this.selfHook = this.getHook(this.selfNotifier, "output");
+        this.heading.prepend(this.selfHook)
+    }
+
+}
+
+class EventGizmo extends Blueprint{
+
+    constructor(name){
+        super(name);
+        this.notifiers = this.getNotifiers()
+        this.hookNotifiers(this.notifiers);
+    }
+
+    getNotifiers(){
+        
+    }
+
+}
+
+class RenderGizmo extends EventGizmo{
 
     constructor(){
-        super("ClickEvent");
+        super("OnStart");
+        
+    }
+
+    getNotifiers(){
+        return {
+            "render": new SelfNotifier()
+        }
     }
 
 
 }
-
