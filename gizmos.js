@@ -191,7 +191,11 @@ class UIGizmo extends Gizmo{
                 editor.dragging = false;
             }
         });
+        this.initHookedUI()
         this.notifiers = this.getNotifiers();
+    }
+
+    initHookedUI(){
     }
 
     prop(name, value){
@@ -218,16 +222,26 @@ class UIGizmo extends Gizmo{
 class TextGizmo extends UIGizmo{
     constructor() {
         super();
+        //this.text = 
+        //console.log("edkpw")
+        //console.log(this.text)
+    }
+
+    initHookedUI(){
         this.text = $(this).text("placeholder");
     }
+
     getNotifiers(){
+        
         return {
+            /*
             "text": {
                 get: ()=> this.text.text(),
                 set: (value) => this.text.text(value),
                 type: "text"
-            },
-            
+            },*/
+            "text": new TextInputNotifier(this.text)
+                
         }
     }
 }

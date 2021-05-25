@@ -5,7 +5,7 @@ class Blueprint extends Gizmo {
     }
 
     //TODO: just make hook class
-    getHook(hookData, type){
+    getHook(notifier, type){
         let hook = $("<span/>").addClass("in")
         let svg = $($svg("svg")).attr({
             
@@ -17,6 +17,7 @@ class Blueprint extends Gizmo {
         });
         hook.inputs = []
         hook.outputs = [];
+        hook.notifier = notifier
        
         hook.on("repaint.hook", ()=>{
            // console.log(input.hooked, input.hooks)
@@ -87,17 +88,13 @@ class Blueprint extends Gizmo {
                 hook.css("pointerEvents", "")
                 editor.hooking=false;
                 if(editor.hovered==null){
-                    //svg.remove();
                     path.remove();
                     path = null;
                 }else{
                     hook.outputs.push({hook: editor.hovered, path: path})
                     editor.hovered.inputs.push(hook);
                     path = null;
-                    //console.log(editor.hovered.hooks)
-
                     hook.trigger("repaint.hook")
-                    //editor.hovered.remove();
                     editor.hovered.css("backgroundColor", "white")
                 }
 
@@ -144,12 +141,12 @@ class UIBlueprint extends Blueprint {
             div.append(input)
             div.append("  "+key+": ")
 
-            if(notifier.type == "text"){
-                div.append($("<input/>", {
+            let notifierField = null;
+
+            if(notifier instanceof TextInputNotifier){
+                notifierField = $("<input/>", {
                     val: notifier.get(),
-                    prop: {
-                        type: "text"
-                    },
+                    prop: {type: "text"},
                     on: {
                         keypress: function(e) {
                             notifier.set($(e.target).val()+e.key)
@@ -158,30 +155,18 @@ class UIBlueprint extends Blueprint {
                             if(e.keyCode == 8){
                                 notifier.set($(e.target).val())
                             } 
-                        },
-                        /*
-                        select: function(e){
-                            
-                                this.selectionStart = this.selectionEnd;
-                              
-                        }*/
+                        }
                     },
-                    attr:{
-                        
-                        "autocomplete": "off"
-                    },
-                   
-
-                }).attr("autocomplete","off"));
-            }else if(notifier.type == "option"){
-                div.append($("<input/>", {}));
+                    attr:{"autocomplete": "off"},
+                }).attr("autocomplete","off");
             }
+            notifier.setHooks(input, output);
+            notifier.setField(notifierField)
+            div.append(notifierField);
 
             div.append(output)
             $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
                 div.children().trigger("repaint.hook")
-                //console.log("efkpw")
-
             }))
         }
     }
