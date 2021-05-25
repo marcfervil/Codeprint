@@ -5,13 +5,21 @@ editor = {
     hooking: false
 }
 
+function initGizmos(){
+    customElements.define('text-gizmo', TextGizmo);
+    customElements.define('button-gizmo', ButtonGizmo);
+    customElements.define('view-gizmo', ViewGizmo);
+    customElements.define('ui-blueprint-gizmo', UIBlueprint);
+    customElements.define('click-event-gizmo', ClickEventGizmo);
+}
 
 function initMenu(){
 
     let menuItems = [
         {name: "View", gizmo: ViewGizmo},
         {name: "Text", gizmo: TextGizmo},
-        {name: "Button", gizmo: ButtonGizmo}
+        {name: "Button", gizmo: ButtonGizmo},
+        {name: "ClickEvent", gizmo: ClickEventGizmo}
     ]
 
     for(let item of menuItems){

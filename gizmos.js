@@ -85,20 +85,32 @@ class Gizmo extends HTMLElement {
            // console.log("foepkw")
             let x = event.clientX;
             let y = event.clientY;
+           
             //editor.dragging = this;
             $(document).mousemove((event) => {
+                //event.originalEvent.cancelBubble = true;
+                //console.log(event)
+
+                
                 let cx = event.clientX;
                 let cy = event.clientY;
+
+
                 let dist = Math.hypot(cx-x, cy-y);
                 if(dist>15 || this.parent==null){
                     $(document).off("mousemove mouseup");
                     if(this.parent!=null)this.parent.hover(true)
                     this.drag("fixed");
+                    
                 }
+                event.preventDefault();
+               // event.cancelBubble = true;
+                event.stopPropagation();
             });
             $(document).mouseup(()=>{
                 $(document).off("mousemove mouseup")
                 editor.dragging = null;
+                event.stopPropagation();
             });
             event.stopPropagation();
         });
@@ -115,12 +127,15 @@ class Gizmo extends HTMLElement {
         $(document).mousemove((event)=>{
             if(offset==null){
                 //console.log(event.offsetY,event.offsetY)
+                event.originalEvent.preventDefault();
+                event.originalEvent.stopPropagation();
                 
+                //console.log(event.originalEvent)
                 offset = {
-                    x: event.offsetX - parseFloat(this.style.left),
-                    y: event.offsetY - parseFloat(this.style.top)
+                    x: event.originalEvent.layerX - parseFloat(this.style.left),
+                    y: event.originalEvent.layerY - parseFloat(this.style.top)
                 }
-        
+                //console.log(offset, parseFloat(this.style.left), parseFloat(this.style.top));
                 if(isNaN(offset.x)|| isNaN(offset.y)){
                     offset = {x: 0, y: 0}
                 }
@@ -132,6 +147,7 @@ class Gizmo extends HTMLElement {
             
             this.style.display = "block"; 
             $(this).children().trigger("repaint")
+            
         });
         $(document).mouseup((event)=>{
             $(document).off("mousemove mouseup");
@@ -152,6 +168,7 @@ class Gizmo extends HTMLElement {
                 this.inited = true;
                 this.created();
             }
+            event.stopPropagation();
         });
     }
 }
@@ -168,7 +185,10 @@ class UIGizmo extends Gizmo{
                 e.preventDefault();
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
+                   
+                    //editor.hovered = null;
                 }
+                editor.dragging = false;
             }
         });
         this.notifiers = this.getNotifiers();
@@ -191,12 +211,7 @@ class UIGizmo extends Gizmo{
     }
 }
 
-function initGizmos(){
-    customElements.define('text-gizmo', TextGizmo);
-    customElements.define('button-gizmo', ButtonGizmo);
-    customElements.define('view-gizmo', ViewGizmo);
-    customElements.define('ui-blueprint-gizmo', UIBlueprint);
-}
+
 
 
 
@@ -209,7 +224,8 @@ class TextGizmo extends UIGizmo{
         return {
             "text": {
                 get: ()=> this.text.text(),
-                set: (value) => this.text.text(value)
+                set: (value) => this.text.text(value),
+                type: "text"
             },
             
         }
