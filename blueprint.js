@@ -27,8 +27,8 @@ class UIBlueprint extends Blueprint {
         })
     }
 
-    getInput(hook){
-        let input = $("<span/>").addClass("in")
+    getInput(hookData){
+        let hook = $("<span/>").addClass("in")
         let svg = $($svg("svg")).attr({
             
             width: 10, 
@@ -37,76 +37,96 @@ class UIBlueprint extends Blueprint {
             space: "preserve",
 
         });
-        input.hooked = null;
-        input.hookedTo = null;
-        let path = null;
-        input.on("repaint.hook", ()=>{
-            if(input.hooked != null){
-                //input.remove();
-
-                let xoff = input.offset().left;
-                let yoff = input.offset().top;
-
-                let x = input.hooked[0].getBoundingClientRect().left - xoff
-                let y = input.hooked[0].getBoundingClientRect().top - yoff
-                //console.log(x,y)
-                //input.hooked.remove()
+        hook.inputs = []
+        hook.outputs = [];
+       
+        hook.on("repaint.hook", ()=>{
+           // console.log(input.hooked, input.hooks)
+            if(hook.outputs.length>0){
                 
-                path.attr("d",`m 5 5L ${x+5} ${y+5}`)
-            }else if(input.hookedTo != null){
-                input.hookedTo.trigger("repaint.hook");
+                for(let output of hook.outputs){
+                    //console.log(output)
+                    let xoff = hook.offset().left;
+                    let yoff = hook.offset().top;
+    
+                    let x = output.hook[0].getBoundingClientRect().left - xoff
+                    let y = output.hook[0].getBoundingClientRect().top - yoff
+                    
+                    
+                    output.path.attr("d",`m 5 5L ${x+5} ${y+5}`)
+                }
+               
+            }
+            
+            
+            if(hook.inputs.length > 0){
+                
+                
+                for(let input of hook.inputs){
+                    //console.log(input.length)
+                    input.trigger("repaint.hook");
+                    
+                }
             }
         })
        
        
 
-        $(input).mouseover((e)=>{
-            if(editor.hooking!=false && editor.hooking!=input){
-                input.css("backgroundColor", "lightgrey")
-                editor.hovered = input;
+        $(hook).mouseover((e)=>{
+            if(editor.hooking!=false && editor.hooking!=hook){
+                hook.css("backgroundColor", "lightgrey")
+                editor.hovered = hook;
             }
         });
-        $(input).mouseout(()=>{
+        $(hook).mouseout(()=>{
 
-            if(editor.hooking!=false && editor.hooking!=input){
-                input.css("backgroundColor", "white");
+            if(editor.hooking!=false && editor.hooking!=hook){
+                hook.css("backgroundColor", "white");
                 editor.hovered = null;
             }
         });
 
         
 
-        input.mousedown((e) => {
+        hook.mousedown((e) => {
 
-            input.append(svg);
+            hook.append(svg);
             e.stopPropagation();
-            editor.hooking = input;
-            path = $($svg("path")).attr("stroke", "black").appendTo(svg)
-            input.css("pointerEvents", "none")
+            editor.hooking = hook;
+            let path = $($svg("path")).attr("stroke", "black").appendTo(svg)
+            hook.css("pointerEvents", "none")
+            //console.log("okprw")
             $(document).on("mousemove.hook", (e) => {
-                let xoff = input.offset().left;
-                let yoff = input.offset().top;
+                let xoff = hook.offset().left;
+                let yoff = hook.offset().top;
 
                 path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
             });
             $(document).on("mouseup.hook", (e)=>{
                 $(document).off(".hook");
+                hook.css("pointerEvents", "")
                 editor.hooking=false;
                 if(editor.hovered==null){
-                    svg.remove();
+                    //svg.remove();
                     path.remove();
+                    path = null;
                 }else{
-                    input.hooked = editor.hovered
-                    editor.hovered.hookedTo = input;
-                    input.trigger("repaint.hook")
+                    hook.outputs.push({hook: editor.hovered, path: path})
+                    editor.hovered.inputs.push(hook);
+                    path = null;
+                    //console.log(editor.hovered.hooks)
+
+                    hook.trigger("repaint.hook")
                     //editor.hovered.remove();
+                    editor.hovered.css("backgroundColor", "white")
                 }
-                editor.hovered.css("backgroundColor", "white")
+
+                
                 editor.hovered = null;
             })
         });
         
-        return input
+        return hook
     }
 
     hookNotifiers(){

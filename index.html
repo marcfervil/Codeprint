@@ -52,8 +52,10 @@
 
     let defaultView = new ViewGizmo();
     let defaultText = new TextGizmo();
+
     $("#app").append(defaultView);
     defaultView.addGizmo(defaultText)
+    
     defaultView.pos(344, 160);
     defaultText.createBlueprint();
     defaultView.redrag();
