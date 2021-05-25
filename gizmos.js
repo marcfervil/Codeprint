@@ -19,6 +19,30 @@ class Gizmo extends HTMLElement {
         return false;
     }
 
+   
+
+    preview(root=true){
+        let gizmo = this.cloneNode();
+        let empty = () => {}
+        gizmo.hover = empty;
+        gizmo.unhover = empty;
+        gizmo.redrag = empty;
+        gizmo.drag = empty;
+        if(root && gizmo instanceof ViewGizmo){
+            gizmo.style.width = "100%"
+            gizmo.style.height = "100%"
+            gizmo.style.position = "static"
+            gizmo.style.border = null;
+            gizmo.className = null;
+        }
+        for(let node of this.childNodes){
+            if(node instanceof Gizmo){
+                gizmo.addGizmo(node.preview(false))
+            }
+        }
+        return gizmo;
+    }
+
     created(){
        
     }
@@ -70,7 +94,6 @@ class Gizmo extends HTMLElement {
     }
 
     addGizmo(gizmo){
-        //console.log(gizmo==this)
         this.appendChild(gizmo)
         this.gizmos.push(gizmo)
         gizmo.redrag();

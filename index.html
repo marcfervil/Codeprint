@@ -15,9 +15,8 @@
                 <h2 style="margin-top: 5;">Components</h2>
                 
             </div>
-            <div class="preview">
-                wubbadubba
-            </div>
+            <div class="blueprintArea" id="bp"></div>
+            <div class="preview" id="preview"></div>
             <!--
                 <svg style="position: fixed; left:100; background-color:red" id="svgenius">
                     
@@ -62,9 +61,9 @@
     defaultView.addGizmo(defaultText)
     
     defaultView.pos(344, 160);
-    defaultText.createBlueprint();
-    defaultView.redrag();
-
+    //defaultText.createBlueprint();
+    defaultView.createBlueprint();
+    defaultView.redrag()
 
     let renderer = new RenderGizmo()
     $("#app").append(renderer)

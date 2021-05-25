@@ -225,7 +225,8 @@ class RenderGizmo extends EventGizmo{
     }
 
     updatePreview(gizmo){
-         
+        
+        editor.preview[0].appendChild(gizmo.preview())
     }
 
     getNotifiers(){

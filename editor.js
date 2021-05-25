@@ -2,7 +2,8 @@ editor = {
     dragging: false,
     hovered: null,
     idNum: 0,
-    hooking: false
+    hooking: false,
+    preview: $("#preview")
 }
 
 function initGizmos(){
