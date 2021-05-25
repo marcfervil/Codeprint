@@ -221,7 +221,11 @@ class RenderGizmo extends EventGizmo{
 
     constructor(){
         super("OnStart");
-        
+        this.notifiers.render.onUpdate(this.updatePreview);
+    }
+
+    updatePreview(gizmo){
+         
     }
 
     getNotifiers(){

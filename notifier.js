@@ -2,6 +2,7 @@ class Notifier{
 
     constructor(value){
         this.value = value
+        this.fieldUpdater = null;
     }
 
     setHooks(inputHook, outputHook){
@@ -15,11 +16,16 @@ class Notifier{
     }
 
     setField(field){
+       
         this.field = field
     }
 
     updateField(data){
+        if(this.fieldUpdater!=null)this.fieldUpdater(data)
+    }
 
+    onUpdate(callback){
+        this.fieldUpdater=callback
     }
 
     hasOutput(){
@@ -46,13 +52,12 @@ class SelfNotifier extends Notifier{
     }
 
     updateField(value){
+        super.updateField(value)
         if(value!=null && value!=undefined){
             this.field.text(value.constructor.name)
             this.field.removeClass("italic")
             this.field.addClass("selfNotifier")
-
         }
-        
     }
 
 
@@ -72,15 +77,13 @@ class TextInputNotifier extends Notifier{
     }
 
     updateField(value){
+        super.updateField(value)
         this.field.val(value)
     }
 
     set(value){
         super.set(value)
         this.textbox.text(value)
-        //this.field.val(value)
-        //this.field.remove();
-        //console.log(this.field)
     }
     
 }
