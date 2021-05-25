@@ -33,6 +33,12 @@ class Notifier{
 
 }
 
+class SelfNotifier extends Notifier{
+    constructor(self){
+        super(self);
+    }
+}
+
 class TextInputNotifier extends Notifier{
 
     constructor(textbox){

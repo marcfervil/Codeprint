@@ -4,9 +4,10 @@ class Blueprint extends Gizmo {
         super();
         this.className = "blueprint"
 
-        //console.log('oekwp')
-
-        $(this).append($("<span/>").text(headingText+this.id).addClass("blueprintHeading"))
+        this.heading = $("<span/>");
+        
+        
+        $(this).append(this.heading.text(headingText+this.id).addClass("blueprintHeading"))
         $(this).append($("<hr>").css({padding:0, margin: 0}))
     }
 
@@ -124,7 +125,7 @@ class Blueprint extends Gizmo {
 class UIBlueprint extends Blueprint {
 
     constructor(gizmo){
-        super(gizmo.constructor.name);
+        super(" "+gizmo.constructor.name);
         this.gizmo = gizmo;
        
 
@@ -136,6 +137,9 @@ class UIBlueprint extends Blueprint {
             $(this).children().trigger("repaint.div")
             
         })
+        this.selfNotifier = new SelfNotifier(gizmo);
+        this.selfHook = this.getHook(this.selfNotifier, "output");
+        this.heading.prepend(this.selfHook)
     }
 
 
