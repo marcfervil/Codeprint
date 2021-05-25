@@ -24,7 +24,9 @@ function initMenu(){
 
     for(let item of menuItems){
         $("#menu-items").append($("<div/>").text(item.name).mousedown(()=>{
-            createGizmo(item.gizmo);
+            let gizmo = createGizmo(item.gizmo);
+            gizmo.style.display = "none"; 
+            gizmo.drag();
         }));
     }
 }
@@ -33,15 +35,14 @@ function createGizmo(gizmoClass, ...args){
     let gizmo = new gizmoClass(...args);
     
     if(gizmo instanceof UIGizmo){
-        gizmo.style.display = "none"; 
-        gizmo.drag();
-    }else{
-        gizmo.redrag();
+        
+        //gizmo.drag();
     }
     
 
     
     
     $("#app").append(gizmo);
+    return gizmo
 }
 

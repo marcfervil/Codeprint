@@ -1,7 +1,13 @@
 class Blueprint extends Gizmo {
 
-    constructor(){
+    constructor(headingText){
         super();
+        this.className = "blueprint"
+
+        //console.log('oekwp')
+
+        $(this).append($("<span/>").text(headingText+this.id).addClass("blueprintHeading"))
+        $(this).append($("<hr>").css({padding:0, margin: 0}))
     }
 
     //TODO: just make hook class
@@ -118,12 +124,9 @@ class Blueprint extends Gizmo {
 class UIBlueprint extends Blueprint {
 
     constructor(gizmo){
-        super();
+        super(gizmo.constructor.name);
         this.gizmo = gizmo;
-        this.className = "blueprint"
-
-        $(this).append($("<span/>").text(this.gizmo.constructor.name+this.id).addClass("blueprintHeading"))
-        $(this).append($("<hr>").css({padding:0, margin: 0}))
+       
 
         this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
         this.hookNotifiers();
@@ -134,7 +137,6 @@ class UIBlueprint extends Blueprint {
             
         })
     }
-
 
 
     hookNotifiers(){
@@ -182,7 +184,7 @@ class UIBlueprint extends Blueprint {
 class ClickEventGizmo extends Blueprint{
 
     constructor(){
-        super();
+        super("ClickEvent");
     }
 
 
