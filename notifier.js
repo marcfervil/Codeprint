@@ -88,6 +88,18 @@ class ActionNotifier extends Notifier{
         return false;
     }
 
+    exec(){
+        this.value()
+    }
+
+    set(value){
+        super.set(value)
+    }
+
+   addTrigger(trigger, gizmo){
+       trigger(gizmo)
+   }
+
 }
 
 class TextInputNotifier extends Notifier{
@@ -124,6 +136,11 @@ class ExecutionNotifier extends Notifier{
         super(actionLambda)
         
     }
+
+    set(value){
+       //You don't want execution notifiers to get reset
+    }
+
 
 
 }

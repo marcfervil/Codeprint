@@ -96,10 +96,18 @@ class Blueprint extends Gizmo {
             input.notifier.updateField(hook.notifier.get())
 
             //console.log(hook.notifier)
+
+            
             if(hook.notifier.fieldUpdater != null){
                 //console.log("powk")
                 hook.notifier.fieldUpdater(hook.notifier.get())
             }
+            //???
+          
+            hook.notifier.set(input.notifier.get())
+
+
+
             hook.trigger("repaint.hook")
             
             input.css("backgroundColor", "white")
@@ -224,76 +232,5 @@ class UIBlueprint extends Blueprint {
             "marginBottom": "0px"
         }))
     }
-
-}
-
-class EventGizmo extends Blueprint{
-
-    constructor(name){
-        super(name);
-        this.notifiers = this.getNotifiers()
-        this.hookNotifiers(this.notifiers);
-    }
-
-    getNotifiers(){
-        
-    }
-
-}
-
-
-
-class RenderGizmo extends EventGizmo{
-
-    constructor(){
-        super("OnStart");
-        this.notifiers.render.onUpdate(this.updatePreview);
-        
-    }
-
-    updatePreview(gizmo){
-        
-        editor.preview[0].appendChild(gizmo.preview())
-    }
-
-    getNotifiers(){
-        return {
-            "render": new SelfNotifier()
-        }
-    }
-
-
-}
-
-
-
-class ClickGizmo extends EventGizmo{
-
-    constructor(){
-        super("When Clicked");
-        this.notifiers.gizmo.onUpdate((gizmo)=>{
-            this.gizmo = gizmo;
-            this.updatePreview();
-        });
-        this.notifiers.do.onUpdate((action)=>{
-            this.action = action;
-            this.updatePreview();
-        });
-    }
-
-    updatePreview(){
-        if(this.gizmo !== undefined && this.action !== undefined){
-            //console.log("both ends!")
-            //console.log(this.gizmo.previewRef)
-        }
-    }
-
-    getNotifiers(){
-        return {
-            "gizmo": new SelfNotifier(),
-            "do": new ActionNotifier()
-        }
-    }
-
 
 }
