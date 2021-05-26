@@ -94,7 +94,12 @@ class Blueprint extends Gizmo {
             input.inputs.push(hook);
             input.notifier.set(hook.notifier.get())
             input.notifier.updateField(hook.notifier.get())
-            
+
+            //console.log(hook.notifier)
+            if(hook.notifier.fieldUpdater != null){
+                //console.log("powk")
+                hook.notifier.fieldUpdater(hook.notifier.get())
+            }
             hook.trigger("repaint.hook")
             
             input.css("backgroundColor", "white")
@@ -127,14 +132,7 @@ class Blueprint extends Gizmo {
                     path.remove();
                     path = null;
                 }else{
-                    /*
-                    hook.outputs.push({hook: editor.hovered, path: path})
-                    editor.hovered.inputs.push(hook);
-                    editor.hovered.notifier.set(hook.notifier.get())
-                    editor.hovered.notifier.updateField(hook.notifier.get())
-                    path = null;
-                    hook.trigger("repaint.hook")
-                    editor.hovered.css("backgroundColor", "white")*/
+                    
                     hook.hook(editor.hovered, path)
                     path = null;
                 }
@@ -157,9 +155,7 @@ class Blueprint extends Gizmo {
             let div = $("<div/>");
             let input = this.getHook(notifier, "input");
             let output = this.getHook(notifier, "output")
-            div.append(input)
-            div.append("  "+key+": ")
-
+            
             let notifierField = null;
 
             if(notifier instanceof TextInputNotifier){
@@ -181,6 +177,9 @@ class Blueprint extends Gizmo {
             }else if(notifier instanceof SelfNotifier){
                 notifierField = $("<span/>").text("nothing").addClass("italic");
             }
+            if(notifier.hasInput())div.append(input)
+            div.append("  "+key+": ")
+
             notifier.setHooks(input, output);
             notifier.setField(notifierField)
             div.append(notifierField);
@@ -255,6 +254,41 @@ class RenderGizmo extends EventGizmo{
     getNotifiers(){
         return {
             "render": new SelfNotifier()
+        }
+    }
+
+
+}
+
+
+
+class ClickGizmo extends EventGizmo{
+
+    constructor(){
+        super("When Clicked");
+        this.notifiers.gizmo.onUpdate((gizmo)=>{
+            //console.log("apple")
+            this.gizmo = gizmo;
+            this.updatePreview();
+        });
+        this.notifiers.do.onUpdate((action)=>{
+            //console.log("sauce")
+            this.action = action;
+            this.updatePreview();
+        });
+    }
+
+    updatePreview(){
+        //console.log("fopkweopk")
+        if(this.gizmo !== undefined && this.action !== undefined){
+            console.log("both ends!")
+        }
+    }
+
+    getNotifiers(){
+        return {
+            "gizmo": new SelfNotifier(),
+            "do": new ActionNotifier()
         }
     }
 

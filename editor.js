@@ -16,7 +16,7 @@ function initGizmos(){
     customElements.define('button-gizmo', ButtonGizmo);
     customElements.define('view-gizmo', ViewGizmo);
     customElements.define('ui-blueprint-gizmo', UIBlueprint);
-    //customElements.define('click-event-gizmo', ClickEventGizmo);
+    customElements.define('click-event-gizmo', ClickGizmo);
     customElements.define('render-gizmo', RenderGizmo);
 }
 
@@ -26,6 +26,7 @@ function initMenu(){
         {name: "View", gizmo: ViewGizmo},
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
+        {name: "When Clicked", gizmo: ClickGizmo},
        // {name: "ClickEvent", gizmo: ClickEventGizmo}
     ]
 

@@ -34,12 +34,16 @@ class Notifier{
         return true;
     }
 
+    hasInput(){
+        return true;
+    }
+
     set(value){
         this.value = value
         //if(uu!=null)console.log("feopwk")
         //console.log(this.gizmo)
         if(this.gizmo?.previewRef != null){
-            console.log(this.gizmo.previewRef.notifiers[this.key])
+            //console.log(this.gizmo.previewRef.notifiers[this.key])
             this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
             //console.log(this.gizmo.previewRef.notifiers);
         }
@@ -71,6 +75,18 @@ class SelfNotifier extends Notifier{
         }
     }
 
+
+}
+
+class ActionNotifier extends Notifier{
+
+    constructor(){
+        super(null);
+    }
+
+    hasInput(){
+        return false;
+    }
 
 }
 
