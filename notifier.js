@@ -11,6 +11,7 @@ class Notifier{
         
     }
 
+
     get(){
         return this.value 
     }
@@ -22,6 +23,7 @@ class Notifier{
 
     updateField(data){
         if(this.fieldUpdater!=null)this.fieldUpdater(data)
+        
     }
 
     onUpdate(callback){
@@ -34,9 +36,18 @@ class Notifier{
 
     set(value){
         this.value = value
+        //if(uu!=null)console.log("feopwk")
+        //console.log(this.gizmo)
+        if(this.gizmo?.previewRef != null){
+            console.log(this.gizmo.previewRef.notifiers[this.key])
+            this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
+            //console.log(this.gizmo.previewRef.notifiers);
+        }
+        if(this.outputHook!==undefined){
         for(let uiHook of this.outputHook.outputs){
             uiHook.hook.notifier.set(value);
             uiHook.hook.notifier.updateField(value)
+        }
         }
     }
 
@@ -73,6 +84,7 @@ class TextInputNotifier extends Notifier{
 
     get(){
         super.get()
+        
         return this.textbox.text() 
     }
 

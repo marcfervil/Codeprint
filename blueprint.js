@@ -88,19 +88,8 @@ class Blueprint extends Gizmo {
         });
 
         hook.hook = (input, path) => {
-            if(path==undefined){
-                path = $($svg("path")).attr("stroke", "black").appendTo(svg)
-                //path.attr("fill","transparent")
-                //let xoff = hook.offset().left;
-                //let yoff = hook.offset().top;
-
-                //console.log(input.hook)
-
-              //  let x = input.offset().left 
-              //  let y = input.offset().top
-
-                //path.attr("d",`m 5 5L ${x+5} ${y+5}`)
-            }
+            if(path==undefined) path= $($svg("path")).attr("stroke", "black").appendTo(svg)
+            
             hook.outputs.push({hook: input, path: path})
             input.inputs.push(hook);
             input.notifier.set(hook.notifier.get())
@@ -117,7 +106,7 @@ class Blueprint extends Gizmo {
             
             e.stopPropagation();
             editor.hooking = hook;
-            let path = $($svg("path")).attr("stroke", "black").appendTo(svg)
+            let path= $($svg("path")).attr("stroke", "black").appendTo(svg)
             $(svg).click((e)=>{
                 console.log("fewok")
                 $(e).target.remove();
@@ -158,10 +147,13 @@ class Blueprint extends Gizmo {
         return hook
     }
 
-    hookNotifiers(notifiers){
+    hookNotifiers(notifiers, lambda=null){
         
         for(let key in notifiers){
             let notifier = notifiers[key]
+            if(lambda!=null){
+                lambda(key, notifier)
+            }
             let div = $("<div/>");
             let input = this.getHook(notifier, "input");
             let output = this.getHook(notifier, "output")
@@ -216,7 +208,11 @@ class UIBlueprint extends Blueprint {
 
         this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
         
-        this.hookNotifiers(this.gizmo.notifiers);
+        this.hookNotifiers(this.gizmo.notifiers, (key, notifier)=>{
+            //console.log(notifier)
+            notifier.key = key;
+            notifier.gizmo = gizmo
+        });
 
         this.selfNotifier = new SelfNotifier(gizmo);
         this.selfHook = this.getHook(this.selfNotifier, "output");

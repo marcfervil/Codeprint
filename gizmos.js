@@ -26,6 +26,7 @@ class Gizmo extends HTMLElement {
         let gizmo = this.cloneNode();
         gizmo.isPreview = true;
         this.previewRef = gizmo;
+       /// console.log("",this.previewRef)
         let empty = () => {}
       //  console.log($(gizmo))
        // $(gizmo).unbind()
@@ -92,7 +93,7 @@ class Gizmo extends HTMLElement {
         }
     }
 
-
+    
 
     setParent(gizmo){
         let ogParent = this.parent
@@ -290,12 +291,6 @@ class TextGizmo extends UIGizmo{
     getNotifiers(){
         
         return {
-            /*
-            "text": {
-                get: ()=> this.text.text(),
-                set: (value) => this.text.text(value),
-                type: "text"
-            },*/
             "text": new TextInputNotifier(this.text)
                 
         }
