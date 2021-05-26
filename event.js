@@ -4,11 +4,26 @@ class EventGizmo extends Blueprint{
     constructor(name){
         super(name);
         this.notifiers = this.getNotifiers()
-        this.hookNotifiers(this.notifiers);
+        this.hookResults = {}
+        
+        this.hookNotifiers(this.notifiers, (key, notifier)=>{
+            notifier.onUpdate((result)=>{
+                
+                this.hookResults[key] = result
+                if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
+                    this.updatePreview();
+                }
+                
+            });
+        });
     }
 
     getNotifiers(){
         
+    }
+
+    updatePreview(){
+        this.notifiers.do.addTrigger(this.eventTrigger, this)
     }
 
 }
@@ -43,37 +58,16 @@ class ClickGizmo extends EventGizmo{
 
     constructor(){
         super("When Clicked");
-        this.notifiers.gizmo.onUpdate((gizmo)=>{
-            this.gizmo = gizmo;
-            //console.log("efwpl")
-            this.updatePreview();
-        });
-        this.notifiers.do.onUpdate((action)=>{
-            console.log(action)
-            this.action = action;
-            this.updatePreview();
-        });
+    
     }
 
     eventTrigger(self){
-        $(self.gizmo.previewRef).click(()=>{
-            self.action()
-            //self.notifiers.do.exec()
+        
+        $(self.hookResults.gizmo.previewRef).click(()=>{
+            self.hookResults.do()
         })
     }
 
-    updatePreview(){
-        if(this.gizmo !== undefined && this.action !== undefined){
-            //console.log("both ends!")
-            let self = this
-           //console.log("grwp[l")
-           
-            //console.log("target",this.gizmo.previewRef)
-
-            this.notifiers.do.addTrigger(this.eventTrigger, self)
-            
-        }
-    }
 
     getNotifiers(){
         return {
