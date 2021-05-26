@@ -100,7 +100,7 @@ class Blueprint extends Gizmo {
             
             if(hook.notifier.fieldUpdater != null){
                 //console.log("powk")
-                hook.notifier.fieldUpdater(hook.notifier.get())
+                hook.notifier.fieldUpdater(input.notifier.get())
             }
             //???
           

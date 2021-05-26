@@ -49,16 +49,16 @@ class ClickGizmo extends EventGizmo{
             this.updatePreview();
         });
         this.notifiers.do.onUpdate((action)=>{
+            console.log(action)
             this.action = action;
-            //console.log("efwpl")
             this.updatePreview();
         });
     }
 
     eventTrigger(self){
         $(self.gizmo.previewRef).click(()=>{
-          
-           self.notifiers.do.exec()
+            self.action()
+            //self.notifiers.do.exec()
         })
     }
 
