@@ -9,6 +9,7 @@ class Gizmo extends HTMLElement {
         this.id = editor.idNum++;
         this.hover();
         this.setParent(null);
+        //this.parent=null;
         this.previewRef = null;
         if(this.hasChildren()){
             $(this).mouseover(this.hover);
@@ -23,32 +24,35 @@ class Gizmo extends HTMLElement {
    
 
     preview(root=true){
+        this.setAttribute("isPreview", "true")
         let gizmo = this.cloneNode();
-        gizmo.isPreview = true;
+        this.removeAttribute("isPreview")
+
+
         this.previewRef = gizmo;
        /// console.log("",this.previewRef)
         let empty = () => {}
-      //  console.log($(gizmo))
-       // $(gizmo).unbind()
-       // $(gizmo).off()
-       // $(gizmo).off("mousedown")
-        //$(editor.preview).add('*').off();
 
-        //gizmo.unhover(true)
 
-        //couldn't figure out how to remove event listeners...I'm sorry
+        //couldn't figure out how to remove event listeners from clone...I'm sorry
         gizmo.hover = empty;
         gizmo.unhover = empty
         gizmo.drag = empty;
         gizmo.redrag = empty;
-       // gizmo.style.backgroundColor = "white";
+
         
         if(root && gizmo instanceof ViewGizmo){
+            
             gizmo.style.width = "100%"
             gizmo.style.height = "100%"
-            gizmo.style.position = "static"
+            gizmo.style.position = null
             gizmo.style.border = null;
-            gizmo.className = null;
+            gizmo.style.left = null;
+            gizmo.style.top = null;
+            //idk why this is requried, CSS sucks
+            gizmo.style.display="inline-block"
+            gizmo.className = "";
+
         }
         for(let node of this.childNodes){
             if(node instanceof Gizmo){
@@ -88,12 +92,14 @@ class Gizmo extends HTMLElement {
        
         if(editor.dragging!=false && editor.dragging!=this){
             this.style.backgroundColor = null;
-            if(this.isPreview===undefined)editor.hovered = null;
+            if(!this.isPreview)editor.hovered = null;
 
         }
     }
 
-    
+    get isPreview(){
+        return this.hasAttribute("isPreview")
+    }
 
     setParent(gizmo){
         let ogParent = this.parent
@@ -108,6 +114,7 @@ class Gizmo extends HTMLElement {
                 this.previewRef.remove();
             }
             $("#app").append(this)
+        
             this.style.position = "absolute"
         }
     }
@@ -148,7 +155,7 @@ class Gizmo extends HTMLElement {
                 let dist = Math.hypot(cx-x, cy-y);
                 if(dist>15 || this.parent==null){
                     $(document).off("mousemove mouseup");
-                    if(this.parent!=null && this.isPreview===undefined){
+                    if(this.parent!=null && !this.isPreview){
                         this.parent.hover(true)
                     }
                     this.drag("fixed");
@@ -198,9 +205,11 @@ class Gizmo extends HTMLElement {
             
             this.style.display = "block"; 
             $(this).children().trigger("repaint")
-            if(this.selfHook!==undefined){
-                this.selfHook.trigger("repaint")
-            }
+
+            //TODO: some sort of way to dynamically repaint "title hooks"
+            if(this.selfHook!==undefined)this.selfHook.trigger("repaint")
+            if(this.execHook!==undefined)this.execHook.trigger("repaint")
+            
             
         });
         $(document).mouseup((event)=>{
@@ -310,16 +319,21 @@ class ViewGizmo extends UIGizmo{
 
     setParent(gizmo){
         super.setParent(gizmo)
-        
-        if(gizmo!=null){
-            this.style.width = null;
-            this.style.minHeight = "100px";
-            //this.style.height = "100%";
-            
-        }else{
-            this.style.width = "20%";
-            this.style.minHeight = "60%";
-        }
+       
+        //if(!this.hasAttribute("isPreview")){
+            if(gizmo!=null){
+                this.style.width = null;
+                this.style.minHeight = "100px";
+                //this.style.height = "100%";
+                
+            }else{
+                this.style.width = "20%";
+                this.style.minHeight = "60%";
+            }
+       // }else{
+      //      this.style.minHeight = null;
+      //      console.log("keopk")
+      //  }
     }
 }
 

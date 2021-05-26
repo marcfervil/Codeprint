@@ -18,6 +18,7 @@ function initGizmos(){
     customElements.define('ui-blueprint-gizmo', UIBlueprint);
     customElements.define('click-event-gizmo', ClickGizmo);
     customElements.define('render-gizmo', RenderGizmo);
+    customElements.define('popup-gizmo', PopupGizmo);
 }
 
 function initMenu(){
@@ -27,7 +28,7 @@ function initMenu(){
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
         {name: "When Clicked", gizmo: ClickGizmo},
-       // {name: "ClickEvent", gizmo: ClickEventGizmo}
+        {name: "Popup", gizmo: PopupGizmo}
     ]
 
     for(let item of menuItems){

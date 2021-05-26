@@ -115,3 +115,15 @@ class TextInputNotifier extends Notifier{
     }
     
 }
+
+
+class ExecutionNotifier extends Notifier{
+
+
+    constructor(actionLambda){
+        super(actionLambda)
+        
+    }
+
+
+}

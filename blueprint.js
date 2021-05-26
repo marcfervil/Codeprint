@@ -8,7 +8,7 @@ class Blueprint extends Gizmo {
         this.hooks = []
         
         $(this).append(this.heading.text(headingText).addClass("blueprintHeading"))
-        $(this).append($("<hr>").css({padding:0, margin: 0}))
+        
 
         
 
@@ -146,7 +146,10 @@ class Blueprint extends Gizmo {
     }
 
     hookNotifiers(notifiers, lambda=null){
-        
+       
+        if(notifiers != undefined && Object.keys(notifiers).length > 0){
+            $(this).append($("<hr>").css({padding:0, margin: 0}))
+        }
         for(let key in notifiers){
             let notifier = notifiers[key]
             if(lambda!=null){
@@ -187,9 +190,10 @@ class Blueprint extends Gizmo {
             if(notifier.hasOutput())div.append(output)
             $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
                 div.children().trigger("repaint.hook")
-                if(this.selfHook!==undefined){
-                    this.selfHook.trigger("repaint.hook")
-                }
+
+                //TODO: some sort of way to dynamically trigger "title hooks"
+                if(this.selfHook!==undefined)this.selfHook.trigger("repaint.hook")
+                if(this.execHook!==undefined)this.execHook.trigger("repaint.hook")
             }))
         }
     }
@@ -208,7 +212,6 @@ class UIBlueprint extends Blueprint {
         this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
         
         this.hookNotifiers(this.gizmo.notifiers, (key, notifier)=>{
-            //console.log(notifier)
             notifier.key = key;
             notifier.gizmo = gizmo
         });
@@ -237,6 +240,8 @@ class EventGizmo extends Blueprint{
     }
 
 }
+
+
 
 class RenderGizmo extends EventGizmo{
 
@@ -267,21 +272,19 @@ class ClickGizmo extends EventGizmo{
     constructor(){
         super("When Clicked");
         this.notifiers.gizmo.onUpdate((gizmo)=>{
-            //console.log("apple")
             this.gizmo = gizmo;
             this.updatePreview();
         });
         this.notifiers.do.onUpdate((action)=>{
-            //console.log("sauce")
             this.action = action;
             this.updatePreview();
         });
     }
 
     updatePreview(){
-        //console.log("fopkweopk")
         if(this.gizmo !== undefined && this.action !== undefined){
-            console.log("both ends!")
+            //console.log("both ends!")
+            //console.log(this.gizmo.previewRef)
         }
     }
 
