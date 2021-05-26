@@ -57,7 +57,7 @@ class ClickGizmo extends EventGizmo{
 
     eventTrigger(self){
         $(self.gizmo.previewRef).click(()=>{
-            console.log("efpwk")
+          
            self.notifiers.do.exec()
         })
     }
