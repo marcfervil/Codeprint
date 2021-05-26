@@ -5,7 +5,7 @@ class Blueprint extends Gizmo {
         this.className = "blueprint"
 
         this.heading = $("<span/>");
-        
+        this.hooks = []
         
         $(this).append(this.heading.text(headingText).addClass("blueprintHeading"))
         $(this).append($("<hr>").css({padding:0, margin: 0}))
@@ -87,11 +87,34 @@ class Blueprint extends Gizmo {
             }
         });
 
-        
+        hook.hook = (input, path) => {
+            if(path==undefined){
+                path = $($svg("path")).attr("stroke", "black").appendTo(svg)
+                //path.attr("fill","transparent")
+                //let xoff = hook.offset().left;
+                //let yoff = hook.offset().top;
 
+                //console.log(input.hook)
+
+              //  let x = input.offset().left 
+              //  let y = input.offset().top
+
+                //path.attr("d",`m 5 5L ${x+5} ${y+5}`)
+            }
+            hook.outputs.push({hook: input, path: path})
+            input.inputs.push(hook);
+            input.notifier.set(hook.notifier.get())
+            input.notifier.updateField(hook.notifier.get())
+            
+            hook.trigger("repaint.hook")
+            
+            input.css("backgroundColor", "white")
+        }
+
+        hook.append(svg);
         hook.mousedown((e) => {
 
-            hook.append(svg);
+            
             e.stopPropagation();
             editor.hooking = hook;
             let path = $($svg("path")).attr("stroke", "black").appendTo(svg)
@@ -115,20 +138,23 @@ class Blueprint extends Gizmo {
                     path.remove();
                     path = null;
                 }else{
+                    /*
                     hook.outputs.push({hook: editor.hovered, path: path})
                     editor.hovered.inputs.push(hook);
                     editor.hovered.notifier.set(hook.notifier.get())
                     editor.hovered.notifier.updateField(hook.notifier.get())
                     path = null;
                     hook.trigger("repaint.hook")
-                    editor.hovered.css("backgroundColor", "white")
+                    editor.hovered.css("backgroundColor", "white")*/
+                    hook.hook(editor.hovered, path)
+                    path = null;
                 }
 
                 
                 editor.hovered = null;
             })
         });
-        
+        this.hooks.push(hook)
         return hook
     }
 

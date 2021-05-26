@@ -62,13 +62,17 @@
     
     defaultView.pos(344, 160);
     //defaultText.createBlueprint();
-    defaultView.createBlueprint();
+    let viewbp = defaultView.createBlueprint();
     defaultView.redrag()
 
     let renderer = new RenderGizmo()
     $("#app").append(renderer)
 
+   
+
     renderer.redrag()
     renderer.pos(1000, 87)
+
+    viewbp.hooks[0].hook(renderer.hooks[0])
 
 </script>   
