@@ -64,6 +64,7 @@ class ClickGizmo extends EventGizmo{
     eventTrigger(self){
         
         $(self.hookResults.gizmo.previewRef).click(()=>{
+            //console.log(self.notifiers.do)
             self.hookResults.do()
         })
     }

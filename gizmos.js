@@ -78,7 +78,7 @@ class Gizmo extends HTMLElement {
 
     hover(event){
         
-        if(!this.hasChildren() || editor.dragging instanceof Blueprint)return;
+        if(!this.hasChildren() || !(editor.dragging instanceof UIGizmo))return;
         if((editor.dragging!=false && editor.dragging!=this )|| event==true){
             this.style.backgroundColor = "lightgrey";
             //if(editor.hovered!=null)editor.hovered.unhover();

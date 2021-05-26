@@ -128,6 +128,16 @@ class TextInputNotifier extends Notifier{
     
 }
 
+class StringNotifier extends Notifier{
+
+    constructor(){
+        
+        super(null)
+    }
+
+    
+}
+
 
 class ExecutionNotifier extends Notifier{
 
