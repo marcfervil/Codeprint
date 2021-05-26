@@ -9,6 +9,7 @@ class Gizmo extends HTMLElement {
         this.id = editor.idNum++;
         this.hover();
         this.setParent(null);
+        this.previewRef = null;
         if(this.hasChildren()){
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);
@@ -23,11 +24,24 @@ class Gizmo extends HTMLElement {
 
     preview(root=true){
         let gizmo = this.cloneNode();
+        gizmo.isPreview = true;
+        this.previewRef = gizmo;
         let empty = () => {}
+      //  console.log($(gizmo))
+       // $(gizmo).unbind()
+       // $(gizmo).off()
+       // $(gizmo).off("mousedown")
+        //$(editor.preview).add('*').off();
+
+        //gizmo.unhover(true)
+
+        //couldn't figure out how to remove event listeners...I'm sorry
         gizmo.hover = empty;
-        gizmo.unhover = empty;
-        gizmo.redrag = empty;
+        gizmo.unhover = empty
         gizmo.drag = empty;
+        gizmo.redrag = empty;
+       // gizmo.style.backgroundColor = "white";
+        
         if(root && gizmo instanceof ViewGizmo){
             gizmo.style.width = "100%"
             gizmo.style.height = "100%"
@@ -64,7 +78,7 @@ class Gizmo extends HTMLElement {
             this.style.backgroundColor = "lightgrey";
             //if(editor.hovered!=null)editor.hovered.unhover();
             editor.hovered = this;
-            if(event!=true)event.stopPropagation();
+            if(event!=true && event!=undefined)event.stopPropagation();
         }
     }
 
@@ -73,7 +87,7 @@ class Gizmo extends HTMLElement {
        
         if(editor.dragging!=false && editor.dragging!=this){
             this.style.backgroundColor = null;
-            editor.hovered = null;
+            if(this.isPreview===undefined)editor.hovered = null;
 
         }
     }
@@ -94,17 +108,24 @@ class Gizmo extends HTMLElement {
     }
 
     addGizmo(gizmo){
+        
         this.appendChild(gizmo)
         this.gizmos.push(gizmo)
         gizmo.redrag();
         gizmo.setParent(this)
+
+        if(this.previewRef!=null){
+            editor.resetHover()
+            this.previewRef.addGizmo(gizmo.preview(false))
+            
+        }
     }
 
     redrag(){
         if(this.hasRedrag==true)return;
         this.hasRedrag = true;
         
-        $(this).mousedown((event)=>{
+        $(this).on("mousedown",(event)=>{
            // console.log("foepkw")
             let x = event.clientX;
             let y = event.clientY;
@@ -122,7 +143,9 @@ class Gizmo extends HTMLElement {
                 let dist = Math.hypot(cx-x, cy-y);
                 if(dist>15 || this.parent==null){
                     $(document).off("mousemove mouseup");
-                    if(this.parent!=null)this.parent.hover(true)
+                    if(this.parent!=null && this.isPreview===undefined){
+                        this.parent.hover(true)
+                    }
                     this.drag("fixed");
                     
                 }
@@ -170,6 +193,9 @@ class Gizmo extends HTMLElement {
             
             this.style.display = "block"; 
             $(this).children().trigger("repaint")
+            if(this.selfHook!==undefined){
+                this.selfHook.trigger("repaint")
+            }
             
         });
         $(document).mouseup((event)=>{
@@ -177,8 +203,9 @@ class Gizmo extends HTMLElement {
             this.style.pointerEvents = null;
             if(editor.hovered != null ){
                 editor.hovered.addGizmo(editor.dragging)
-                editor.hovered.unhover()
-               
+                //console.log(this.isPreview);
+                if(editor.hovered!=null)editor.hovered.unhover()
+                
             }
             document.body.style.cursor = null;
             editor.dragging = false;
@@ -284,7 +311,7 @@ class ViewGizmo extends UIGizmo{
 
     setParent(gizmo){
         super.setParent(gizmo)
-        this.parent = gizmo;
+        
         if(gizmo!=null){
             this.style.width = null;
             this.style.minHeight = "100px";

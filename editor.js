@@ -3,7 +3,12 @@ editor = {
     hovered: null,
     idNum: 0,
     hooking: false,
-    preview: $("#preview")
+    preview: $("#preview"),
+    resetHover: () => {
+        editor.hovered.unhover()
+        editor.hovered = null;
+        editor.dragging = false;
+    }
 }
 
 function initGizmos(){
