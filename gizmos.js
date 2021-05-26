@@ -95,6 +95,7 @@ class Gizmo extends HTMLElement {
 
 
     setParent(gizmo){
+        let ogParent = this.parent
         this.parent = gizmo;
         if(gizmo!=null){
             
@@ -102,6 +103,9 @@ class Gizmo extends HTMLElement {
             
             
         }else{
+            if(this.previewRef!=null && ogParent!=null){
+                this.previewRef.remove();
+            }
             $("#app").append(this)
             this.style.position = "absolute"
         }
