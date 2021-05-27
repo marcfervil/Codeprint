@@ -17,10 +17,13 @@ function initGizmos(){
     customElements.define('view-gizmo', ViewGizmo);
     customElements.define('ui-blueprint-gizmo', UIBlueprint);
     customElements.define('click-event-gizmo', ClickGizmo);
-    customElements.define('render-gizmo', RenderGizmo);
+    customElements.define('start-gizmo', StartGizmo);
+   
     customElements.define('log-gizmo', LogGizmo);
     customElements.define('popup-gizmo', PopupGizmo);
     customElements.define('change-value-gizmo', ChangeValue);
+    customElements.define('render-gizmo', RenderGizmo);
+    customElements.define('right-now-gizmo', RightNowGizmo);
 }
 
 function initMenu(){
@@ -32,7 +35,8 @@ function initMenu(){
         {name: "When Clicked", gizmo: ClickGizmo},
         {name: "Log", gizmo: LogGizmo},
         {name: "Popup", gizmo: PopupGizmo},
-        {name: "Change Value", gizmo: ChangeValue}
+        {name: "Change Value", gizmo: ChangeValue},
+        {name: "Show Gizmo", gizmo: RenderGizmo}
     ]
 
     for(let item of menuItems){

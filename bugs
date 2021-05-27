@@ -1,0 +1,4 @@
+hover system doesn't (always) trigger parent hover when dragged off of parent 
+attempting to drag a gizmo where two gizmos overlap makes one gizmo go off into narnia(?) 
+need some sort of queue for events added to previews that don't exist yet
+gizmo fields with active input hooks should probably not be editable 

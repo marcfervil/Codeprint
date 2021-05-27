@@ -16,6 +16,7 @@ class EventGizmo extends Blueprint{
                 
             });
         });
+        
     }
 
     getNotifiers(){
@@ -30,7 +31,7 @@ class EventGizmo extends Blueprint{
 
 
 
-class RenderGizmo extends EventGizmo{
+class StartGizmo extends EventGizmo{
 
     constructor(){
         super("OnStart");
@@ -52,7 +53,25 @@ class RenderGizmo extends EventGizmo{
 
 }
 
+class RightNowGizmo extends EventGizmo{
+    constructor(){
+        super("RIGHTNOW");
+    
+    }
 
+    eventTrigger(self){
+        self.hookResults.do()
+        
+    }
+
+
+    getNotifiers(){
+        return {
+            "do": new ActionNotifier()
+        }
+    }
+
+}
 
 class ClickGizmo extends EventGizmo{
 

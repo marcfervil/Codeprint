@@ -22,6 +22,10 @@ class Gizmo extends HTMLElement {
         return false;
     }
 
+    getPreview(){
+        if(!this.hasPreview)return this.preview(false)
+        return this.previewRef
+    }
    
 
     preview(root=true){
@@ -158,7 +162,10 @@ class Gizmo extends HTMLElement {
                 if(dist>15 || this.parent==null){
                     $(document).off("mousemove mouseup");
                     if(this.parent!=null && !this.isPreview){
+                       // console.log("feokw")
+                      
                         this.parent.hover(true)
+                        
                     }
                     this.drag("fixed");
                     

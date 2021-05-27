@@ -29,6 +29,10 @@ class ActionGizmo extends Blueprint{
             "marginBottom": "0px"
         }))
         
+
+        $(this).dblclick(()=>{
+            this.exec();
+        })
     }
 
 
@@ -76,6 +80,35 @@ class LogGizmo extends ActionGizmo{
 
 }
 
+
+
+class RenderGizmo extends ActionGizmo{
+
+    constructor(){
+        super("Show Gizmo")
+        this.notifiers.to.onUpdate((result)=>{
+            this.to = result
+        })
+        this.notifiers.what.onUpdate((result)=>{
+            this.what = result
+        })
+    }
+
+    onExec(){
+        let what = this.what.getPreview()
+        what.setParent(this);
+        $(this.to.getPreview()).append(what)
+        
+    }
+
+    getNotifiers(){
+        return {
+            what: new SelfNotifier(),
+            to: new SelfNotifier()
+        }
+    }
+
+}
 
 
 class ChangeValue extends ActionGizmo{
