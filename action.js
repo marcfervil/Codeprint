@@ -5,6 +5,8 @@ class ActionGizmo extends Blueprint{
         this.exec = ()=>{
             this.onExec()
             //this.getExec();
+            //if()
+            this.completedNotifier.exec()
         }
 
         this.notifiers = this.getNotifiers()
@@ -17,8 +19,14 @@ class ActionGizmo extends Blueprint{
         this.heading.prepend(this.execHook)
         //this.exec.bind(this);
 
+        this.completedNotifier = new ActionNotifier()
+        this.completedHook = this.getHook(this.completedNotifier, "output");
+        this.heading.append(this.completedHook.css({
+            "float": "right",
+            "margin": "5px",
+            "marginBottom": "0px"
+        }))
         
-       
     }
 
 
@@ -41,7 +49,7 @@ class PopupGizmo extends ActionGizmo{
 
     getNotifiers(){
         return {
-            message: new StringNotifier()
+            message: new StringNotifier("Hello world!")
         }
     }
 

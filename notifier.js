@@ -89,7 +89,7 @@ class ActionNotifier extends Notifier{
     }
 
     exec(){
-        this.value()
+        if(this.value!=null)this.value()
     }
 
     set(value){
@@ -130,9 +130,9 @@ class TextInputNotifier extends Notifier{
 
 class StringNotifier extends Notifier{
 
-    constructor(){
+    constructor(initValue){
         
-        super(null)
+        super(initValue)
     }
 
     
