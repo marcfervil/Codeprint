@@ -19,6 +19,7 @@ function initGizmos(){
     customElements.define('click-event-gizmo', ClickGizmo);
     customElements.define('render-gizmo', RenderGizmo);
     customElements.define('popup-gizmo', PopupGizmo);
+    customElements.define('change-value-gizmo', ChangeValue);
 }
 
 function initMenu(){
@@ -28,7 +29,8 @@ function initMenu(){
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
         {name: "When Clicked", gizmo: ClickGizmo},
-        {name: "Popup", gizmo: PopupGizmo}
+        {name: "Popup", gizmo: PopupGizmo},
+        {name: "Change Value", gizmo: ChangeValue}
     ]
 
     for(let item of menuItems){

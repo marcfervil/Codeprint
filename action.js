@@ -10,7 +10,9 @@ class ActionGizmo extends Blueprint{
         }
 
         this.notifiers = this.getNotifiers()
-        this.hookNotifiers(this.notifiers);
+        this.hookNotifiers(this.notifiers, (key, notifier)=>{
+            notifier.isDeferred = true;
+        });
 
         this.execNotifier = new ExecutionNotifier(this.exec);
         
@@ -49,7 +51,31 @@ class PopupGizmo extends ActionGizmo{
 
     getNotifiers(){
         return {
-            message: new StringNotifier("Hello world!")
+            message: new StringNotifier("Hello World!")
+        }
+    }
+
+}
+
+
+
+class ChangeValue extends ActionGizmo{
+
+    constructor(){
+        super("Change Value")
+        
+    }
+
+    onExec(){
+       // console.log(this.notifiers.to)
+        this.notifiers.to.set(this.notifiers.to.get())
+        //this.notifiers.to.se
+       
+    }
+
+    getNotifiers(){
+        return {
+            to: new StringNotifier("Hello world!")
         }
     }
 

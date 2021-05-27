@@ -94,19 +94,22 @@ class Blueprint extends Gizmo {
             
             hook.outputs.push({hook: input, path: path})
             input.inputs.push(hook);
-            input.notifier.set(hook.notifier.get())
-            input.notifier.updateField(hook.notifier.get())
-
-            //console.log(hook.notifier)
+            
+            if(!(hook.notifier.isDeferred)){
+                //console.log(hook.notifier)
+                input.notifier.set(hook.notifier.get())
+                input.notifier.updateField(hook.notifier.get())
+                if(hook.notifier.fieldUpdater != null){
+                    //console.log("powk")
+                    hook.notifier.fieldUpdater(input.notifier.get())
+                }
+      
+                hook.notifier.set(input.notifier.get())
+            }
+                
 
             
-            if(hook.notifier.fieldUpdater != null){
-                //console.log("powk")
-                hook.notifier.fieldUpdater(input.notifier.get())
-            }
-            //???
-          
-            hook.notifier.set(input.notifier.get())
+            
 
 
 
@@ -177,11 +180,12 @@ class Blueprint extends Gizmo {
                     prop: {type: "text"},
                     on: {
                         keypress: function(e) {
-                            notifier.set($(e.target).val()+e.key)
+                            if(!notifier.isDeferred)notifier.set($(e.target).val()+e.key)
+                            
                         },
                         keyup: function(e){
                             if(e.keyCode == 8){
-                                notifier.set($(e.target).val())
+                                if(!notifier.isDeferred)notifier.set($(e.target).val())
                             } 
                         }
                     },
@@ -251,7 +255,7 @@ class UIBlueprint extends Blueprint {
             this.gizmo.style.outline = this.ogOutline
             if(this.gizmo.hasPreview)this.gizmo.previewRef.style.outline = this.ogOutline
         }else{
-           
+            
         }
        
 

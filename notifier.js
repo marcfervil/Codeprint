@@ -3,6 +3,7 @@ class Notifier{
     constructor(value){
         this.value = value
         this.fieldUpdater = null;
+        this.isDeferred = false;
     }
 
     setHooks(inputHook, outputHook){
