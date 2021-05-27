@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="style.css">
     </head>
 
-    <body>
+    <body oncontextmenu="return false;">
 
       
 
@@ -15,10 +15,12 @@
                 
             
             <div id="menu-items" class="menu" >
-                <h2 style="margin-top: 5;">Components</h2>
+                <h2 style="margin-top: 5;">Gizmos</h2>
                 
             </div>
-            <div class="blueprintArea" id="bp"></div>
+            <div class="blueprintArea" id="bparea">
+                <div class="blueprintContainer" id="bp"></div>
+            </div>
             <div class="preview" id="preview"></div>
             <!--
                 <svg style="position: fixed; left:100; background-color:red" id="svgenius">

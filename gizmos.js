@@ -84,7 +84,7 @@ class Gizmo extends HTMLElement {
 
     hover(event){
         
-        if(!this.hasChildren() || !(editor.dragging instanceof UIGizmo))return;
+        if(!this.hasChildren() || !(editor.dragging instanceof UIGizmo) ||this.isPreview)return;
         if((editor.dragging!=false && editor.dragging!=this )|| event==true){
             this.style.backgroundColor = "lightgrey";
             //if(editor.hovered!=null)editor.hovered.unhover();
@@ -147,7 +147,7 @@ class Gizmo extends HTMLElement {
            // console.log("foepkw")
             let x = event.clientX;
             let y = event.clientY;
-           
+            
             //editor.dragging = this;
             $(document).mousemove((event) => {
                 //event.originalEvent.cancelBubble = true;
@@ -163,11 +163,15 @@ class Gizmo extends HTMLElement {
                     $(document).off("mousemove mouseup");
                     if(this.parent!=null && !this.isPreview){
                        // console.log("feokw")
-                      
-                        this.parent.hover(true)
+                       
+                        //this.parent.hover(true)
                         
                     }
+                   
+                    //if(this.parent!=null) this.pos(this.pos().x-$("#bp").offset().left, this.pos().y-$("#bp").offset().top)
+                    if(this.parent!=null) this.pos(x-$("#bp").offset().left, y-$("#bp").offset().top)
                     this.drag("fixed");
+                   
                     
                 }
                 event.preventDefault();
@@ -187,13 +191,17 @@ class Gizmo extends HTMLElement {
         document.body.style.cursor = "pointer"
         editor.dragging = this;
         this.style.position = position;
-        
+        //this.style.zIndex=5;
         this.style.pointerEvents = "none"
         this.setParent(null);
         let offset = null;
+       
         $(document).mousemove((event)=>{
             if(offset==null){
+                //this.pos(event.clientX-$("#bp").offset().left, event.clientY-$("#bp").offset().top)
                 //console.log(event.offsetY,event.offsetY)
+               // if(this.parent!=null)this.pos(event.clientX-$("#bp").offset().left, event.clientY-$("#bp").offset().top)
+
                 event.originalEvent.preventDefault();
                 event.originalEvent.stopPropagation();
                 
@@ -228,6 +236,7 @@ class Gizmo extends HTMLElement {
             }
             document.body.style.cursor = null;
             editor.dragging = false;
+            this.style.zIndex = null;
             if(this.parent!=null){
                 this.style.top = null;
                 this.style.left = null;
