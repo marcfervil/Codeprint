@@ -18,6 +18,7 @@ function initGizmos(){
     customElements.define('ui-blueprint-gizmo', UIBlueprint);
     customElements.define('click-event-gizmo', ClickGizmo);
     customElements.define('render-gizmo', RenderGizmo);
+    customElements.define('log-gizmo', LogGizmo);
     customElements.define('popup-gizmo', PopupGizmo);
     customElements.define('change-value-gizmo', ChangeValue);
 }
@@ -29,6 +30,7 @@ function initMenu(){
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
         {name: "When Clicked", gizmo: ClickGizmo},
+        {name: "Log", gizmo: LogGizmo},
         {name: "Popup", gizmo: PopupGizmo},
         {name: "Change Value", gizmo: ChangeValue}
     ]

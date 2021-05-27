@@ -180,12 +180,14 @@ class Blueprint extends Gizmo {
                     prop: {type: "text"},
                     on: {
                         keypress: function(e) {
-                            if(!notifier.isDeferred)notifier.set($(e.target).val()+e.key)
+                            //if(!notifier.isDeferred)
+                            notifier.set($(e.target).val()+e.key)
                             
                         },
                         keyup: function(e){
                             if(e.keyCode == 8){
-                                if(!notifier.isDeferred)notifier.set($(e.target).val())
+                               // if(!notifier.isDeferred)
+                                notifier.set($(e.target).val())
                             } 
                         }
                     },

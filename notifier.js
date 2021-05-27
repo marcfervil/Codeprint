@@ -48,11 +48,13 @@ class Notifier{
             this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
             //console.log(this.gizmo.previewRef.notifiers);
         }
-        if(this.outputHook!==undefined){
-        for(let uiHook of this.outputHook.outputs){
-            uiHook.hook.notifier.set(value);
-            uiHook.hook.notifier.updateField(value)
-        }
+        if(this.outputHook!==undefined ){
+            for(let uiHook of this.outputHook.outputs){
+                //if(!this.isDeferred){
+                    uiHook.hook.notifier.set(value);
+                    uiHook.hook.notifier.updateField(value)
+                //}
+            }
         }
     }
 
@@ -134,6 +136,23 @@ class StringNotifier extends Notifier{
     constructor(initValue){
         
         super(initValue)
+    }
+
+    updateField(value){
+        super.updateField(value)
+        this.field.val(value)
+    }
+
+    set(value, update){
+        this.value = value
+       
+        //console.log(this.field)
+        //this.field.t
+        if(update){
+            super.set(value)
+            this.updateField(value)
+        }
+        //
     }
 
     

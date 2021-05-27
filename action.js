@@ -57,6 +57,25 @@ class PopupGizmo extends ActionGizmo{
 
 }
 
+class LogGizmo extends ActionGizmo{
+
+    constructor(){
+        super("Log")
+        
+    }
+
+    onExec(){
+        console.log(this.notifiers.message.get())
+    }
+
+    getNotifiers(){
+        return {
+            message: new StringNotifier("Hello World!")
+        }
+    }
+
+}
+
 
 
 class ChangeValue extends ActionGizmo{
@@ -68,7 +87,7 @@ class ChangeValue extends ActionGizmo{
 
     onExec(){
        // console.log(this.notifiers.to)
-        this.notifiers.to.set(this.notifiers.to.get())
+        this.notifiers.to.set(this.notifiers.to.get(), true)
         //this.notifiers.to.se
        
     }
