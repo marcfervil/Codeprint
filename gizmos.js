@@ -119,7 +119,7 @@ class Gizmo extends HTMLElement {
             if(this.previewRef!=null && ogParent!=null){
                 this.previewRef.remove();
             }
-            $("#app").append(this)
+            $("#bp").append(this)
         
             this.style.position = "absolute"
         }
@@ -199,8 +199,8 @@ class Gizmo extends HTMLElement {
                 
                 //console.log(event.originalEvent)
                 offset = {
-                    x: event.originalEvent.layerX - parseFloat(this.style.left),
-                    y: event.originalEvent.layerY - parseFloat(this.style.top)
+                    x: event.originalEvent.clientX - parseFloat(this.style.left),
+                    y: event.originalEvent.clientY - parseFloat(this.style.top)
                 }
                 //console.log(offset, parseFloat(this.style.left), parseFloat(this.style.top));
                 if(isNaN(offset.x)|| isNaN(offset.y)){
