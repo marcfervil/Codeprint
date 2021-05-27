@@ -10,7 +10,9 @@ class Blueprint extends Gizmo {
         $(this).append(this.heading.text(headingText).addClass("blueprintHeading"))
         
 
-        
+        this.heading.on("repaint", ()=>{
+            $(this.heading).children().trigger("repaint.hook")
+        })
 
         $(this).on("repaint", ()=>{
             
@@ -199,9 +201,6 @@ class Blueprint extends Gizmo {
             $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
                 div.children().trigger("repaint.hook")
 
-                //TODO: some sort of way to dynamically trigger "title hooks"
-                if(this.selfHook!==undefined)this.selfHook.trigger("repaint.hook")
-                if(this.execHook!==undefined)this.execHook.trigger("repaint.hook")
             }))
         }
     }

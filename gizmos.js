@@ -206,10 +206,6 @@ class Gizmo extends HTMLElement {
             this.style.display = "block"; 
             $(this).children().trigger("repaint")
 
-            //TODO: some sort of way to dynamically repaint "title hooks"
-            if(this.selfHook!==undefined)this.selfHook.trigger("repaint")
-            if(this.execHook!==undefined)this.execHook.trigger("repaint")
-            
             
         });
         $(document).mouseup((event)=>{
