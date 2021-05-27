@@ -230,6 +230,31 @@ class UIBlueprint extends Blueprint {
             "margin": "5px",
             "marginBottom": "0px"
         }))
+        $(this).mouseover(this.hover);
+        $(this).mouseout(this.unhover);
+        this.hoverTime = null
+    }
+
+    hover(event){
+        if(this.gizmo==undefined)return
+        this.hoverTime = setTimeout(()=>{
+            this.ogOutline = this.gizmo.style.outline;
+            this.gizmo.style.outline = "2px dashed blue"
+            if(this.gizmo.hasPreview)this.gizmo.previewRef.style.outline = "2px dashed blue"
+        },500)
+    }
+
+    unhover(event){
+        if(this.hoverTime!=null){
+            clearTimeout(this.hoverTime);
+            this.hoverTime = null;
+            this.gizmo.style.outline = this.ogOutline
+            if(this.gizmo.hasPreview)this.gizmo.previewRef.style.outline = this.ogOutline
+        }else{
+           
+        }
+       
+
     }
 
 }

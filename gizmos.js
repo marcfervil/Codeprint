@@ -9,6 +9,7 @@ class Gizmo extends HTMLElement {
         this.id = editor.idNum++;
         this.hover();
         this.setParent(null);
+        this.hasPreview = false;
         //this.parent=null;
         this.previewRef = null;
         if(this.hasChildren()){
@@ -30,6 +31,7 @@ class Gizmo extends HTMLElement {
 
 
         this.previewRef = gizmo;
+        this.hasPreview = true;
        /// console.log("",this.previewRef)
         let empty = () => {}
 
