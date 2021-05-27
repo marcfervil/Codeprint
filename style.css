@@ -50,6 +50,7 @@ body{
     height: 100%;
     top: 0;
     left: 0;
+    overflow: visible;
 }
 
 
@@ -92,7 +93,7 @@ body{
     background-color: white;
     border: 1px black solid;
     position: absolute;
-    
+    white-space: nowrap;
 }
 
 .blueprintItem{
