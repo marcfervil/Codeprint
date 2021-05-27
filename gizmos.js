@@ -18,6 +18,14 @@ class Gizmo extends HTMLElement {
         }
     }
 
+    width(){
+        return this.getBoundingClientRect().width;
+    }
+
+    height(){
+        return this.getBoundingClientRect().height;
+    }
+
     hasChildren(){
         return false;
     }

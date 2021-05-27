@@ -88,6 +88,23 @@ $("#bparea").mousemove((e)=>{
     }
 })
 
+document.addEventListener("wheel",(e)=> {
+            
+    e.preventDefault();
+
+     
+
+     if(e.ctrlKey){
+        //zoom
+     }else{
+       
+        $("#bp").offset({left: $("#bp").offset().left-e.deltaX, top: $("#bp").offset().top-e.deltaY})
+     }
+
+    
+ }, {passive: false});
+
+
 function createGizmo(gizmoClass, ...args){
     let gizmo = new gizmoClass(...args);
     

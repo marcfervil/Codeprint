@@ -222,7 +222,7 @@ class UIBlueprint extends Blueprint {
         this.gizmo = gizmo;
        
 
-        this.pos( parseFloat(gizmo.pos().x)+gizmo.clientWidth+350, gizmo.pos().y)
+        this.pos(gizmo.pos().x+gizmo.width()-$("#bp").offset().left, gizmo.pos().y-$("#bp").offset().top)
         
         this.hookNotifiers(this.gizmo.notifiers, (key, notifier)=>{
             notifier.key = key;
