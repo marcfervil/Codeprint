@@ -63,7 +63,7 @@ function initMenu(){
 $("#bparea").mousedown((e)=>{
    
     if(e.button==2){
-        editor.pan.x = e.clientX  ;
+        editor.pan.x = e.clientX
         editor.pan.y = e.clientY
         editor.panning = true;
 

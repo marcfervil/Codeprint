@@ -23,7 +23,7 @@ class Blueprint extends Gizmo {
         
     }
 
-    //TODO: just make hook class
+    //TODO: for the love of God, just make a hook class
     getHook(notifier, type){
         let hook = $("<span/>").addClass("in")
         let svg = $($svg("svg")).attr({
@@ -89,6 +89,15 @@ class Blueprint extends Gizmo {
             }
         });
 
+        hook.unhook = (output) => {
+            let remove = hook.outputs.find(out => out.hook == output);
+           
+            remove.path.remove();
+            remove.hook.notifier.reset();
+
+            hook.outputs.splice(hook.outputs.indexOf(remove), 1)
+        }   
+
         hook.hook = (input, path) => {
             if(path==undefined) path= $($svg("path")).attr("stroke", "black").appendTo(svg)
             
@@ -106,12 +115,6 @@ class Blueprint extends Gizmo {
       
                 hook.notifier.set(input.notifier.get())
             }
-                
-
-            
-            
-
-
 
             hook.trigger("repaint.hook")
             
@@ -123,36 +126,44 @@ class Blueprint extends Gizmo {
 
             
             e.stopPropagation();
-            editor.hooking = hook;
-            let path= $($svg("path")).attr("stroke", "black").appendTo(svg)
-            $(svg).click((e)=>{
-                console.log("fewok")
-                $(e).target.remove();
-            })
-            hook.css("pointerEvents", "none")
-            //console.log("okprw")
-            $(document).on("mousemove.hook", (e) => {
-                let xoff = hook.offset().left;
-                let yoff = hook.offset().top;
-                path.attr("fill","transparent")
-                path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
-            });
-            $(document).on("mouseup.hook", (e) => {
-                $(document).off(".hook");
-                hook.css("pointerEvents", "")
-                editor.hooking=false;
-                if(editor.hovered==null){
-                    path.remove();
-                    path = null;
-                }else{
-                    
-                    hook.hook(editor.hovered, path)
-                    path = null;
-                }
+            if(e.which==1){
+           
+                editor.hooking = hook;
+                let path= $($svg("path")).attr("stroke", "black").appendTo(svg)
+                $(svg).click((e)=>{
+                    //console.log("fewok")
+                    $(e).target.remove();
+                })
+                hook.css("pointerEvents", "none")
+                //console.log("okprw")
+                $(document).on("mousemove.hook", (e) => {
+                    let xoff = hook.offset().left;
+                    let yoff = hook.offset().top;
+                    path.attr("fill","transparent")
+                    path.attr("d",`m 5 5L ${e.clientX-xoff} ${e.clientY-yoff}`)
+                });
+                $(document).on("mouseup.hook", (e) => {
+                    $(document).off(".hook");
+                    hook.css("pointerEvents", "")
+                    editor.hooking=false;
+                    if(editor.hovered==null){
+                        path.remove();
+                        path = null;
+                    }else{
+                        
+                        hook.hook(editor.hovered, path)
+                        path = null;
+                    }
 
-                
-                editor.hovered = null;
-            })
+                    
+                    editor.hovered = null;
+                })
+            }else if(e.which==3){
+                //console.log(hook.inputs)
+                for(let input of hook.inputs){
+                    input.unhook(hook)
+                }
+            }
         });
         this.hooks.push(hook)
         return hook

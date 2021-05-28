@@ -40,7 +40,7 @@ class StartGizmo extends EventGizmo{
     }
 
     updatePreview(gizmo){
-        
+        editor.preview.empty()
         editor.preview[0].appendChild(gizmo.preview())
     }
 

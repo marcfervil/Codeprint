@@ -6,6 +6,10 @@ class Notifier{
         this.isDeferred = false;
     }
 
+    reset(){
+        console.log("reset machine broke...")
+    }
+
     setHooks(inputHook, outputHook){
         this.inputHook = inputHook;
         this.outputHook = outputHook;

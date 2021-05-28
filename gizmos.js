@@ -68,6 +68,7 @@ class Gizmo extends HTMLElement {
             gizmo.className = "";
 
         }
+        gizmo.style.position = null;
         for(let node of this.childNodes){
             if(node instanceof Gizmo){
                 gizmo.addGizmo(node.preview(false))
@@ -281,6 +282,15 @@ class UIGizmo extends Gizmo{
         this.notifiers = this.getNotifiers();
     }
 
+    cloneNode(){
+        let node = super.cloneNode();
+        
+        for(let notifier in this.notifiers){
+            node.notifiers[notifier].set(this.notifiers[notifier].get());
+        }
+        return node;
+    }
+
     initHookedUI(){
     }
 
@@ -318,6 +328,8 @@ class TextGizmo extends UIGizmo{
     initHookedUI(){
         this.text = $(this).text("placeholder");
     }
+
+   
 
     getNotifiers(){
         
