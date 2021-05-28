@@ -39,6 +39,12 @@ class Gizmo extends HTMLElement {
     preview(root=true){
         this.setAttribute("isPreview", "true")
         let gizmo = this.cloneNode();
+
+        for(let key in gizmo.notifiers){
+            let notifier = gizmo.notifiers[key]
+            notifier.linkedNotifer = this.notifiers[key]
+        }
+
         this.removeAttribute("isPreview")
         //gizmo.notifiers = this.notifiers
 

@@ -5,6 +5,7 @@ class Notifier{
         this.initValue = value;
         this.fieldUpdater = null;
         this.isDeferred = false;
+        this.linkedNotifer = null;
     }
 
     reset(){
@@ -30,7 +31,7 @@ class Notifier{
 
     updateField(data){
         if(this.fieldUpdater!=null)this.fieldUpdater(data)
-        
+        //console.log("linked", this.linkedNotifer)
     }
 
     onUpdate(callback){
@@ -53,6 +54,9 @@ class Notifier{
             //console.log(this.gizmo.previewRef.notifiers[this.key])
             this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
             //console.log(this.gizmo.previewRef.notifiers);
+        }
+        if(this.linkedNotifer!=null){
+            
         }
         if(this.outputHook!==undefined ){
             for(let uiHook of this.outputHook.outputs){
@@ -173,11 +177,12 @@ class UINotifier extends Notifier{
        // console.log("FIELD SET!", field)
     }
 
-    set(value){
+    set(value, updateField = false){
         super.set(value)
         this.fieldSet(this.uiField, value)
-        console.log("dokok")
-       // this.updateField(value)
+        
+        if(updateField)this.updateField(value)
+        //this.updateField(value)
     }
     
 }

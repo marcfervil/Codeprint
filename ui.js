@@ -128,11 +128,14 @@ class TextBoxGizmo extends UIGizmo{
             on: {
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
-                    if(this.hasPreview){
+                    //console.log(this.isPreview)
+                    if(this.isPreview){
                         //this.previewRef.notifiers.text.set(text)
+                        //console.log("fepl")
+                        this.notifiers.text.linkedNotifer.set(text, true)
                     }
-                    this.notifiers.text.set(text)
-                    this.notifiers.text.updateField(text)
+                    this.notifiers.text.set(text, true)
+                    //this.notifiers.text.updateField(text)
                     //this.notifiers.text.set(text)
                     e.preventDefault();
                 },
