@@ -190,6 +190,7 @@ class UINotifier extends Notifier{
 
 
 
+//deffered value to deffered value should update
 class StringNotifier extends Notifier{
 
     constructor(initValue){

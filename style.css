@@ -12,9 +12,16 @@ body{
     overflow: hidden;
     position:relative; 
 
-    transform: translateZ(0)
+    transform: translateZ(0);
+    font-family: 'Noto Sans HK', sans-serif;
 }
 
+hr{
+    border: none;
+    height: 1px;
+
+    background-color: #333; /* Modern Browsers */
+}
 
 
 #app{
@@ -81,7 +88,7 @@ body{
   }
 
   svg{
-    position: relative;
+    position: fixed;
     z-index: 1;
   }
 
@@ -94,6 +101,8 @@ body{
     border: 1px black solid;
     position: absolute;
     white-space: nowrap;
+    overflow: hidden;
+    border-radius: 10px
 }
 
 .blueprintItem{
@@ -101,7 +110,15 @@ body{
 }
 
 .blueprintHeading{
-    padding:5px
+    padding:5px;
+
+    font-weight: bold;
+    display: block;
+    /*
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;*/
+    
+    background-color: red;
 }
 
 
@@ -143,7 +160,10 @@ button:focus {
 .selfNotifier{
     border: 1px black solid;
     margin: 4px;
+    display: inline-block;
     padding: 2px;
+    font-size: 11px;
+
 }
 
 .page{
