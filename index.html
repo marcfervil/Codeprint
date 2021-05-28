@@ -43,6 +43,7 @@
 <script type="text/javascript" src="blueprint.js"></script>
 <script type="text/javascript" src="action.js"></script>
 <script type="text/javascript" src="event.js"></script>
+<script type="text/javascript" src="ui.js"></script>
 
 <!---->
 <script type="text/javascript">
@@ -64,9 +65,10 @@
     let defaultView = new ViewGizmo();
     let defaultText = new TextGizmo();
 
+
     $("#bp").append(defaultView);
     defaultView.addGizmo(defaultText)
-    
+    defaultView.addGizmo(new TextBoxGizmo())
     defaultView.pos(344, 160);
     //defaultText.createBlueprint();
     let viewbp = defaultView.createBlueprint();

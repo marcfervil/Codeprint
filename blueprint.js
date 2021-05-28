@@ -191,7 +191,7 @@ class Blueprint extends Gizmo {
             
             let notifierField = null;
 
-            if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier){
+            if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
                 notifierField = $("<input/>", {
                     val: notifier.get(),
                     prop: {type: "text"},

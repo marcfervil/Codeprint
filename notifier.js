@@ -141,6 +141,50 @@ class TextInputNotifier extends Notifier{
     
 }
 
+class UINotifier extends Notifier{
+
+    constructor(field, fieldGet, fieldSet){
+        
+        super(fieldGet(field))
+        //this.textbox = textbox
+        this.fieldGet = fieldGet;
+        this.fieldSet = fieldSet;
+        this.uiField = field 
+        //this.setField(field);
+    }
+
+    get(){
+        super.get()
+        
+        return this.fieldGet(this.uiField)
+    }
+
+    updateField(value){
+        //super.updateField(value)
+        //this.field.val(value)
+        //this.fieldSet(this.uiField, value)
+        if(this.field!=undefined)this.field.val(value)
+       // console.log(this.field)
+        
+    }
+
+    setField(field){
+        super.setField(field)
+       // console.log("FIELD SET!", field)
+    }
+
+    set(value){
+        super.set(value)
+        this.fieldSet(this.uiField, value)
+        console.log("dokok")
+       // this.updateField(value)
+    }
+    
+}
+
+
+
+
 class StringNotifier extends Notifier{
 
     constructor(initValue){

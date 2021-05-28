@@ -30,6 +30,7 @@ function initGizmos(){
     customElements.define('change-value-gizmo', ChangeValue);
     customElements.define('render-gizmo', RenderGizmo);
     customElements.define('right-now-gizmo', RightNowGizmo);
+    customElements.define('text-box-gizmo', TextBoxGizmo);
 }
 
 function initMenu(){
@@ -42,7 +43,8 @@ function initMenu(){
         {name: "Log", gizmo: LogGizmo},
         {name: "Popup", gizmo: PopupGizmo},
         {name: "Change Value", gizmo: ChangeValue},
-        {name: "Show Gizmo", gizmo: RenderGizmo}
+        {name: "Show Gizmo", gizmo: RenderGizmo},
+        {name: "Text Box", gizmo: TextBoxGizmo}
     ]
 
     for(let item of menuItems){

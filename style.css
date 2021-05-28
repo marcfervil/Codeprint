@@ -104,7 +104,22 @@ body{
     padding:5px
 }
 
-.blueprint input{
+
+.zeninput {
+    background-color: lightgray;
+    outline-width: 0;
+    
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid grey 1px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+.blueprint input {
     background-color: lightgray;
     outline-width: 0;
     
