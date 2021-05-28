@@ -91,11 +91,13 @@ class Blueprint extends Gizmo {
 
         hook.unhook = (output) => {
             let remove = hook.outputs.find(out => out.hook == output);
-           
-            remove.path.remove();
-            remove.hook.notifier.reset();
+            
+            if(remove!=undefined){
+                remove.path.remove();
+                remove.hook.notifier.reset();
 
-            hook.outputs.splice(hook.outputs.indexOf(remove), 1)
+                hook.outputs.splice(hook.outputs.indexOf(remove), 1)
+            }
         }   
 
         hook.hook = (input, path) => {
@@ -162,6 +164,10 @@ class Blueprint extends Gizmo {
                 //console.log(hook.inputs)
                 for(let input of hook.inputs){
                     input.unhook(hook)
+                }
+
+                for(let output of hook.outputs){
+                    hook.unhook(output.hook)
                 }
             }
         });

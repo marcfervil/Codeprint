@@ -2,12 +2,14 @@ class Notifier{
 
     constructor(value){
         this.value = value
+        this.initValue = value;
         this.fieldUpdater = null;
         this.isDeferred = false;
     }
 
     reset(){
-        console.log("reset machine broke...")
+        this.updateField(this.initValue)
+        this.set(this.initValue)
     }
 
     setHooks(inputHook, outputHook){
@@ -79,6 +81,10 @@ class SelfNotifier extends Notifier{
             this.field.text(value.constructor.name)
             this.field.removeClass("italic")
             this.field.addClass("selfNotifier")
+        }else{
+            this.field.text("nothing")
+            this.field.removeClass("selfNotifier")
+            this.field.addClass("italic")
         }
     }
 
