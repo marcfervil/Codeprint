@@ -209,8 +209,9 @@ class StringNotifier extends Notifier{
         //this.field.t
         if(update){
             super.set(value)
-            this.updateField(value)
+            
         }
+        this.updateField(value)
         //
     }
 

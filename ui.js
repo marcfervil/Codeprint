@@ -4,11 +4,12 @@ class UIGizmo extends Gizmo{
         super();
         this.blueprint = null;
         $(this).dblclick((e)=>{
-            if(this instanceof UIGizmo){
+            if(this instanceof UIGizmo && !this.isPreview){
                 this.blueprint = this.createBlueprint();
                 $(this).off("dblclick")
                 e.stopPropagation();
                 e.preventDefault();
+                
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
                    
@@ -132,6 +133,18 @@ class TextBoxGizmo extends UIGizmo{
                 "placeholder": "Put some text in me!"
             },
             on: {
+
+                input: (e)=>{
+                    
+                    let me = $(e.target);
+                    let savedVal = me.val();
+                    
+                    me.val("");
+                    this.notifiers.text.set(savedVal)
+                },
+
+
+                /*
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
                     if(this.isPreview && !e.metaKey){
@@ -149,7 +162,7 @@ class TextBoxGizmo extends UIGizmo{
                         
                         this.notifiers.text.set($(e.target).val())
                     } 
-                }
+                }*/
             }
 
         }).val("").addClass("zeninput")
