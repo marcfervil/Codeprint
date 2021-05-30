@@ -13,7 +13,7 @@ class ActionGizmo extends Blueprint{
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.isDeferred = true;
         });
-
+ 
         this.execNotifier = new ExecutionNotifier(this.exec);
         
         this.execHook = this.getHook(this.execNotifier, "input");

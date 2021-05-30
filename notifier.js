@@ -4,12 +4,16 @@ class Notifier{
         this.value = value
         this.initValue = value;
         this.fieldUpdater = null;
+        this.resetUpdater= null
         this.isDeferred = false;
     }
 
     reset(){
         this.updateField(this.initValue)
         this.set(this.initValue)
+        if(this.resetUpdater!=null){
+            this.resetUpdater()
+        }
     }
 
     setHooks(inputHook, outputHook){
@@ -18,6 +22,9 @@ class Notifier{
         
     }
 
+    onUnhooked(){
+
+    }
 
     get(){
         return this.value 
@@ -35,6 +42,10 @@ class Notifier{
 
     onUpdate(callback){
         this.fieldUpdater=callback
+    }
+
+    onReset(callback){
+        this.resetUpdater=callback
     }
 
     hasOutput(){
@@ -91,29 +102,6 @@ class SelfNotifier extends Notifier{
 
 }
 
-class ActionNotifier extends Notifier{
-
-    constructor(){
-        super(null);
-    }
-
-    hasInput(){
-        return false;
-    }
-
-    exec(){
-        if(this.value!=null)this.value()
-    }
-
-    set(value){
-        super.set(value)
-    }
-
-   addTrigger(trigger, gizmo){
-       trigger(gizmo)
-   }
-
-}
 
 class TextInputNotifier extends Notifier{
 
@@ -170,7 +158,7 @@ class UINotifier extends Notifier{
 
     setField(field){
         super.setField(field)
-        console.log(field)
+        
        // console.log("FIELD SET!", field)
     }
 
@@ -218,6 +206,30 @@ class StringNotifier extends Notifier{
     
 }
 
+//action to execution is chaining
+class ActionNotifier extends Notifier{
+
+    constructor(){
+        super(null);
+    }
+
+    hasInput(){
+        return false;
+    }
+
+    exec(){
+        if(this.value!=null)this.value()
+    }
+
+    set(value){
+        super.set(value)
+    }
+
+   addTrigger(trigger, gizmo){
+       trigger(gizmo)
+   }
+
+}
 
 class ExecutionNotifier extends Notifier{
 
@@ -228,6 +240,8 @@ class ExecutionNotifier extends Notifier{
     }
 
     set(value){
+        //super.set(value)
+        //console.log(value)
        //You don't want execution notifiers to get reset
     }
 

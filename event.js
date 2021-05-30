@@ -8,15 +8,26 @@ class EventGizmo extends Blueprint{
         
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.onUpdate((result)=>{
-                
-                this.hookResults[key] = result
-                if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
-                    this.updatePreview();
+                if(result!==undefined){
+                    this.hookResults[key] = result
+                    if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
+                        this.updatePreview();
+                    }
+                }else{
+                    this.onUnhooked()
                 }
                 
             });
+            notifier.onReset(()=>{
+                console.log("reset")
+                this.onUnhooked()
+            });
         });
         
+    }
+
+    onUnhooked(){
+        console.log("Feopwkf")
     }
 
     getNotifiers(){
@@ -37,6 +48,12 @@ class StartGizmo extends EventGizmo{
         super("OnStart");
         this.notifiers.render.onUpdate(this.updatePreview);
         
+    }
+
+
+
+    onUnhooked(){
+        console.log("start unhooked ;)")
     }
 
     updatePreview(gizmo){
@@ -84,11 +101,15 @@ class ClickGizmo extends EventGizmo{
     
     }
 
+    onUnhooked(){
+        //console.log("efpowk")
+        $(this.hookResults.gizmo.previewRef).off(".gizmo");
+        //console.log(this.hookResults.gizmo.previewRef)
+    }
+
     eventTrigger(self){
         
-        $(self.hookResults.gizmo.previewRef).click(()=>{
-            //console.log(self.notifiers.do)
-            //self.hookResults.do()
+        $(self.hookResults.gizmo.previewRef).on("click.gizmo",()=>{
             self.notifiers.do.exec()
         })
     }

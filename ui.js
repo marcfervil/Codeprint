@@ -135,15 +135,21 @@ class TextBoxGizmo extends UIGizmo{
             on: {
 
                 input: (e)=>{
-                    
                     let me = $(e.target);
+                    
+                    
                     let savedVal = me.val();
                     
                     me.val("");
                     this.notifiers.text.set(savedVal)
+                
+                    
+                
                 },
 
-
+                keydown: (e) => {
+                    if(!this.isPreview)e.preventDefault();
+                }
                 /*
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
