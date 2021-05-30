@@ -197,15 +197,18 @@ class Blueprint extends Gizmo {
                     prop: {type: "text"},
                     on: {
                         keypress: function(e) {
+                            if(!e.metaKey){
                             //if(!notifier.isDeferred)
                             //console.log($(e.target).val()+e.key)
-                            notifier.set($(e.target).val()+e.key)
-                            e.preventDefault()
+                                notifier.set($(e.target).val()+e.key)
+                                e.preventDefault()
+                            }
                         },
                         keyup: function(e){
                             if(e.keyCode == 8){
                                // if(!notifier.isDeferred)
                                 notifier.set($(e.target).val())
+                                e.preventDefault()
                             } 
                         }
                     },

@@ -134,19 +134,20 @@ class TextBoxGizmo extends UIGizmo{
             on: {
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
-                    if(this.isPreview){
+                    if(this.isPreview && !e.metaKey){
                         //this.previewRef.notifiers.text.set(text)
+                        //console.log("iji", th)
                         this.notifiers.text.set(text)
                     }
                     
                     //this.notifiers.text.updateField(text)
                     //this.notifiers.text.set(text)
-                    e.preventDefault();
+                    if(!this.isPreview || (this.isPreview && !e.metaKey))e.preventDefault();
                 },
                 keyup: (e) => {
                     if(e.keyCode == 8){
                         
-                       // this.notifiers.text.updateField($(e.target).val())
+                        this.notifiers.text.set($(e.target).val())
                     } 
                 }
             }
