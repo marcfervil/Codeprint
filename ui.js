@@ -50,6 +50,10 @@ class UIGizmo extends Gizmo{
         blueprint.redrag()
         return blueprint
     }
+
+    onPreview(){
+        //this.notifiers.text.
+    }
 }
 
 
@@ -68,13 +72,15 @@ class TextGizmo extends UIGizmo{
         this.text = $(this).text("placeholder");
     }
 
-   
+    onPreview(){
+        this.notifiers.text.uiFields.push(this.text)
+    }
 
     getNotifiers(){
         
         return {
-            "text": new TextInputNotifier(this.text)
-                
+            //"text": new TextInputNotifier(this.text)
+            "text": new UINotifier(this.text, (field)=>field.text(), (field, value)=>field.text(value))
         }
     }
 }
@@ -128,11 +134,12 @@ class TextBoxGizmo extends UIGizmo{
             on: {
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
-                    if(this.hasPreview){
+                    if(this.isPreview){
                         //this.previewRef.notifiers.text.set(text)
+                        this.notifiers.text.set(text)
                     }
-                    this.notifiers.text.set(text)
-                    this.notifiers.text.updateField(text)
+                    
+                    //this.notifiers.text.updateField(text)
                     //this.notifiers.text.set(text)
                     e.preventDefault();
                 },
@@ -148,7 +155,9 @@ class TextBoxGizmo extends UIGizmo{
         $(this).append(this.text)
     }
 
-   
+   onPreview(){
+       this.notifiers.text.uiFields.push(this.text)
+   }
 
     getNotifiers(){
         

@@ -40,8 +40,8 @@ class Gizmo extends HTMLElement {
         this.setAttribute("isPreview", "true")
         let gizmo = this.cloneNode();
         this.removeAttribute("isPreview")
-        //gizmo.notifiers = this.notifiers
-
+        gizmo.notifiers = this.notifiers
+        
         this.previewRef = gizmo;
         this.hasPreview = true;
        /// console.log("",this.previewRef)
@@ -74,6 +74,7 @@ class Gizmo extends HTMLElement {
                 gizmo.addGizmo(node.preview(false))
             }
         }
+        gizmo.onPreview()
         return gizmo;
     }
 

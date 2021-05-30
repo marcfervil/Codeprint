@@ -198,8 +198,9 @@ class Blueprint extends Gizmo {
                     on: {
                         keypress: function(e) {
                             //if(!notifier.isDeferred)
+                            //console.log($(e.target).val()+e.key)
                             notifier.set($(e.target).val()+e.key)
-                            
+                            e.preventDefault()
                         },
                         keyup: function(e){
                             if(e.keyCode == 8){

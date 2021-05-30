@@ -51,14 +51,14 @@ class Notifier{
         //console.log(this.gizmo)
         if(this.gizmo?.previewRef != null){
             //console.log(this.gizmo.previewRef.notifiers[this.key])
-            this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
+            //this.gizmo.previewRef.notifiers[this.key].set(value,"eof[k")
             //console.log(this.gizmo.previewRef.notifiers);
         }
         if(this.outputHook!==undefined ){
             for(let uiHook of this.outputHook.outputs){
                 //if(!this.isDeferred){
-                    uiHook.hook.notifier.set(value);
-                    uiHook.hook.notifier.updateField(value)
+                uiHook.hook.notifier.set(value);
+               // uiHook.hook.notifier.updateField(value)
                 //}
             }
         }
@@ -149,14 +149,14 @@ class UINotifier extends Notifier{
         //this.textbox = textbox
         this.fieldGet = fieldGet;
         this.fieldSet = fieldSet;
-        this.uiField = field 
+        this.uiFields = [field ]
         //this.setField(field);
     }
 
     get(){
         super.get()
         
-        return this.fieldGet(this.uiField)
+        return this.fieldGet(this.uiFields[0])
     }
 
     updateField(value){
@@ -170,14 +170,19 @@ class UINotifier extends Notifier{
 
     setField(field){
         super.setField(field)
+        console.log(field)
        // console.log("FIELD SET!", field)
     }
 
     set(value){
         super.set(value)
-        this.fieldSet(this.uiField, value)
-        console.log("dokok")
-       // this.updateField(value)
+        for(let field of this.uiFields){
+            this.fieldSet(field, value)
+        }
+        
+       // console.log("dokok")
+       
+        this.updateField(value)
     }
     
 }
