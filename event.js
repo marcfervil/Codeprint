@@ -17,8 +17,10 @@ class EventGizmo extends Blueprint{
                 
             });
             notifier.onReset(()=>{
-                console.log("reset")
+                //console.log("reset")
+               
                 this.onUnhooked();
+                delete this.hookResults[key];
             });
         });
         
@@ -51,7 +53,8 @@ class StartGizmo extends EventGizmo{
 
 
     onUnhooked(){
-        console.log("start unhooked ;)")
+        
+        
     }
 
     updatePreview(gizmo){
@@ -100,7 +103,7 @@ class ClickGizmo extends EventGizmo{
     }
 
     onUnhooked(){
-        //console.log("efpowk")
+        //this.notifiers.do.reset();
         if(this.hookResults.gizmo!==undefined){
             $(this.hookResults.gizmo.previewRef).off(".gizmo");
         }
@@ -108,7 +111,6 @@ class ClickGizmo extends EventGizmo{
     }
 
     eventTrigger(self){
-       
         $(self.hookResults.gizmo.previewRef).on("click.gizmo",()=>{
             self.notifiers.do.exec()
         })

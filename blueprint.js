@@ -166,7 +166,7 @@ class Blueprint extends Gizmo {
                     editor.hovered = null;
                 })
             }else if(e.which==3){
-                console.log("hooks:", hook.inputs, hook.outputs)
+              //  console.log("hooks:", hook.inputs, hook.outputs)
                //console.log("","inputs:", hook.inputs.length, "outputs:",hook.outputs.length)
                 hook.notifier.onUnhooked();
                 for(let input of hook.inputs){
