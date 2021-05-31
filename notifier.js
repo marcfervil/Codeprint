@@ -11,7 +11,10 @@ class Notifier{
     reset(){
         this.updateField(this.initValue)
         this.set(this.initValue)
+        //this.onUnhooked()
+        
         if(this.resetUpdater!=null){
+            
             this.resetUpdater()
         }
     }
@@ -23,7 +26,7 @@ class Notifier{
     }
 
     onUnhooked(){
-
+        console.log(this.constructor.name+" unhooked!")
     }
 
     get(){
@@ -218,11 +221,20 @@ class ActionNotifier extends Notifier{
     }
 
     exec(){
+        //console.log(this.value)
         if(this.value!=null)this.value()
+    }
+
+    
+
+    onUnhooked(){
+        super.onUnhooked()
+        //console.log("action unhooked!")
     }
 
     set(value){
         super.set(value)
+      
     }
 
    addTrigger(trigger, gizmo){
@@ -237,6 +249,11 @@ class ExecutionNotifier extends Notifier{
     constructor(actionLambda){
         super(actionLambda)
         
+    }
+
+    onUnhooked(){
+        super.onUnhooked()
+        //console.log("exec unhook!")
     }
 
     set(value){

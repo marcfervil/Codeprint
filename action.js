@@ -4,8 +4,7 @@ class ActionGizmo extends Blueprint{
         super(" "+name);
         this.exec = ()=>{
             let result = this.onExec()
-            //this.getExec();
-            //if()
+
             if(result!=false)this.completedNotifier.exec()
         }
 
@@ -28,8 +27,7 @@ class ActionGizmo extends Blueprint{
             "margin": "5px",
             "marginBottom": "0px"
         }))
-        
-
+     
         $(this).dblclick(()=>{
             this.exec();
         })

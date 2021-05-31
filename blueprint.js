@@ -38,6 +38,7 @@ class Blueprint extends Gizmo {
         hook.outputs = [];
         hook.notifier = notifier
         
+        hook.attr("type", notifier.constructor.name)
         
 
         let repaint = ()=>{
@@ -93,10 +94,14 @@ class Blueprint extends Gizmo {
             let remove = hook.outputs.find(out => out.hook == output);
             
             if(remove!=undefined){
+               // console.log("rr", remove)
+             //   console.log("unhooking ",remove.hook.notifier.constructor.name)
                 remove.path.remove();
                 remove.hook.notifier.reset();
-
+                //remove.hook.notifier.onUnhooked();
                 hook.outputs.splice(hook.outputs.indexOf(remove), 1)
+            }else{
+                console.log("couldnt find ",output)
             }
         }   
 
@@ -161,14 +166,23 @@ class Blueprint extends Gizmo {
                     editor.hovered = null;
                 })
             }else if(e.which==3){
-                //console.log(hook.inputs)
+                console.log("hooks:", hook.inputs, hook.outputs)
+               //console.log("","inputs:", hook.inputs.length, "outputs:",hook.outputs.length)
+                hook.notifier.onUnhooked();
                 for(let input of hook.inputs){
+                    input.notifier.onUnhooked();
                     input.unhook(hook)
-                }
+                    //hook.unhook(input)
+                }   
 
                 for(let output of hook.outputs){
+                    output.hook.notifier.onUnhooked();
                     hook.unhook(output.hook)
+                    
                 }
+                hook.inputs = []
+                hook.outputs = []
+                //console.log("finished","inputs:", hook.inputs.length, "outputs:",hook.outputs.length)
             }
         });
         this.hooks.push(hook)

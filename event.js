@@ -8,26 +8,21 @@ class EventGizmo extends Blueprint{
         
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.onUpdate((result)=>{
-                if(result!==undefined){
+                if(result!==undefined && result!==null){
                     this.hookResults[key] = result
                     if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
                         this.updatePreview();
                     }
-                }else{
-                    this.onUnhooked()
                 }
                 
             });
-            notifier.onReset(()=>{
-                console.log("reset")
-                this.onUnhooked()
-            });
+           
         });
         
     }
 
     onUnhooked(){
-        console.log("Feopwkf")
+        
     }
 
     getNotifiers(){
