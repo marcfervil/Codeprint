@@ -101,7 +101,7 @@ class Blueprint extends Gizmo {
                 //remove.hook.notifier.onUnhooked();
                 hook.outputs.splice(hook.outputs.indexOf(remove), 1)
             }else{
-                console.log("couldnt find ",output)
+                //console.log("couldnt find ",output)
             }
         }   
 

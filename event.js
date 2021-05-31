@@ -16,7 +16,10 @@ class EventGizmo extends Blueprint{
                 }
                 
             });
-           
+            notifier.onReset(()=>{
+                console.log("reset")
+                this.onUnhooked();
+            });
         });
         
     }
@@ -98,15 +101,18 @@ class ClickGizmo extends EventGizmo{
 
     onUnhooked(){
         //console.log("efpowk")
-        $(this.hookResults.gizmo.previewRef).off(".gizmo");
+        if(this.hookResults.gizmo!==undefined){
+            $(this.hookResults.gizmo.previewRef).off(".gizmo");
+        }
         //console.log(this.hookResults.gizmo.previewRef)
     }
 
     eventTrigger(self){
-        
+       
         $(self.hookResults.gizmo.previewRef).on("click.gizmo",()=>{
             self.notifiers.do.exec()
         })
+    
     }
 
 

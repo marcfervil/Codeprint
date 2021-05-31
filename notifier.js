@@ -26,7 +26,8 @@ class Notifier{
     }
 
     onUnhooked(){
-        console.log(this.constructor.name+" unhooked!")
+       // console.log(this.constructor.name+" unhooked!")
+       if(this.resetUpdater!=null)this.resetUpdater();
     }
 
     get(){
@@ -44,11 +45,11 @@ class Notifier{
     }
 
     onUpdate(callback){
-        this.fieldUpdater=callback
+        this.fieldUpdater = callback
     }
 
     onReset(callback){
-        this.resetUpdater=callback
+        this.resetUpdater = callback
     }
 
     hasOutput(){
