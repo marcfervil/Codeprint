@@ -92,14 +92,17 @@ class SelfNotifier extends Notifier{
 
     updateField(value){
         super.updateField(value)
-        if(value!=null && value!=undefined){
-            this.field.text(value.constructor.name)
-            this.field.removeClass("italic")
-            this.field.addClass("selfNotifier")
-        }else{
-            this.field.text("nothing")
-            this.field.removeClass("selfNotifier")
-            this.field.addClass("italic")
+        if(this.field != undefined){
+            if(value!=null && value!=undefined ){
+                
+                this.field.text(value.constructor.name)
+                this.field.removeClass("italic")
+                this.field.addClass("selfNotifier")
+            }else{
+                this.field.text("nothing")
+                this.field.removeClass("selfNotifier")
+                this.field.addClass("italic")
+            }
         }
     }
 

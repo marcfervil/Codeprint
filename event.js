@@ -117,6 +117,7 @@ class ClickGizmo extends EventGizmo{
             $(target).on("click.gizmo",()=>{
                 self.notifiers.do.exec()
             })
+            
         }
     }
 
@@ -135,12 +136,12 @@ class TypedGizmo extends EventGizmo{
 
     constructor(){
         super("When Typed");
-        this.remove  = (target)=> this.eventTrigger(this, target)
+        this.remove = (target)=> this.eventTrigger(this, target)
     }
 
     onUnhooked(){
         if(this.hookResults.gizmo!==undefined){
-            $(this.hookResults.gizmo.previewRef).off(".gizmo");
+            $(this.hookResults.gizmo.previewRef).off(".gizmo");   
         }
     }
 
@@ -152,9 +153,9 @@ class TypedGizmo extends EventGizmo{
             }
         }else{
             $(target).on("input.gizmo",()=>{
-              //  console.log($(target).val())
                 self.notifiers.do.exec()
-            })
+            });
+            
         }
     }
 

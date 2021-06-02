@@ -221,7 +221,7 @@ class Blueprint extends Gizmo {
                     on: {
 
                         input: (e)=>{
-                    
+                            
                             let me = $(e.target);
                             let savedVal = me.val();
                             
@@ -229,7 +229,7 @@ class Blueprint extends Gizmo {
                             
                             notifier.set(savedVal)
                         },
-                        
+                        //click:(e)=>e.stopPropagation()
                     },
                     attr:{"autocomplete": "off", "spellcheck":"false"},
                 }).attr("autocomplete","off");

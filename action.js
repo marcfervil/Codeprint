@@ -155,7 +155,7 @@ class IfGizmo extends ActionGizmo{
         //console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
         let check = this.notifiers.value1.get()==this.notifiers.value2.get()
         if(!check) {
-            console.log("woa", this.notifiers.else)
+           // console.log("woa", this.notifiers.else)
             this.notifiers.else.exec()
         }
         return check;

@@ -31,8 +31,8 @@ class Gizmo extends HTMLElement {
         return false;
     }
 
-    getPreview(){
-        if(!this.hasPreview)return this.preview(true)
+    getPreview(root=true){
+        if(!this.hasPreview)return this.preview(root)
         return this.previewRef
     }
    
@@ -132,10 +132,13 @@ class Gizmo extends HTMLElement {
             
         }else{
             if(this.previewRef!=null && ogParent!=null){
-                this.previewRef.remove();
+               // console.log(jQuery._data(this.previewRef, "events" ))
+                $(this.previewRef).detach();
+                //.log(jQuery._data(this.previewRef, "events" ))
+               
             }
             $("#bp").append(this)
-        
+            
             this.style.position = "absolute"
         }
     }
@@ -149,7 +152,7 @@ class Gizmo extends HTMLElement {
 
         if(this.previewRef!=null){
             editor.resetHover()
-            this.previewRef.addGizmo(gizmo.preview(false))
+            this.previewRef.addGizmo(gizmo.getPreview(false))
             
         }
     }
