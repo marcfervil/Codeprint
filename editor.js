@@ -32,6 +32,7 @@ function initGizmos(){
     customElements.define('right-now-gizmo', RightNowGizmo);
     customElements.define('text-box-gizmo', TextBoxGizmo);
     customElements.define('if-gizmo', IfGizmo);
+    customElements.define('typed-gizmo', TypedGizmo);
     
 }
 
@@ -42,6 +43,7 @@ function initMenu(){
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
         {name: "When Clicked", gizmo: ClickGizmo},
+        {name: "When Typed", gizmo: TypedGizmo},
         {name: "Log", gizmo: LogGizmo},
         {name: "Popup", gizmo: PopupGizmo},
         {name: "Change Value", gizmo: ChangeValue},

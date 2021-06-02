@@ -4,13 +4,15 @@ class ActionGizmo extends Blueprint{
         super(" "+name);
         this.exec = ()=>{
             let result = this.onExec()
-
+            //console.log(this.completedNotifier)
             if(result!=false)this.completedNotifier.exec()
         }
 
         this.notifiers = this.getNotifiers()
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
-            notifier.isDeferred = true;
+            if(!(notifier instanceof ActionNotifier)){
+                notifier.isDeferred = true;
+            }
         });
  
         this.execNotifier = new ExecutionNotifier(this.exec);
@@ -136,15 +138,27 @@ class IfGizmo extends ActionGizmo{
     constructor(){
         super("If")
         
+        
+        
+       
+    }
+
+    eventTrigger(self,value){
+      
     }
 
     onExec(){
        // console.log(this.notifiers.to)
         //this.notifiers.to.set(this.notifiers.to.get(), true)
         //this.notifiers.to.se
-        console.log(this.notifiers.value1.get() == this.notifiers.value2.get())
-        console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
-        return(this.notifiers.value1.get()==this.notifiers.value2.get())
+        //console.log(this.notifiers.value1.get() == this.notifiers.value2.get())
+        //console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
+        let check = this.notifiers.value1.get()==this.notifiers.value2.get()
+        if(!check) {
+            console.log("woa", this.notifiers.else)
+            this.notifiers.else.exec()
+        }
+        return check;
             
         
     }
@@ -152,7 +166,8 @@ class IfGizmo extends ActionGizmo{
     getNotifiers(){
         return {
             value1: new StringNotifier("first value"),
-            value2: new StringNotifier("second value")
+            value2: new StringNotifier("second value"),
+            else: new ActionNotifier()
         }
     }
 

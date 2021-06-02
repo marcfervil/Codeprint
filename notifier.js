@@ -12,7 +12,7 @@ class Notifier{
         this.updateField(this.initValue)
         this.set(this.initValue)
         //this.onUnhooked()
-        
+        //console.log("reset, value is ", this.value)
         if(this.resetUpdater!=null){
             
             this.resetUpdater()
@@ -226,7 +226,10 @@ class ActionNotifier extends Notifier{
         if(this.value!=null)this.value()
     }
 
-    
+    reset(){
+        super.reset();
+     //    console.log("reset, value is ", this.value)
+    }
 
     onUnhooked(){
         super.onUnhooked()
@@ -235,7 +238,7 @@ class ActionNotifier extends Notifier{
 
     set(value){
         super.set(value)
-      
+        //console.log(value)
     }
 
    addTrigger(trigger, gizmo){
@@ -258,6 +261,7 @@ class ExecutionNotifier extends Notifier{
     }
 
     set(value){
+       // console.log(value)
         //super.set(value)
         //console.log(value)
        //You don't want execution notifiers to get reset

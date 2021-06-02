@@ -166,22 +166,31 @@ class Blueprint extends Gizmo {
                     editor.hovered = null;
                 })
             }else if(e.which==3){
-              //  console.log("hooks:", hook.inputs, hook.outputs)
+                
                //console.log("","inputs:", hook.inputs.length, "outputs:",hook.outputs.length)
+                
+                //hook.notifier.reset();
+                //console.log("clicked",hook.notifier.constructor.name)
+
                 hook.notifier.onUnhooked();
                 for(let input of hook.inputs){
-                    input.notifier.onUnhooked();
+                    //input.notifier.onUnhooked();
                     input.unhook(hook)
+                    input.notifier.reset()
+                    //hook.unhook(input)
                     //hook.unhook(input)
                 }   
 
-                for(let output of hook.outputs){
-                    output.hook.notifier.onUnhooked();
+                while(hook.outputs.length>0){
+                    //output.hook.notifier.onUnhooked();
+                    let output = hook.outputs[0];
                     hook.unhook(output.hook)
                     
+                    //output.hook.unhook(hook)
                 }
+      
                 hook.inputs = []
-                hook.outputs = []
+                //hook.outputs = []
                 //console.log("finished","inputs:", hook.inputs.length, "outputs:",hook.outputs.length)
             }
         });

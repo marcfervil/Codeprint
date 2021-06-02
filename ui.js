@@ -52,8 +52,11 @@ class UIGizmo extends Gizmo{
         return blueprint
     }
 
+   
+
     onPreview(){
-        //this.notifiers.text.
+        
+        
     }
 }
 

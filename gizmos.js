@@ -12,6 +12,7 @@ class Gizmo extends HTMLElement {
         this.hasPreview = false;
         //this.parent=null;
         this.previewRef = null;
+        this.onPreviewed = []
         if(this.hasChildren()){
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);
@@ -31,7 +32,7 @@ class Gizmo extends HTMLElement {
     }
 
     getPreview(){
-        if(!this.hasPreview)return this.preview(false)
+        if(!this.hasPreview)return this.preview(true)
         return this.previewRef
     }
    
@@ -75,6 +76,10 @@ class Gizmo extends HTMLElement {
             }
         }
         gizmo.onPreview()
+        //console.log(this.onPreviewed)
+        for(let event of this.onPreviewed){
+            event(gizmo);
+        }
         return gizmo;
     }
 
