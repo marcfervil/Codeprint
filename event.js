@@ -151,7 +151,8 @@ class TypedGizmo extends EventGizmo{
                 self.hookResults.gizmo.onPreviewed.push(self.remove);
             }
         }else{
-            $(target).on("keydown.gizmo",()=>{
+            $(target).on("input.gizmo",()=>{
+              //  console.log($(target).val())
                 self.notifiers.do.exec()
             })
         }
