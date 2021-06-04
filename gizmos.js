@@ -12,6 +12,7 @@ class Gizmo extends HTMLElement {
         this.hasPreview = false;
         //this.parent=null;
         this.previewRef = null;
+        this.onPreviewed = []
         if(this.hasChildren()){
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);
@@ -30,8 +31,8 @@ class Gizmo extends HTMLElement {
         return false;
     }
 
-    getPreview(){
-        if(!this.hasPreview)return this.preview(false)
+    getPreview(root=true){
+        if(!this.hasPreview)return this.preview(root)
         return this.previewRef
     }
    
@@ -46,8 +47,8 @@ class Gizmo extends HTMLElement {
         }
 
         this.removeAttribute("isPreview")
-        //gizmo.notifiers = this.notifiers
-
+        gizmo.notifiers = this.notifiers
+        
         this.previewRef = gizmo;
         this.hasPreview = true;
        /// console.log("",this.previewRef)
@@ -79,6 +80,11 @@ class Gizmo extends HTMLElement {
             if(node instanceof Gizmo){
                 gizmo.addGizmo(node.preview(false))
             }
+        }
+        gizmo.onPreview()
+        //console.log(this.onPreviewed)
+        for(let event of this.onPreviewed){
+            event(gizmo);
         }
         return gizmo;
     }
@@ -132,10 +138,13 @@ class Gizmo extends HTMLElement {
             
         }else{
             if(this.previewRef!=null && ogParent!=null){
-                this.previewRef.remove();
+               // console.log(jQuery._data(this.previewRef, "events" ))
+                $(this.previewRef).detach();
+                //.log(jQuery._data(this.previewRef, "events" ))
+               
             }
             $("#bp").append(this)
-        
+            
             this.style.position = "absolute"
         }
     }
@@ -149,7 +158,7 @@ class Gizmo extends HTMLElement {
 
         if(this.previewRef!=null){
             editor.resetHover()
-            this.previewRef.addGizmo(gizmo.preview(false))
+            this.previewRef.addGizmo(gizmo.getPreview(false))
             
         }
     }

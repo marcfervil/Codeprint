@@ -4,14 +4,15 @@ class UIGizmo extends Gizmo{
         super();
         this.blueprint = null;
         $(this).dblclick((e)=>{
-            if(this instanceof UIGizmo){
+            if(this instanceof UIGizmo && !this.isPreview){
                 this.blueprint = this.createBlueprint();
                 $(this).off("dblclick")
                 e.stopPropagation();
                 e.preventDefault();
+                
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
-                   
+                    
                     //editor.hovered = null;
                 }
                 editor.dragging = false;
@@ -50,6 +51,13 @@ class UIGizmo extends Gizmo{
         blueprint.redrag()
         return blueprint
     }
+
+   
+
+    onPreview(){
+        
+        
+    }
 }
 
 
@@ -68,13 +76,15 @@ class TextGizmo extends UIGizmo{
         this.text = $(this).text("placeholder");
     }
 
-   
+    onPreview(){
+        this.notifiers.text.uiFields.push(this.text)
+    }
 
     getNotifiers(){
         
         return {
-            "text": new TextInputNotifier(this.text)
-                
+            //"text": new TextInputNotifier(this.text)
+            "text": new UINotifier(this.text, (field)=>field.text(), (field, value)=>field.text(value))
         }
     }
 }
@@ -126,32 +136,51 @@ class TextBoxGizmo extends UIGizmo{
                 "placeholder": "Put some text in me!"
             },
             on: {
+
+                input: (e)=>{
+                    let me = $(e.target);
+                    
+                    
+                    let savedVal = me.val();
+                    
+                    me.val("");
+                    this.notifiers.text.set(savedVal)
+                
+                    
+                
+                },
+
+                keydown: (e) => {
+                    if(!this.isPreview)e.preventDefault();
+                }
+                /*
                 keypress: (e) => {
                     let text = $(e.target).val()+e.key;
-                    //console.log(this.isPreview)
-                    if(this.isPreview){
+                    if(this.isPreview && !e.metaKey){
                         //this.previewRef.notifiers.text.set(text)
-                        //console.log("fepl")
-                        this.notifiers.text.linkedNotifer.set(text, true)
+                        //console.log("iji", th)
+                        this.notifiers.text.set(text)
                     }
-                    this.notifiers.text.set(text, true)
+                    
                     //this.notifiers.text.updateField(text)
                     //this.notifiers.text.set(text)
-                    e.preventDefault();
+                    if(!this.isPreview || (this.isPreview && !e.metaKey))e.preventDefault();
                 },
                 keyup: (e) => {
                     if(e.keyCode == 8){
                         
-                       // this.notifiers.text.updateField($(e.target).val())
+                        this.notifiers.text.set($(e.target).val())
                     } 
-                }
+                }*/
             }
 
         }).val("").addClass("zeninput")
         $(this).append(this.text)
     }
 
-   
+   onPreview(){
+       this.notifiers.text.uiFields.push(this.text)
+   }
 
     getNotifiers(){
         

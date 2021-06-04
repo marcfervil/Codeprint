@@ -8,14 +8,24 @@ class EventGizmo extends Blueprint{
         
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.onUpdate((result)=>{
-                
-                this.hookResults[key] = result
-                if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
-                    this.updatePreview();
+                //console.log("foewk")
+                if(result!==undefined && result!==null){
+                    this.hookResults[key] = result
+                    if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
+                        this.updatePreview();
+                    }
                 }
                 
             });
+            notifier.onReset(()=>{
+                this.onUnhooked();
+                delete this.hookResults[key];
+            });
         });
+        
+    }
+
+    onUnhooked(){
         
     }
 
@@ -39,12 +49,19 @@ class StartGizmo extends EventGizmo{
         
     }
 
+
+
+    onUnhooked(){
+        
+        
+    }
+
     updatePreview(gizmo){
         
         
-        editor.preview.empty()
+        editor.preview.children().detach()
         if(gizmo!=null && gizmo!=undefined){
-            editor.preview[0].appendChild(gizmo.preview())
+            editor.preview[0].appendChild(gizmo.getPreview())
         }
     }
 
@@ -81,16 +98,65 @@ class ClickGizmo extends EventGizmo{
 
     constructor(){
         super("When Clicked");
-    
+        this.remove  = (target)=> this.eventTrigger(this, target)
     }
 
-    eventTrigger(self){
-        
-        $(self.hookResults.gizmo.previewRef).click(()=>{
-            //console.log(self.notifiers.do)
-            //self.hookResults.do()
-            self.notifiers.do.exec()
-        })
+    onUnhooked(){
+        if(this.hookResults.gizmo!==undefined){
+            $(this.hookResults.gizmo.previewRef).off(".gizmo");
+        }
+    }
+
+    eventTrigger(self, target=self.hookResults.gizmo.previewRef){
+
+        if(target==null){
+            if(self.hookResults.gizmo.onPreviewed.indexOf(self.remove)==-1){
+                self.hookResults.gizmo.onPreviewed.push(self.remove);
+            }
+        }else{
+            $(target).on("click.gizmo",()=>{
+                self.notifiers.do.exec()
+            })
+            
+        }
+    }
+
+
+    getNotifiers(){
+        return {
+            "gizmo": new SelfNotifier(),
+            "do": new ActionNotifier()
+        }
+    }
+
+
+}
+
+class TypedGizmo extends EventGizmo{
+
+    constructor(){
+        super("When Typed");
+        this.remove = (target)=> this.eventTrigger(this, target)
+    }
+
+    onUnhooked(){
+        if(this.hookResults.gizmo!==undefined){
+            $(this.hookResults.gizmo.previewRef).off(".gizmo");   
+        }
+    }
+
+    eventTrigger(self, target=self.hookResults.gizmo.previewRef){
+
+        if(target==null){
+            if(self.hookResults.gizmo.onPreviewed.indexOf(self.remove)==-1){
+                self.hookResults.gizmo.onPreviewed.push(self.remove);
+            }
+        }else{
+            $(target).on("input.gizmo",()=>{
+                self.notifiers.do.exec()
+            });
+            
+        }
     }
 
 

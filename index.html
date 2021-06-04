@@ -16,7 +16,13 @@
             
             <div id="menu-items" class="menu" >
                 <h2 style="margin-top: 5;">Gizmos</h2>
-                
+                <hr>
+                <ui-shelf id="gizmo-menu-drawer" text="Gizmos"></ui-shelf>
+                <hr>
+                <ui-shelf id="event-menu-drawer" text="Events"></ui-shelf>
+                <hr>    
+                <ui-shelf id="action-menu-drawer" text="Actions"></ui-shelf>
+                <hr>
             </div>
             <div class="blueprintArea" id="bparea">
                 <div class="blueprintContainer" id="bp"></div>
@@ -84,6 +90,7 @@
     renderer.pos(1000, 87)
 
 
+ 
    viewbp.hooks[0].hook(renderer.hooks[0])
 
 </script>   

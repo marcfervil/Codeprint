@@ -3,17 +3,18 @@ class ActionGizmo extends Blueprint{
     constructor(name){
         super(" "+name);
         this.exec = ()=>{
-            this.onExec()
-            //this.getExec();
-            //if()
-            this.completedNotifier.exec()
+            let result = this.onExec()
+            //console.log(this.completedNotifier)
+            if(result!=false)this.completedNotifier.exec()
         }
 
         this.notifiers = this.getNotifiers()
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
-            notifier.isDeferred = true;
+            if(!(notifier instanceof ActionNotifier)){
+                notifier.isDeferred = true;
+            }
         });
-
+ 
         this.execNotifier = new ExecutionNotifier(this.exec);
         
         this.execHook = this.getHook(this.execNotifier, "input");
@@ -28,8 +29,7 @@ class ActionGizmo extends Blueprint{
             "margin": "5px",
             "marginBottom": "0px"
         }))
-        
-
+     
         $(this).dblclick(()=>{
             this.exec();
         })
@@ -95,8 +95,9 @@ class RenderGizmo extends ActionGizmo{
     }
 
     onExec(){
-        let what = this.what.getPreview()
-        what.setParent(this);
+        let what = this.what.getPreview(false)
+        //console.log(this);
+       // what.setParent(this);
         $(this.to.getPreview()).append(what)
         
     }
@@ -128,6 +129,46 @@ class ChangeValue extends ActionGizmo{
     getNotifiers(){
         return {
             to: new StringNotifier("Hello world!")
+        }
+    }
+
+}
+
+class IfGizmo extends ActionGizmo{
+
+    constructor(){
+        super("If")
+        
+        
+        
+       
+    }
+
+    eventTrigger(self,value){
+      
+    }
+
+    onExec(){
+       // console.log(this.notifiers.to)
+        //this.notifiers.to.set(this.notifiers.to.get(), true)
+        //this.notifiers.to.se
+        //console.log(this.notifiers.value1.get() == this.notifiers.value2.get())
+        //console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
+        let check = this.notifiers.value1.get()==this.notifiers.value2.get()
+        if(!check) {
+           // console.log("woa", this.notifiers.else)
+            this.notifiers.else.exec()
+        }
+        return check;
+            
+        
+    }
+
+    getNotifiers(){
+        return {
+            value1: new StringNotifier("first value"),
+            value2: new StringNotifier("second value"),
+            else: new ActionNotifier()
         }
     }
 

@@ -16,6 +16,10 @@ function isPrimitive(obj){
     
 }
 
+function isEmpty( el ){
+    return !$.trim(el.html())
+}
+
 function $svg(svgName){
     return document.createElementNS('http://www.w3.org/2000/svg', svgName)
 }
