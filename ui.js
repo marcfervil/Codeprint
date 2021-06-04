@@ -12,7 +12,7 @@ class UIGizmo extends Gizmo{
                 
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
-                   
+                    
                     //editor.hovered = null;
                 }
                 editor.dragging = false;

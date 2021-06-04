@@ -33,13 +33,16 @@ function initGizmos(){
     customElements.define('text-box-gizmo', TextBoxGizmo);
     customElements.define('if-gizmo', IfGizmo);
     customElements.define('typed-gizmo', TypedGizmo);
+
+
+    customElements.define('ui-shelf', UIShelf);
     
 }
 
 function initMenu(){
 
     let menuItems = [
-        {name: "View", gizmo: ViewGizmo},
+        {name: "View", gizmo: ViewGizmo/*, catagory: "gizmo"*/},
         {name: "Text", gizmo: TextGizmo},
         {name: "Button", gizmo: ButtonGizmo},
         {name: "When Clicked", gizmo: ClickGizmo},
@@ -53,7 +56,9 @@ function initMenu(){
     ]
 
     for(let item of menuItems){
-        $("#menu-items").append($("<div/>").text(item.name).mousedown((e)=>{
+        //gizmo-menu-drawer
+        //$("#menu-items").append(
+        let menuItem = ($("<div/>").text(item.name).mousedown((e)=>{
             let gizmo = createGizmo(item.gizmo);
             gizmo.style.display = "none"; 
             gizmo.style.zIndex = 5;
@@ -62,8 +67,14 @@ function initMenu(){
            // setTimeout(()=>{
                 
            // },1000)   
+           //if()
             
         }));
+        if(item.catagory!=null){
+            $(`#${item.catagory}-menu-drawer`).append(menuItem)
+        }else{
+            $("#menu-items").append(menuItem)
+        }
     }
 }
 
@@ -110,6 +121,41 @@ document.addEventListener("wheel",(e)=> {
 
     
  }, {passive: false});
+
+
+ class UIShelf extends HTMLElement {
+    constructor(text){
+        super();
+        if(text==undefined){
+            text = $(this).attr("text")
+        }
+        this.expanded = false;
+        
+        this.contents = $(this).contents().wrapAll("<div/>");
+        this.contents.css("padding-left", "30px")
+
+        this.symbol = $("<span/>").css({"marginRight": "5px", "fontSize":".8em"}).html("&#x25B6;")
+        
+       
+        $(this).prepend($("<span>").text(text))
+        $(this).prepend(this.symbol)
+        $(this).click(this.onClick);
+        this.contents.hide()
+    }
+
+    onClick(event){
+        this.expanded = !this.expanded
+        if(this.expanded){
+            this.symbol.html("&#x25BC;")
+            this.contents.show();
+        }else{
+            this.symbol.html("&#x25B6;")
+            this.contents.hide()
+        }
+        //ths
+    }
+
+ }
 
 
 function createGizmo(gizmoClass, ...args){

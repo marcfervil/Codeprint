@@ -95,8 +95,9 @@ class RenderGizmo extends ActionGizmo{
     }
 
     onExec(){
-        let what = this.what.getPreview()
-        what.setParent(this);
+        let what = this.what.getPreview(false)
+        //console.log(this);
+       // what.setParent(this);
         $(this.to.getPreview()).append(what)
         
     }
