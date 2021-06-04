@@ -198,6 +198,49 @@ class Blueprint extends Gizmo {
         return hook
     }
 
+    getNotiferInputField(key, notifier){
+        let notifierField = null;
+        let div = $("<div/>");
+        let input = this.getHook(notifier, "input");
+        let output = this.getHook(notifier, "output")
+        if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
+            notifierField = $("<input/>", {
+                val: notifier.get(),
+                prop: {type: "text"},
+                on: {
+
+                    input: (e)=>{
+                        
+                        let me = $(e.target);
+                        let savedVal = me.val();
+                        
+                        me.val("");
+                        
+                        notifier.set(savedVal)
+                    },
+                    //click:(e)=>e.stopPropagation()
+                },
+                attr:{"autocomplete": "off", "spellcheck":"false"},
+            }).attr("autocomplete","off");
+        }else if(notifier instanceof SelfNotifier){
+            notifierField = $("<span/>").text("nothing").addClass("italic");
+        }
+        if(notifier.hasInput())div.append(input)
+        div.append("  "+key+": ")
+
+        notifier.setHooks(input, output);
+        notifier.setField(notifierField)
+        div.append(notifierField);
+        if(notifier.hasOutput())div.append(output)
+
+        div.addClass("blueprintItem").on("repaint.div", ()=>{
+            div.children().trigger("repaint.hook")
+
+        })
+
+        return div
+    }
+
     hookNotifiers(notifiers, lambda=null){
        
         if(notifiers != undefined && Object.keys(notifiers).length > 0){
@@ -205,49 +248,12 @@ class Blueprint extends Gizmo {
         }
         for(let key in notifiers){
             let notifier = notifiers[key]
-            if(lambda!=null){
-                lambda(key, notifier)
-            }
-            let div = $("<div/>");
-            let input = this.getHook(notifier, "input");
-            let output = this.getHook(notifier, "output")
+            if(lambda!=null)lambda(key, notifier)
             
-            let notifierField = null;
+            let notifierField = this.getNotiferInputField(key, notifier);
 
-            if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
-                notifierField = $("<input/>", {
-                    val: notifier.get(),
-                    prop: {type: "text"},
-                    on: {
-
-                        input: (e)=>{
-                            
-                            let me = $(e.target);
-                            let savedVal = me.val();
-                            
-                            me.val("");
-                            
-                            notifier.set(savedVal)
-                        },
-                        //click:(e)=>e.stopPropagation()
-                    },
-                    attr:{"autocomplete": "off", "spellcheck":"false"},
-                }).attr("autocomplete","off");
-            }else if(notifier instanceof SelfNotifier){
-                notifierField = $("<span/>").text("nothing").addClass("italic");
-            }
-            if(notifier.hasInput())div.append(input)
-            div.append("  "+key+": ")
-
-            notifier.setHooks(input, output);
-            notifier.setField(notifierField)
-            div.append(notifierField);
-
-            if(notifier.hasOutput())div.append(output)
-            $(this).append(div.addClass("blueprintItem").on("repaint.div", ()=>{
-                div.children().trigger("repaint.hook")
-
-            }))
+            
+            $(this).append(notifierField)
         }
     }
 
