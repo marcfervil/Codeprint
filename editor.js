@@ -42,23 +42,27 @@ function initGizmos(){
 function initMenu(){
 
     let menuItems = [
-        {name: "View", gizmo: ViewGizmo/*, catagory: "gizmo"*/},
-        {name: "Text", gizmo: TextGizmo},
-        {name: "Button", gizmo: ButtonGizmo},
-        {name: "When Clicked", gizmo: ClickGizmo},
-        {name: "When Typed", gizmo: TypedGizmo},
-        {name: "Log", gizmo: LogGizmo},
-        {name: "Popup", gizmo: PopupGizmo},
-        {name: "Change Value", gizmo: ChangeValue},
-        {name: "Show Gizmo", gizmo: RenderGizmo},
-        {name: "Text Box", gizmo: TextBoxGizmo},
-        {name: "If", gizmo: IfGizmo}
+        {name: "View", gizmo: ViewGizmo, catagory: "gizmo"},
+        {name: "Text", gizmo: TextGizmo , catagory: "gizmo"},
+        {name: "Button", gizmo: ButtonGizmo, catagory: "gizmo"},
+        {name: "Text Box", gizmo: TextBoxGizmo, catagory: "gizmo"},
+
+        {name: "When Clicked", gizmo: ClickGizmo, catagory: "event"},
+        {name: "When Typed", gizmo: TypedGizmo, catagory: "event"},
+
+
+        {name: "If", gizmo: IfGizmo, catagory: "action"},
+        {name: "Log", gizmo: LogGizmo, catagory: "action"},
+        {name: "Popup", gizmo: PopupGizmo, catagory: "action"},
+        {name: "Change Value", gizmo: ChangeValue, catagory: "action"},
+        {name: "Show Gizmo", gizmo: RenderGizmo, catagory: "action"},
+       
     ]
 
     for(let item of menuItems){
         //gizmo-menu-drawer
         //$("#menu-items").append(
-        let menuItem = ($("<div/>").text(item.name).mousedown((e)=>{
+        let menuItem = ($("<span/>").text(item.name).mousedown((e)=>{
             let gizmo = createGizmo(item.gizmo);
             gizmo.style.display = "none"; 
             gizmo.style.zIndex = 5;
@@ -70,7 +74,7 @@ function initMenu(){
            //if()
             
         }));
-        if(item.catagory!=null){
+        if(item.catagory!=undefined){
             $(`#${item.catagory}-menu-drawer`).append(menuItem)
         }else{
             $("#menu-items").append(menuItem)
@@ -131,16 +135,27 @@ document.addEventListener("wheel",(e)=> {
         }
         this.expanded = false;
         
-        this.contents = $(this).contents().wrapAll("<div/>");
+        //console.log( $(this).contents())
+
+        this.contents = $("<div/>").appendTo($(this));
+        //console.log(this.contents)
+        $(this).css("display", "block")
         this.contents.css("padding-left", "30px")
 
-        this.symbol = $("<span/>").css({"marginRight": "5px", "fontSize":".8em"}).html("&#x25B6;")
+        this.symbol = $("<span/>").css({"paddingRight": "5px", "fontSize":".8em"}).html("&#x25B6;")
         
        
-        $(this).prepend($("<span>").text(text))
+        $(this).prepend($("<span>").css({"fontWeight": "bold"}).text(text))
         $(this).prepend(this.symbol)
         $(this).click(this.onClick);
         this.contents.hide()
+    }
+
+    appendChild(child){
+        if(isEmpty($(this))) return super.appendChild(child)
+        
+        this.contents.append(child)
+        this.contents.append($("<br/>"))
     }
 
     onClick(event){
