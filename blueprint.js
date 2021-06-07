@@ -241,6 +241,8 @@ class Blueprint extends Gizmo {
                 let subNotifier = subNotifiers[notifierKey];
                 notifierField.append(this.getNotiferInputField(notifierKey, subNotifier))
             }
+            //notifierField.attr("wow", "eee")
+            div.css("paddingRight", "0px")
         }
         //output.css("float","right")
         if(notifier.hasInput())div.append(input)
