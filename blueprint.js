@@ -210,13 +210,14 @@ class Blueprint extends Gizmo {
                 prop: {type: "text"},
                 on: {
                     mousedown:(e) =>{
-                        console.log("ee")
+                        this.unhover()
+                        e.stopPropagation()
                     },
                     input: (e)=>{
-                            
+                        
                         let me = $(e.target);
                         let savedVal = me.val();
-                        
+                        console.log(savedVal)
                         me.val("");
                 
                         notifier.set(savedVal)
@@ -299,6 +300,11 @@ class UIBlueprint extends Blueprint {
         }))
         $(this).mouseover(this.hover);
         $(this).mouseout(this.unhover);
+        $(this).mouseup(()=>{
+            this.hover()
+        });
+        
+        
         this.hoverTime = null
     }
 
@@ -307,7 +313,12 @@ class UIBlueprint extends Blueprint {
         this.hoverTime = setTimeout(()=>{
             this.ogOutline = this.gizmo.style.outline;
             this.gizmo.style.outline = "2px dashed blue"
-            if(this.gizmo.hasPreview)this.gizmo.previewRef.style.outline = "2px dashed blue"
+            //this.gizmo.style.outlineOffset = "3px"
+            
+            if(this.gizmo.hasPreview){
+                this.gizmo.previewRef.style.outline = "2px dashed blue"
+                //this.gizmo.previewRef.style.outlineOffset = "3px"
+            }
         },500)
     }
 

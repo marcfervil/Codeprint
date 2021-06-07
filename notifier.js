@@ -7,6 +7,8 @@ class Notifier{
         this.resetUpdater= null
         this.isDeferred = false;
         this.linkedNotifer = null;
+
+        
     }
 
     reset(){
@@ -41,6 +43,7 @@ class Notifier{
     }
 
     updateField(data){
+       
         if(this.fieldUpdater!=null)this.fieldUpdater(data)
         //console.log("linked", this.linkedNotifer)
     }
@@ -62,6 +65,7 @@ class Notifier{
     }
 
     set(value){
+       // value = this.prefix() + value + this.suffix()
         this.value = value
         //if(uu!=null)console.log("feopwk")
         //console.log(this.gizmo)
@@ -150,6 +154,10 @@ class UINotifier extends Notifier{
         this.fieldSet = fieldSet;
         this.uiFields = [field]
         this.fieldAttrs = {}
+        this.onFieldSet = null;
+
+        this.prefix = () => "";
+        this.suffix = () => "";
     }
 
     get(){
@@ -158,7 +166,15 @@ class UINotifier extends Notifier{
         return this.fieldGet(this.uiFields[0])
     }
 
+    decorate(prefix, suffix){
+        this.prefix = (prefix instanceof Function) ? prefix : () => prefix;
+        this.suffix = (suffix instanceof Function) ? suffix : () => suffix;
+        return this;
+    }
+
     updateField(value){
+        //console.log(value)
+        //value = this.prefix() + value + this.suffix()
         if(this.field!=undefined)this.field.val(value)
         
     }
@@ -166,23 +182,28 @@ class UINotifier extends Notifier{
     setField(field){
         super.setField(field)
         $(field).attr(this.fieldAttrs)
- 
+        if(this.onFieldSet!=null)this.onFieldSet()
     }
 
-    slider(min, max){
-        
-        this.fieldAttrs = {
-            type: "range",
-            min: min,
-            max: max
+    slider(min, max, start=min){
+        this.onFieldSet = () => {
+            this.field.attr({
+                type: "range",
+                min: min,
+                max: max,
+                step: 0.1,
+                value: 0
+            })
+            this.field.val(0)
         }
         return this
     }
 
     set(value, updateField = false){
+        //value = 
         super.set(value)
         for(let field of this.uiFields){
-            this.fieldSet(field, value)
+            this.fieldSet(field, this.prefix() + value + this.suffix())
         }
  
         this.updateField(value)
