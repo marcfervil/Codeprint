@@ -203,30 +203,41 @@ class Blueprint extends Gizmo {
         let div = $("<div/>");
         let input = this.getHook(notifier, "input");
         let output = this.getHook(notifier, "output")
+        let showKey = true;
         if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
             notifierField = $("<input/>", {
                 val: notifier.get(),
                 prop: {type: "text"},
                 on: {
-
+                    mousedown:(e) =>{
+                        console.log("ee")
+                    },
                     input: (e)=>{
-                        
+                            
                         let me = $(e.target);
                         let savedVal = me.val();
                         
                         me.val("");
-                        
+                
                         notifier.set(savedVal)
                     },
-                    //click:(e)=>e.stopPropagation()
                 },
                 attr:{"autocomplete": "off", "spellcheck":"false"},
             }).attr("autocomplete","off");
         }else if(notifier instanceof SelfNotifier){
             notifierField = $("<span/>").text("nothing").addClass("italic");
+        }else if(notifier instanceof AggregateNotifier){
+            notifierField = $(new UIShelf(key))
+            notifierField[0].newLine = false;
+            showKey = false
+            let subNotifiers = notifier.get()
+            for(let notifierKey in subNotifiers){
+                let subNotifier = subNotifiers[notifierKey];
+                notifierField.append(this.getNotiferInputField(notifierKey, subNotifier))
+            }
         }
         if(notifier.hasInput())div.append(input)
-        div.append("  "+key+": ")
+        if(showKey)div.append("  "+key+": ")
 
         notifier.setHooks(input, output);
         notifier.setField(notifierField)
@@ -238,6 +249,10 @@ class Blueprint extends Gizmo {
 
         })
 
+        div.click((e)=>{
+            e.preventDefault()
+            e.stopPropagation();
+        })
         return div
     }
 

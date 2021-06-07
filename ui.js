@@ -12,14 +12,14 @@ class UIGizmo extends Gizmo{
                 
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
-                    
-                    //editor.hovered = null;
+
                 }
                 editor.dragging = false;
             }
         });
         this.initHookedUI()
         this.notifiers = this.getNotifiers();
+        
     }
 
     cloneNode(){
@@ -52,10 +52,19 @@ class UIGizmo extends Gizmo{
         return blueprint
     }
 
-   
+    attachPreviewField(notifiers, field){
+        for(let noteKey in notifiers){
+            let notifier = notifiers[noteKey];
+            if(!(notifier instanceof AggregateNotifier)){
+                notifier.uiFields.push(field);
+            }else{
+                this.attachPreviewField(notifier.get(), field);
+            }
+        }
+    }
 
     onPreview(){
-        
+        this.attachPreviewField(this.notifiers, this.getUiField())
         
     }
 }
@@ -76,14 +85,14 @@ class TextGizmo extends UIGizmo{
         this.text = $(this).text("placeholder");
     }
 
-    onPreview(){
-        this.notifiers.text.uiFields.push(this.text)
+    getUiField(){
+        return this.text
     }
+
 
     getNotifiers(){
         
         return {
-            //"text": new TextInputNotifier(this.text)
             "text": new UINotifier(this.text, (field)=>field.text(), (field, value)=>field.text(value))
         }
     }
@@ -98,6 +107,10 @@ class ViewGizmo extends UIGizmo{
 
     hasChildren(){
         return true;
+    }
+
+    getUiField(){
+        return this
     }
 
     setParent(gizmo){
@@ -119,8 +132,32 @@ class ViewGizmo extends UIGizmo{
 class ButtonGizmo extends UIGizmo{
     constructor() {
         super();
-        this.button = $(this).append($("<button/>").text("Click me!"))
+       
     }
+
+    initHookedUI(){
+        this.button = $("<button/>").text("Click me!").appendTo(this)
+    }
+
+    getUiField(){
+        return this.button
+    }
+
+
+    getNotifiers(){
+
+        return {
+            "text": new UINotifier(this.button, (field)=>field.text(), (field, value)=>field.text(value)),
+            "style": new AggregateNotifier({
+                color: new StyleNotifier(this.button, "color"),
+                border: new StyleNotifier(this.button, "border"),
+                background: new StyleNotifier(this.button, "backgroundColor"),
+                round: new StyleNotifier(this.button, "borderRadius").slider(0, 100)
+            })
+            
+        }
+    }
+
 }
 
 
@@ -140,47 +177,27 @@ class TextBoxGizmo extends UIGizmo{
                 input: (e)=>{
                     let me = $(e.target);
                     
-                    
                     let savedVal = me.val();
                     
                     me.val("");
                     this.notifiers.text.set(savedVal)
-                
-                    
                 
                 },
 
                 keydown: (e) => {
                     if(!this.isPreview)e.preventDefault();
                 }
-                /*
-                keypress: (e) => {
-                    let text = $(e.target).val()+e.key;
-                    if(this.isPreview && !e.metaKey){
-                        //this.previewRef.notifiers.text.set(text)
-                        //console.log("iji", th)
-                        this.notifiers.text.set(text)
-                    }
-                    
-                    //this.notifiers.text.updateField(text)
-                    //this.notifiers.text.set(text)
-                    if(!this.isPreview || (this.isPreview && !e.metaKey))e.preventDefault();
-                },
-                keyup: (e) => {
-                    if(e.keyCode == 8){
-                        
-                        this.notifiers.text.set($(e.target).val())
-                    } 
-                }*/
+               
             }
 
         }).val("").addClass("zeninput")
         $(this).append(this.text)
     }
+    
+    getUiField(){
+        return this.text
+    }
 
-   onPreview(){
-       this.notifiers.text.uiFields.push(this.text)
-   }
 
     getNotifiers(){
         

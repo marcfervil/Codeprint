@@ -28,13 +28,16 @@ function initGizmos(){
     customElements.define('log-gizmo', LogGizmo);
     customElements.define('popup-gizmo', PopupGizmo);
     customElements.define('change-value-gizmo', ChangeValue);
+
+    customElements.define('change-value-gizmo2', ChangeValue2);
+
     customElements.define('render-gizmo', RenderGizmo);
     customElements.define('right-now-gizmo', RightNowGizmo);
     customElements.define('text-box-gizmo', TextBoxGizmo);
     customElements.define('if-gizmo', IfGizmo);
     customElements.define('typed-gizmo', TypedGizmo);
 
-
+    
     customElements.define('ui-shelf', UIShelf);
     
 }
@@ -50,8 +53,10 @@ function initMenu(){
         {name: "When Clicked", gizmo: ClickGizmo, catagory: "event"},
         {name: "When Typed", gizmo: TypedGizmo, catagory: "event"},
 
+        
 
         {name: "If", gizmo: IfGizmo, catagory: "action"},
+        {name: "Change Value2", gizmo: ChangeValue2, catagory: "action"},
         {name: "Log", gizmo: LogGizmo, catagory: "action"},
         {name: "Popup", gizmo: PopupGizmo, catagory: "action"},
         {name: "Change Value", gizmo: ChangeValue, catagory: "action"},
@@ -139,13 +144,13 @@ document.addEventListener("wheel",(e)=> {
 
         this.contents = $("<div/>").appendTo($(this));
         //console.log(this.contents)
-        $(this).css("display", "block")
+        //$(this).css("display", "block")
         this.contents.css("padding-left", "30px")
 
         this.symbol = $("<span/>").css({"paddingRight": "5px", "fontSize":".8em"}).html("&#x25B6;")
         
        
-        $(this).prepend($("<span>").css({"fontWeight": "bold"}).text(text))
+        $(this).prepend($("<span>").css({"fontStyle": "italic"}).text(text))
         $(this).prepend(this.symbol)
         $(this).click(this.onClick);
         this.contents.hide()
@@ -155,6 +160,7 @@ document.addEventListener("wheel",(e)=> {
         if(isEmpty($(this))) return super.appendChild(child)
         
         this.contents.append(child)
+        if(this.newLine != false)
         this.contents.append($("<br/>"))
     }
 

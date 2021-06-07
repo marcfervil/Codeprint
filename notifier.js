@@ -145,11 +145,11 @@ class UINotifier extends Notifier{
     constructor(field, fieldGet, fieldSet){
         
         super(fieldGet(field))
-        //this.textbox = textbox
+
         this.fieldGet = fieldGet;
         this.fieldSet = fieldSet;
-        this.uiFields = [field ]
-        //this.setField(field);
+        this.uiFields = [field]
+        this.fieldAttrs = {}
     }
 
     get(){
@@ -159,18 +159,24 @@ class UINotifier extends Notifier{
     }
 
     updateField(value){
-        //super.updateField(value)
-        //this.field.val(value)
-        //this.fieldSet(this.uiField, value)
         if(this.field!=undefined)this.field.val(value)
-       // console.log(this.field)
         
     }
 
     setField(field){
         super.setField(field)
+        $(field).attr(this.fieldAttrs)
+ 
+    }
+
+    slider(min, max){
         
-       // console.log("FIELD SET!", field)
+        this.fieldAttrs = {
+            type: "range",
+            min: min,
+            max: max
+        }
+        return this
     }
 
     set(value, updateField = false){
@@ -178,14 +184,26 @@ class UINotifier extends Notifier{
         for(let field of this.uiFields){
             this.fieldSet(field, value)
         }
-        
-       // console.log("dokok")
-       
+ 
         this.updateField(value)
     }
     
 }
 
+class StyleNotifier extends UINotifier{
+
+    constructor(field, fieldName){
+        
+        let getField = (field) => field[0].style[fieldName];
+        let setField = (field, value) => field[0].style[fieldName] = value;
+        super(field, getField, setField)
+
+        
+    }
+
+
+   
+}
 
 
 
@@ -276,4 +294,16 @@ class ExecutionNotifier extends Notifier{
 
 
 
+}
+
+class AggregateNotifier extends Notifier {
+    
+    constructor(notifiers){
+        super(notifiers);
+    }
+
+
+    hasOutput(){
+        return false;
+    }
 }

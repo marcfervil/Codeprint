@@ -99,6 +99,17 @@ body{
     white-space: nowrap;
 }
 
+ui-shelf{
+    display: block;
+}
+
+.blueprint ui-shelf{
+    display: inline;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
 .blueprintItem{
     padding:5px
 }

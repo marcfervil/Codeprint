@@ -134,6 +134,29 @@ class ChangeValue extends ActionGizmo{
 
 }
 
+
+class ChangeValue2 extends ActionGizmo{
+
+    constructor(){
+        super("Change Value")
+        
+    }
+
+    onExec(){
+       // console.log(this.notifiers.to)
+        this.notifiers.to.set(this.notifiers.to.get(), true)
+        //this.notifiers.to.se
+       
+    }
+
+    getNotifiers(){
+        return {
+            to: new StringNotifier("Hello world!")
+        }
+    }
+
+}
+
 class IfGizmo extends ActionGizmo{
 
     constructor(){
