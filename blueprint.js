@@ -207,12 +207,16 @@ class Blueprint extends Gizmo {
         if(notifier.hasOutput())div.append(output.css("float","right"))
         if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
             notifierField = $("<input/>", {
+                
+                
                 val: notifier.get(),
                 prop: {type: "text"},
                 on: {
+                    
                     mousedown:(e) =>{
                         this.unhover()
                         e.stopPropagation()
+                       // e.select()
                     },
                     input: (e) => {
                         
@@ -243,6 +247,7 @@ class Blueprint extends Gizmo {
             }
             //notifierField.attr("wow", "eee")
             div.css("paddingRight", "0px")
+           
         }
         //output.css("float","right")
         if(notifier.hasInput())div.append(input)
@@ -259,9 +264,10 @@ class Blueprint extends Gizmo {
         })
 
         div.click((e)=>{
-            e.preventDefault()
+            //e.preventDefault()
             e.stopPropagation();
         })
+       // div.append($("<input/>").attr("type","color"))
         return div
     }
 
@@ -279,6 +285,7 @@ class Blueprint extends Gizmo {
             
             $(this).append(notifierField)
         }
+        //$(this).append($("<input/>").attr("type","color"))
     }
 
 

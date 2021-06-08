@@ -149,9 +149,9 @@ class ButtonGizmo extends UIGizmo{
         return {
             "text": new UINotifier(uiField, (field) => field.text(), (field, value) => field.text(value)),
             "style": new AggregateNotifier({
-                color: new StyleNotifier(uiField, "color"),
+                color: new StyleNotifier(uiField, "color").color(),
+                background: new StyleNotifier(uiField, "backgroundColor").color(),
                 border: new StyleNotifier(uiField, "border"),
-                background: new StyleNotifier(uiField, "backgroundColor"),
                 round: new StyleNotifier(uiField, "borderRadius").slider(0, 2).decorate("", "vh")
             })
             

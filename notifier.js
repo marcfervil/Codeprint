@@ -203,12 +203,9 @@ class UINotifier extends Notifier{
         this.onFieldSet = () => {
             this.field.attr({
                 type: "color",
-                min: min,
-                max: max,
-                step: 0.1,
-                value: 0
+                
             })
-            this.field.val(0)
+            //this.field.val(0)
         }
         return this
     }

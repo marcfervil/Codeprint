@@ -8,7 +8,7 @@
 
     <body oncontextmenu="return false;">
 
-      
+        
 
         <div id="app">
             
@@ -23,6 +23,7 @@
                 <hr>    
                 <ui-shelf id="action-menu-drawer" text="Actions"></ui-shelf>
                 <hr>
+                
             </div>
             <div class="blueprintArea" id="bparea">
                 <div class="blueprintContainer" id="bp"></div>
@@ -53,21 +54,13 @@
 
 <!---->
 <script type="text/javascript">
+
+
     initGizmos();
     initMenu();
     
     
 
-    /*
-    $(document).mousemove((e) => {
-        let m = $("#svgenius");
-        console.log()
-        $("#woo").attr("d",`m 0 0 L ${e.clientX - m.offset().left} ${e.clientY + m.offset().top}`)
-    });*/
-    //.attr("d")
-
-
-    
     let defaultView = new ViewGizmo();
     let defaultText = new TextGizmo();
 
