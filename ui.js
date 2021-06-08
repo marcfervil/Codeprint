@@ -148,11 +148,16 @@ class ButtonGizmo extends UIGizmo{
         let uiField = this.getUiField();
         return {
             "text": new UINotifier(uiField, (field) => field.text(), (field, value) => field.text(value)),
+            
             "style": new AggregateNotifier({
-                color: new StyleNotifier(uiField, "color").color(),
-                background: new StyleNotifier(uiField, "backgroundColor").color(),
-                border: new StyleNotifier(uiField, "border"),
-                round: new StyleNotifier(uiField, "borderRadius").slider(0, 2).decorate("", "vh")
+                "text color": new StyleNotifier(uiField, "color").color(),
+                "background": new StyleNotifier(uiField, "backgroundColor").color(),
+                "round": new StyleNotifier(uiField, "borderRadius").slider(0, 2).decorate("", "vh"),
+                "border": new AggregateNotifier({
+                    "thickness": new StyleNotifier(uiField, "border-width"),
+                    "color": new StyleNotifier(uiField, "border-color").color(),
+                    "type": new StyleNotifier(uiField, "border-style").dropdown(["solid", "dotted", "dashed"])
+                })
             })
             
         }

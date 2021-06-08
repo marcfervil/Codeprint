@@ -150,6 +150,8 @@ class UINotifier extends Notifier{
         
         super(fieldGet(field))
 
+        
+
         this.fieldGet = fieldGet;
         this.fieldSet = fieldSet;
         this.uiFields = [field]
@@ -158,6 +160,10 @@ class UINotifier extends Notifier{
 
         this.prefix = () => "";
         this.suffix = () => "";
+       // setTimeout(()=>{
+            //console.log(fieldGet(field)+"frog")
+        this.set(fieldGet(field))
+        //},1)
     }
 
     get(){
@@ -182,7 +188,7 @@ class UINotifier extends Notifier{
     setField(field){
         super.setField(field)
         $(field).attr(this.fieldAttrs)
-        if(this.onFieldSet!=null)this.onFieldSet()
+        if(this.onFieldSet!=null)this.onFieldSet(field)
     }
 
     slider(min, max, start=min){
@@ -194,21 +200,50 @@ class UINotifier extends Notifier{
                 step: 0.1,
                 value: 0
             })
-            this.field.val(0)
+            this.field.val(start)
         }
         return this
     }
 
-    color(min, max, start=min){
+    dropdown(items){
+        this.onFieldSet = (field) => {
+            let select = $("<select/>");
+           
+            //it's not real gizmetti until you have a ~certified~ race condition
+            setTimeout(()=>{
+                field.replaceWith(select);
+                this.field = field;
+                field = select
+                for(let item of items){
+                    field.append($(`<option/>`).val(item).text(item))
+                }
+
+                //field.
+                field.mousedown((e)=>e.stopPropagation());
+                field.change((e)=>{
+                    let result = $(e.target).find("option:selected").attr('value')
+                    this.set(result)
+                })
+            },0)
+           
+           
+
+        }
+        return this
+    }
+
+    color(){
         this.onFieldSet = () => {
             this.field.attr({
                 type: "color",
                 
             })
-            //this.field.val(0)
+            this.field.val("rgb(255,0,0)")
         }
         return this
     }
+
+
 
     set(value, updateField = false){
         //value = 
@@ -229,7 +264,8 @@ class StyleNotifier extends UINotifier{
         let getField = (field) => field[0].style[fieldName];
         let setField = (field, value) => field[0].style[fieldName] = value;
         super(field, getField, setField)
-
+        
+        
         
     }
 

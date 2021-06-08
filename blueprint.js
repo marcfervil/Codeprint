@@ -230,7 +230,7 @@ class Blueprint extends Gizmo {
                 },
                 attr:{"autocomplete": "off", "spellcheck":"false"},
             }).attr("autocomplete","off").css({
-                float: "right"
+               // float: "right"
             });
         }else if(notifier instanceof SelfNotifier){
             
@@ -315,17 +315,24 @@ class UIBlueprint extends Blueprint {
         }))
         $(this).mouseover(this.hover);
         $(this).mouseout(this.unhover);
-        $(this).mouseup(()=>{
-            this.hover()
+        $(this).mouseleave(()=>this.hintLocked = false);
+        $(this).mousedown(()=>{
+            this.unhover();
+            this.hintLocked = true;
         });
-        
+        $(this).mouseup(()=>{
+            //this.hover()
+        });
+        this.hintLocked = false
         
         this.hoverTime = null
     }
 
     hover(event){
-        if(this.gizmo==undefined)return
+        if(this.gizmo==undefined)return;
+        if(this.hintLocked)return;
         this.hoverTime = setTimeout(()=>{
+            this.hintLocked = true;
             this.ogOutline = this.gizmo.style.outline;
             this.gizmo.style.outline = "2px dashed blue"
             //this.gizmo.style.outlineOffset = "3px"
@@ -343,11 +350,7 @@ class UIBlueprint extends Blueprint {
             this.hoverTime = null;
             this.gizmo.style.outline = this.ogOutline
             if(this.gizmo.hasPreview)this.gizmo.previewRef.style.outline = this.ogOutline
-        }else{
-            
         }
-       
-
     }
 
 }
