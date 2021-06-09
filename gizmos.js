@@ -45,6 +45,7 @@ class Gizmo extends HTMLElement {
             notifier.linkedNotifer = this.notifiers[key]
         }
 
+        gizmo.gizmoRef = this;
         this.removeAttribute("isPreview")
         //gizmo.notifiers = this.notifiers
 

@@ -120,6 +120,7 @@ class TextBoxGizmo extends UIGizmo{
     }
 
     initHookedUI(){
+
         this.text = $("<input/>", {
             attr:{
                 "type": "text",
@@ -132,12 +133,18 @@ class TextBoxGizmo extends UIGizmo{
                     if(this.isPreview){
                         //this.previewRef.notifiers.text.set(text)
                         //console.log("fepl")
-                        this.notifiers.text.linkedNotifer.set(text, true)
+                        this.notifiers.text.set(text, true)
+                        e.preventDefault();
+                       //this.notifiers.text.set(text)
+                       
+                    }else{
+                        //this.previewRef.notifiers.text.set(text)
+                        e.preventDefault();
                     }
-                    this.notifiers.text.set(text, true)
+                    //this.notifiers.text.set(text, true)
                     //this.notifiers.text.updateField(text)
                     //this.notifiers.text.set(text)
-                    e.preventDefault();
+                    //e.preventDefault();
                 },
                 keyup: (e) => {
                     if(e.keyCode == 8){

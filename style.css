@@ -14,6 +14,7 @@ body{
 
     transform: translateZ(0);
     font-family: 'Noto Sans HK', sans-serif;
+
 }
 
 hr{
@@ -64,7 +65,7 @@ hr{
 .preview{
    
     background-color: lightgray;
-   
+    
 
     padding: 5px;
     padding-right: 10px;
@@ -84,7 +85,7 @@ hr{
     border: 1px black solid;
     
     display:inline-block;
-  
+ 
   }
 
   svg{
@@ -102,7 +103,8 @@ hr{
     position: absolute;
     white-space: nowrap;
     overflow: hidden;
-    border-radius: 10px
+    border-radius: 10px;
+    /*box-shadow: 2px 2px #888888;*/
 }
 
 .blueprintItem{
@@ -118,7 +120,8 @@ hr{
     border-top-left-radius: 9px;
     border-top-right-radius: 9px;*/
     
-    background-color: red;
+
+        
 }
 
 

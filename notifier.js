@@ -164,10 +164,10 @@ class UINotifier extends Notifier{
     }
 
     updateField(value){
-        //super.updateField(value)
+       // super.updateField(value)
         //this.field.val(value)
         //this.fieldSet(this.uiField, value)
-        if(this.field!=undefined)this.field.val(value)
+       // if(this.field!=undefined)this.field.val(value)
        // console.log(this.field)
         
     }
@@ -178,11 +178,7 @@ class UINotifier extends Notifier{
     }
 
     set(value, updateField = false){
-        super.set(value)
-        this.fieldSet(this.uiField, value)
         
-        if(updateField)this.updateField(value)
-        //this.updateField(value)
     }
     
 }
