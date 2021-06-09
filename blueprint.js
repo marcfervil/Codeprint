@@ -226,6 +226,7 @@ class Blueprint extends Gizmo {
                         me.val("");
                 
                         notifier.set(savedVal)
+                        //console.log(savedVal,me.val(),me)
                     }
                 },
                 attr:{"autocomplete": "off", "spellcheck":"false"},

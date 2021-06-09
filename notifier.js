@@ -224,6 +224,8 @@ class UINotifier extends Notifier{
                     let result = $(e.target).find("option:selected").attr('value')
                     this.set(result)
                 })
+                this.field = select
+                //this.field.val("dotted")
             },0)
            
            
@@ -234,11 +236,15 @@ class UINotifier extends Notifier{
 
     color(){
         this.onFieldSet = () => {
-            this.field.attr({
+            this.field = this.field.attr({
                 type: "color",
                 
             })
-            this.field.val("rgb(255,0,0)")
+          //  setTimeout(()=>{
+                //this.set(this.field.val())
+               // this.field.val("#ff0000")
+            //},1000)
+            
         }
         return this
     }
@@ -265,7 +271,7 @@ class StyleNotifier extends UINotifier{
         let setField = (field, value) => field[0].style[fieldName] = value;
         super(field, getField, setField)
         
-        
+        this.set(getField(field))
         
     }
 
