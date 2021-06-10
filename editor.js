@@ -39,6 +39,7 @@ function initGizmos(){
 
     
     customElements.define('ui-shelf', UIShelf);
+    customElements.define('zen-shelf', ZenShelf);
     
 }
 
@@ -178,6 +179,60 @@ document.addEventListener("wheel",(e)=> {
 
  }
 
+
+ class ZenShelf extends HTMLElement {
+    constructor(text){
+        super();
+        if(text==undefined){
+            text = $(this).attr("text")
+        }
+        this.expanded = false;
+        
+        //console.log( $(this).contents())
+
+        this.contents = $("<div/>").appendTo($(this));
+        //console.log(this.contents)
+        //$(this).css("display", "block")
+        
+        this.contents.css("padding-left", "30px").addClass("heading")
+
+        this.symbol = $("<span/>").addClass("fas fa-chevron-right").css({"paddingRight": "5px", "fontSize":".8em"})
+        this.symbol.css("paddingRight","5px")
+        
+
+        this.heading = $("<span>").addClass("heading").text(text);
+        $(this).prepend(this.heading)
+        
+        $(this.heading).prepend(this.symbol)
+        $(this).click(this.onClick);
+        this.contents.hide()
+    }
+
+    appendChild(child){
+        if(isEmpty($(this))) return super.appendChild(child)
+        
+        this.contents.append(child)
+        if(this.newLine != false)
+        this.contents.append($("<br/>"))
+    }
+
+    onClick(event){
+        this.expanded = !this.expanded
+        if(this.expanded){
+            this.symbol.removeClass("fa-chevron-right")
+            this.symbol.addClass("fa-chevron-down")
+            //this.symbol.addClass("fa-rotate-90")
+            this.contents.show();
+        }else{
+            this.symbol.removeClass("fa-chevron-down")
+            this.symbol.addClass("fa-chevron-right")
+            
+            this.contents.hide()
+        }
+        //ths
+    }
+
+ }
 
 function createGizmo(gizmoClass, ...args){
     let gizmo = new gizmoClass(...args);
