@@ -194,13 +194,13 @@ document.addEventListener("wheel",(e)=> {
         //console.log(this.contents)
         //$(this).css("display", "block")
         
-        this.contents.css("padding-left", "30px").addClass("heading")
+        this.contents.css("padding-left", "30px").addClass("content")
 
         this.symbol = $("<span/>").addClass("fas fa-chevron-right").css({"paddingRight": "5px", "fontSize":".8em"})
         this.symbol.css("paddingRight","5px")
         
 
-        this.heading = $("<span>").addClass("heading").text(text);
+        this.heading = $("<span>").addClass("heading").html(`${text}`);
         $(this).prepend(this.heading)
         
         $(this.heading).prepend(this.symbol)

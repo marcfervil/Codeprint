@@ -18,7 +18,7 @@ body{
 
     /*font-family: 'Roboto', sans-serif;*/
     eletter-spacing: 1px;
-    font-size: 18px;
+    font-size: 17px;
 }
 
 
@@ -56,7 +56,7 @@ zen-shelf{
 
 
 zen-shelf .heading{
-    border-bottom: 1px solid #6C757D;
+    border-bottom: 1px solid #CED4DA;
     color: #6C757D;
     display: inline-block;
     width: 100%;
@@ -64,8 +64,9 @@ zen-shelf .heading{
 }
 
 zen-shelf .content{
-    border-bottom: 1px solid #6C757D;
-
+    border-bottom: 1px solid #CED4DA;
+    background-color: #F8F9FA;
+    padding: 5px;
 }
 
 
