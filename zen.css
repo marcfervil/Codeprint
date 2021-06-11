@@ -21,6 +21,17 @@ body{
     font-size: 17px;
 }
 
+.page{
+    background-color: white;
+    border: 1px black solid;
+    position: absolute;
+    top: 30px;
+    left: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    
+}
 
 
 #app{
@@ -29,7 +40,7 @@ body{
     padding: 0px;
     height:100%;
     display: grid ;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 15% 70% 15%;
     grid-template-rows: 100%;
     
 }
@@ -43,6 +54,63 @@ body{
     border-left: 1px solid;
     overflow: hidden;
 }
+
+
+.blueprint{
+    background-color: white;
+    border: 1px #6C757D solid;
+    position: absolute;
+    white-space: nowrap;
+    border-radius: 2px;
+    /*Break in case of throwable blueprints*/
+    /*transition: all 1s;*/
+    
+}
+
+
+svg{
+    position: relative;
+    z-index: 1;
+    
+  }
+
+  path{
+      pointer-events: none;
+  }
+
+
+
+.in {
+    width: 9px;
+    height: 9px;
+    padding: 0px;
+    margin: 0px;
+   
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    
+    border-radius: 25px;
+    border: 1px black solid;
+    
+    display:inline-block;
+  
+  }
+
+.blueprint ui-shelf{
+    display: inline;
+    font-weight: normal;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.blueprintItem{
+    padding:5px
+}
+
+.blueprintHeading{
+    padding:5px
+}
+
 
 
 zen-shelf{
@@ -67,6 +135,15 @@ zen-shelf .content{
     border-bottom: 1px solid #CED4DA;
     background-color: #F8F9FA;
     padding: 5px;
+    line-height: 30px;
+    font-size: 15px;
+}
+
+.selfNotifier{
+    border: 1px black solid;
+    margin: 4px;
+    padding: 2px;
+    border-radius: 2px;
 }
 
 
@@ -78,11 +155,57 @@ zen-shelf .content{
     
 }
 
+.zeninput {
+    background-color: lightgray;
+    outline-width: 0;
+    
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid grey 1px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: .9em;
+}
+
+.blueprint input, .blueprint select{
+    background-color: lightgray;
+    outline-width: 0;
+    
+    background-color: transparent;
+    outline: none;
+    border: none;
+    border-bottom: solid grey 1px;
+    width: 130px;
+    margin-left: 10px;
+    float: right;
+}
+
+.preview{
+   
+    background-color: lightgray;
+   
+
+    padding: 5px;
+    padding-right: 10px;
+    z-index: 2;
+}
+
+
+
 .blueprintContainer{
     position: absolute;
-    width: 100%;
-    height: 100%;
+    width: 1000%;
+    height: 1000%;
     top: 0;
     left: 0;
     overflow: visible;
+    background-color: #fff;
+    background-size: 50px 50px;
+
+    z-index: 0;
+    background-image:
+      linear-gradient(to right, #DEE2E6 1px, transparent 1px),
+      linear-gradient(to bottom, #DEE2E6 1px, transparent 1px);
 }

@@ -123,8 +123,8 @@ class ViewGizmo extends UIGizmo{
             //this.style.height = "100%";
             
         }else{
-            this.style.width = "20%";
-            this.style.minHeight = "60%";
+            this.style.width = "2%";
+            this.style.minHeight = "6%";
         }
     }
 }
