@@ -2,8 +2,10 @@
 
 
 class Gizmo extends HTMLElement {
-    constructor() {
+    constructor(x) {
         super();
+        
+        
         this.gizmos = []
         this.inited = false;
         this.id = editor.idNum++;
@@ -129,6 +131,7 @@ class Gizmo extends HTMLElement {
     }
 
     setParent(gizmo){
+        //console.log(document.body.isPreview)
         let ogParent = this.parent
         this.parent = gizmo;
         if(gizmo!=null){
@@ -143,7 +146,12 @@ class Gizmo extends HTMLElement {
                 //.log(jQuery._data(this.previewRef, "events" ))
                
             }
-            $("#bp").append(this)
+            if(document.isPreview == false || document.isPreview===undefined){
+                $("#bp").append(this)
+            }else{
+                
+                console.log("we found it",document.isPreview)
+            }
             
             this.style.position = "absolute"
         }

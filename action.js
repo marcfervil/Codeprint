@@ -148,7 +148,7 @@ class ChangeValue2 extends ActionGizmo{
         this.updateNotifiers = {}
 
 
-        console.log(gizmo.heading, gizmo instanceof Blueprint)
+        //console.log(gizmo.heading, gizmo instanceof Blueprint)
 
 
         //$(this).append(gizmo.heading);
