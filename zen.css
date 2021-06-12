@@ -30,7 +30,7 @@ body{
     padding: 10px;
     margin-bottom: 10px;
     margin-top: 10px;
-    
+    border-radius: 2px;
 }
 
 
@@ -50,7 +50,7 @@ body{
     background-color: #e9ecef;
     padding: 0px;
     margin: 0px;
-    z-index: 2;
+    z-index: 1;
     border-left: 1px solid;
     overflow: hidden;
 }
@@ -184,7 +184,7 @@ zen-shelf .content{
 
 .preview{
    
-    background-color: lightgray;
+    background-color: #e9ecef;
    
 
     padding: 5px;

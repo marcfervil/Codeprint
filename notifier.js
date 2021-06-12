@@ -3,6 +3,7 @@ class Notifier{
     constructor(value){
         this.value = value
         this.initValue = value;
+
         this.fieldUpdater = null;
         this.resetUpdater= null
         this.isDeferred = false;
@@ -10,6 +11,12 @@ class Notifier{
 
         
     }
+
+
+    clone(){
+        return new this.constructor(this.value)
+    }
+
 
     reset(){
         this.updateField(this.initValue)
@@ -166,6 +173,10 @@ class UINotifier extends Notifier{
         //},1)
     }
 
+    clone(){
+        return new this.constructor($(this.field).clone(true), this.fieldGet, this.fieldSet)
+    }
+
     get(){
         super.get()
         
@@ -269,12 +280,17 @@ class StyleNotifier extends UINotifier{
         
         let getField = (field) => field[0].style[fieldName];
         let setField = (field, value) => field[0].style[fieldName] = value;
+        //this.ff = field
         super(field, getField, setField)
         
         this.set(getField(field))
         
     }
 
+    clone(){
+        console.log(this.field)
+        return new this.constructor($(this.ff).clone(true), this.fieldName)
+    }
 
    
 }
@@ -380,4 +396,14 @@ class AggregateNotifier extends Notifier {
     hasOutput(){
         return false;
     }
+
+    clone(){
+        let cloneifiers = {}
+        for(let notifierKey in this.value){
+            let notifier = this.value[notifierKey];
+            cloneifiers[notifierKey] = notifier.clone();
+        }
+        return new this.constructor(cloneifiers)
+    }
+
 }

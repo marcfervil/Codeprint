@@ -139,19 +139,50 @@ class ChangeValue2 extends ActionGizmo{
 
     constructor(){
         super("Change Value")
+        this.notifiers.gizmo.onUpdate((gizmo)=>this.gizmoUpdate(gizmo))
         
     }
 
+    gizmoUpdate(gizmo){
+        
+        this.updateNotifiers = {}
+
+
+        console.log(gizmo.heading, gizmo instanceof Blueprint)
+
+
+        //$(this).append(gizmo.heading);
+        for(let notiferKey in gizmo.notifiers){
+            let notifier = gizmo.notifiers[notiferKey];
+
+            let notifierCopy = notifier.clone()
+
+            this.updateNotifiers[notiferKey] = notifierCopy;
+            let inputField = this.getNotiferInputField(notiferKey, notifierCopy)
+            $(this).append(inputField);
+
+            
+            //this.notifier.fields.push(inputField.gizmo.field)
+        }
+        
+    }
+
+
     onExec(){
-       // console.log(this.notifiers.to)
-        this.notifiers.to.set(this.notifiers.to.get(), true)
-        //this.notifiers.to.se
-       
+  
+        let gizmoNotifier = this.notifiers.gizmo.get().notifiers;
+      
+        for(let notifierKey in this.updateNotifiers){
+            let notifier = this.updateNotifiers[notifierKey];
+            
+            gizmoNotifier[notifierKey].set(notifier.get());
+        }
     }
 
     getNotifiers(){
         return {
-            to: new StringNotifier("Hello world!")
+            gizmo: new SelfNotifier(),
+            //to: new StringNotifier("Hello world!")
         }
     }
 

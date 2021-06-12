@@ -269,6 +269,7 @@ class Blueprint extends Gizmo {
             e.stopPropagation();
         })
        // div.append($("<input/>").attr("type","color"))
+        div.gizmo = {field: notifierField}
         return div
     }
 

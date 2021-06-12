@@ -116,7 +116,7 @@ class Gizmo extends HTMLElement {
 
     unhover(event){
        
-       
+        
         if(editor.dragging!=false && editor.dragging!=this){
             this.style.backgroundColor = null;
             if(!this.isPreview)editor.hovered = null;

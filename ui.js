@@ -43,7 +43,9 @@ class UIGizmo extends Gizmo{
     }
    
     getNotifiers(){
+        return {
 
+        }
     }
 
     createBlueprint(){
