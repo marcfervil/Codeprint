@@ -8,13 +8,14 @@ class Gizmo extends HTMLElement {
         
         this.gizmos = []
         this.inited = false;
-        this.id = editor.idNum++;
+        this.id = this.constructor.name+editor.idNum++;
         this.hover();
         this.setParent(null);
         this.hasPreview = false;
         //this.parent=null;
         this.previewRef = null;
         this.onPreviewed = []
+        this.style.display = "block"; 
         if(this.hasChildren()){
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);

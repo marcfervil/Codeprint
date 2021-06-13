@@ -301,7 +301,8 @@ class UIBlueprint extends Blueprint {
     constructor(gizmo){
         super(" "+gizmo.constructor.name+editor.idNum);
         this.gizmo = gizmo;
-       
+        this.uiGizmo = gizmo
+
 
         this.pos(gizmo.pos().x+gizmo.width()-$("#bp").offset().left, gizmo.pos().y-$("#bp").offset().top)
         

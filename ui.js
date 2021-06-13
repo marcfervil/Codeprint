@@ -121,6 +121,7 @@ class ViewGizmo extends UIGizmo{
        
         //if(!this.hasAttribute("isPreview")){
         if(gizmo!=null){
+            
             this.style.width = null;
             this.style.minHeight = "100px";
             //this.style.height = "100%";

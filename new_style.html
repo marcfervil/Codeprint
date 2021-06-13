@@ -57,7 +57,8 @@
     </body>
     
 </html>
-<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="notifier.js"></script>
 <script type="text/javascript" src="editor.js"></script>
@@ -75,58 +76,22 @@ document.isPreview = false;
     initMenu();
 
 
-    $(document).ready(()=>{
-        let defaultView = new ViewGizmo();
-        let defaultText = new TextGizmo();
-
-
-        $("#bp").append(defaultView);
-        defaultView.addGizmo(defaultText)
-        defaultView.addGizmo(new TextBoxGizmo())
-        defaultView.addGizmo(new ButtonGizmo())
+    
+    defaultLayout = null;
+    jQuery.get("recipies/default.json", function(json) {
+        //JSON.parse(json)
+        defaultLayout = JSON.parse(json);
+        //Object.freeze(defaultLayout)
         
-        defaultView.pos(344, 160);
-        //defaultText.createBlueprint();
-        let viewbp = defaultView.createBlueprint();
-        viewbp.pos(822, 116)
-        defaultView.redrag()
-
-        let renderer = new StartGizmo()
-        $("#bp").append(renderer)
-
-        let lst = new ListGizmo();
-        $("#bp").append(lst)
-        lst.pos(1026, 353)
-        lst.redrag()
-
-        renderer.redrag()
-        renderer.pos(1000, 87)
- 
-
-       // setTimeout(()=>{
-            viewbp.hooks[0].hook(renderer.hooks[0])
-      //  },100)
-    })
-   
-    defaultLayout = {}
-   
-    setTimeout(()=>{
-        defaultLayout = serialize();
-       // console.log(JSON.parse(JSON.stringify(defaultLayout)))
-        $("#bp").empty();
-       // setTimeout(()=>{
-            $("#preview").empty();
-       // },100);
-       
-
         load(defaultLayout)
-    },10)
+        
+    });
     
 
 
     function serialize(element="#bp"){
         let data = {}
-        //console.log("odpk")
+
         $(element).contents().each((index, gizmo) => {
             if(! (gizmo instanceof Gizmo))return;
             data[gizmo.id] = {
@@ -158,7 +123,7 @@ document.isPreview = false;
 
  
     function load(data, parent = false){
-        
+        data = JSON.parse(JSON.stringify(data))
         function create(gizmoData, arg){
 
             let gizmo = new (eval(gizmoData.name))(arg)
@@ -199,16 +164,27 @@ document.isPreview = false;
             }
 
         }
-
+       // data = ogData
     }
    
     $(document).keypress((e)=>{
         //console.log(e.key)
         if(e.key=="s"){
-            //console.log(serialize());
+            Cookies.set('layout', JSON.stringify(serialize()));
+            console.log(serialize())
         }
 
-        
+        if(e.key=="l"){
+            editor.idNum=0;
+            $("#bp").empty();
+            $("#preview").empty();
+            console.log(JSON.parse(Cookies.get("layout")))
+            load(JSON.parse(Cookies.get("layout")));
+        }
+
+        if(e.key=="p"){
+            console.log(JSON.stringify(serialize()));
+        }
     })
 
    function preview(){

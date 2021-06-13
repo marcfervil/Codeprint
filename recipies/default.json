@@ -1,0 +1,104 @@
+{
+    "ViewGizmo0":{
+       "name":"ViewGizmo",
+       "pos":{
+          "x":344,
+          "y":170
+       },
+       "hooks":[
+          
+       ],
+       "id":"ViewGizmo0",
+       "children":{
+          "TextGizmo1":{
+             "name":"TextGizmo",
+             "pos":{
+                "x":355,
+                "y":181
+             },
+             "hooks":[
+                
+             ],
+             "id":"TextGizmo1",
+             "children":{
+                
+             }
+          },
+          "TextBoxGizmo2":{
+             "name":"TextBoxGizmo",
+             "pos":{
+                "x":355,
+                "y":203
+             },
+             "hooks":[
+                
+             ],
+             "id":"TextBoxGizmo2",
+             "children":{
+                
+             }
+          },
+          "ButtonGizmo3":{
+             "name":"ButtonGizmo",
+             "pos":{
+                "x":355,
+                "y":234
+             },
+             "hooks":[
+                
+             ],
+             "id":"ButtonGizmo3",
+             "children":{
+                
+             }
+          }
+       }
+    },
+    "UIBlueprint4":{
+       "name":"UIBlueprint",
+       "pos":{
+          "x":822,
+          "y":116
+       },
+       "hooks":[
+          {
+             "blueprintId":"StartGizmo5",
+             "index":0
+          }
+       ],
+       "id":"UIBlueprint4",
+       "children":{
+          
+       },
+       "uiGizmo":"ViewGizmo0"
+    },
+    "StartGizmo5":{
+       "name":"StartGizmo",
+       "pos":{
+          "x":1000,
+          "y":87
+       },
+       "hooks":[
+          null,
+          null
+       ],
+       "id":"StartGizmo5",
+       "children":{
+          
+       }
+    },
+    "ListGizmo6":{
+       "name":"ListGizmo",
+       "pos":{
+          "x":1026,
+          "y":353
+       },
+       "hooks":[
+          null
+       ],
+       "id":"ListGizmo6",
+       "children":{
+          
+       }
+    }
+ }
