@@ -7,6 +7,7 @@ class Notifier{
         this.fieldUpdater = null;
         this.resetUpdater= null
         this.isDeferred = false;
+        this.isRuntime = false; 
         this.linkedNotifer = null;
 
         
@@ -35,12 +36,18 @@ class Notifier{
         
     }
 
+
+
     onUnhooked(){
        // console.log(this.constructor.name+" unhooked!")
        if(this.resetUpdater!=null)this.resetUpdater();
     }
 
     get(){
+        if(this.runtimeNotifier!==undefined){
+            console.log("yooo")
+            return this.runtimeNotifier.get(true)
+        }
         return this.value 
     }
 
@@ -73,6 +80,14 @@ class Notifier{
 
     set(value){
        // value = this.prefix() + value + this.suffix()
+
+        if(value instanceof ReturnNotifier){
+            this.runtimeNotifier = value;
+            //console.log("yuh", this.constructor.name)
+            //return;
+            value = value.get(true);
+        }
+
         this.value = value
         //if(uu!=null)console.log("feopwk")
         //console.log(this.gizmo)
@@ -306,7 +321,7 @@ class StringNotifier extends Notifier{
 
     updateField(value){
         super.updateField(value)
-        this.field.val(value)
+        if(this.field!==undefined)this.field.val(value)
     }
 
     set(value, update){
@@ -324,6 +339,23 @@ class StringNotifier extends Notifier{
 
     
 }
+
+
+
+class ReturnNotifier extends StringNotifier{
+
+    constructor(initValue, exec){
+        super(initValue)
+        this.exec = exec;
+    }
+
+    get(runtime=false){
+        return (!runtime) ? this : this.exec()
+    }
+
+    
+}
+
 
 //action to execution is chaining
 class ActionNotifier extends Notifier{

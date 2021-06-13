@@ -186,6 +186,8 @@ zen-shelf .content{
 .listItemDiv {
     border-top: 1px solid #CED4DA;
     padding-left: 5px;
+    background-color: #e9ecef;
+    color: #6C757D;
 }
 
 .listDiv{
@@ -195,7 +197,7 @@ zen-shelf .content{
     grid-template-columns: 15% 85%;
     grid-template-rows: 100%;
    
-    width: 130px;
+    width: 200px;
     
    align-items: center;
 }

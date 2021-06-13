@@ -35,8 +35,11 @@ function initGizmos(){
     customElements.define('right-now-gizmo', RightNowGizmo);
     customElements.define('text-box-gizmo', TextBoxGizmo);
     customElements.define('if-gizmo', IfGizmo);
-    customElements.define('list-gizmo', ListGizmo);
+    
     customElements.define('typed-gizmo', TypedGizmo);
+
+    customElements.define('list-gizmo', ListGizmo);
+    customElements.define('get-list-item-gizmo', GetListItem);
 
     
     customElements.define('ui-shelf', UIShelf);
@@ -66,6 +69,7 @@ function initMenu(){
         {name: "Show Gizmo", gizmo: RenderGizmo, catagory: "action"},
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
+        {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
     ]
 
     for(let item of menuItems){

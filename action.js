@@ -65,7 +65,6 @@ class LogGizmo extends ActionGizmo{
 
     constructor(){
         super("Log")
-        
     }
 
     onExec(){
