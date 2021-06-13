@@ -10,10 +10,12 @@ editor = {
         y: 0
     },
     resetHover: () => {
+
+        if(editor.hovered!=null){
         editor.hovered.unhover()
         editor.hovered = null;
         editor.dragging = false;
-        
+        }
     }
 }
 

@@ -43,10 +43,10 @@ class Notifier{
        if(this.resetUpdater!=null)this.resetUpdater();
     }
 
-    get(){
+    get(runtime=false){
         if(this.runtimeNotifier!==undefined){
-            console.log("yooo",  this.runtimeNotifier.get(true))
-            return this.runtimeNotifier.get(true)
+            //console.log("yooo",  this.runtimeNotifier.get(true))
+            return this.runtimeNotifier.get(runtime)
         }
         return this.value 
     }
@@ -85,7 +85,7 @@ class Notifier{
             this.runtimeNotifier = value;
             //console.log("yuh", this.constructor.name)
             //return;
-            value = value.get(true);
+          //  value = value.get(true);
             this.value = "<Logic>"
            
         }

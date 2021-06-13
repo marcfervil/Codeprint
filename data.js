@@ -129,7 +129,7 @@ class GetListItem extends FunctionGizmo{
 
   
     func(list, index){
-       // console.log("here?", list.items[index])
+       // console.log("here?", list.items[index]) 
         return list.items[index];
 
     }
@@ -151,8 +151,13 @@ class Clone extends FunctionGizmo{
 
   
     func(gizmo){
-        
-        return gizmo.cloneNode(true);
+        //console.log(gizmo)
+        let clone = gizmo.cloneNode(true);
+
+        gizmo.parent.addGizmo(clone)
+
+        return clone;
+        //
 
     }
 

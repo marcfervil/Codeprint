@@ -20,6 +20,13 @@ class Gizmo extends HTMLElement {
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);
         }
+
+        $(this).click((e)=>{
+            
+            if(e.shiftKey){
+                $(this).remove();
+            }
+        });
     }
 
     width(){

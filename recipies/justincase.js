@@ -1,5 +1,5 @@
 
-    $(document).ready(()=>{
+    function makeDefault(){
         let defaultView = new ViewGizmo();
         let defaultText = new TextGizmo();
 
@@ -30,5 +30,5 @@
        // setTimeout(()=>{
             viewbp.hooks[0].hook(renderer.hooks[0])
       //  },100)
-    })
+    }
    

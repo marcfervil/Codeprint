@@ -59,6 +59,7 @@
 </html>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@rc/dist/js.cookie.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js" crossorigin="anonymous"></script>
+<script type="text/javascript" src="recipies/justincase.js"></script>
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="notifier.js"></script>
 <script type="text/javascript" src="editor.js"></script>
@@ -83,8 +84,8 @@ document.isPreview = false;
         defaultLayout = JSON.parse(json);
         //Object.freeze(defaultLayout)
         
-        load(defaultLayout)
-        
+       // load(defaultLayout)
+        makeDefault();
     });
     
 
@@ -104,15 +105,21 @@ document.isPreview = false;
             if(gizmo instanceof Blueprint){
                 if(gizmo.uiGizmo !== undefined)data[gizmo.id].uiGizmo = gizmo.uiGizmo.id
                 for(let hook of gizmo.hooks){
-                    let hookOutput = null
+                    //let hookOutput = null
+
+                    
                     
                     for(let output of hook.outputs){
-                        if(hookOutput==null)hookOutput = {};
+                        
+                        hookOutput = {};
                         hookOutput.blueprintId = output.hook.parent.id;
                         hookOutput.index = output.hook.index;
+                        hookOutput.myIndex = hook.index;
+
+                        data[gizmo.id].hooks.push(hookOutput)
                     }
 
-                    data[gizmo.id].hooks.push(hookOutput)
+                   //data[gizmo.id].hooks.push(hookOutput)
                 }
             }
         });
@@ -133,7 +140,7 @@ document.isPreview = false;
             for(let hookIndex in gizmoData.hooks){
                 let hookData = gizmoData.hooks[hookIndex];
                 if(hookData!=null){
-                    let hookOutput = gizmo.hooks[hookIndex];
+                    let hookOutput = gizmo.hooks[hookData.myIndex];
                     let hookInput = get(hookData.blueprintId).hooks[hookData.index];
                     hookOutput.hook(hookInput);
                 }
@@ -169,21 +176,27 @@ document.isPreview = false;
    
     $(document).keypress((e)=>{
         //console.log(e.key)
-        if(e.key=="s"){
-            Cookies.set('layout', JSON.stringify(serialize()));
-            console.log(serialize())
+        if(e.metaKey && e.key=="p"){
+            e.preventDefault();
+            console.log(JSON.stringify(serialize()));
+            console.log(serialize());
+           // console.log(serialize())
         }
-
-        if(e.key=="l"){
+        
+        if(e.metaKey && e.key=="Enter"){
+            e.preventDefault();
+            e.stopPropagation();
             editor.idNum=0;
             $("#bp").empty();
             $("#preview").empty();
-            console.log(JSON.parse(Cookies.get("layout")))
+            console.log(JSON.parse(Cookies.get("layout")));
             load(JSON.parse(Cookies.get("layout")));
         }
 
-        if(e.key=="p"){
-            console.log(JSON.stringify(serialize()));
+        if(e.metaKey && e.key=="s"){
+            e.preventDefault();
+            Cookies.set('layout', JSON.stringify(serialize()));
+            console.log("saved!")
         }
     })
 

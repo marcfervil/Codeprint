@@ -63,7 +63,8 @@
        "hooks":[
           {
              "blueprintId":"StartGizmo5",
-             "index":0
+             "index":0,
+             "myIndex":0
           }
        ],
        "id":"UIBlueprint4",
@@ -79,8 +80,7 @@
           "y":87
        },
        "hooks":[
-          null,
-          null
+          
        ],
        "id":"StartGizmo5",
        "children":{
@@ -94,7 +94,7 @@
           "y":353
        },
        "hooks":[
-          null
+          
        ],
        "id":"ListGizmo6",
        "children":{
