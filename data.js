@@ -84,11 +84,11 @@ class FunctionGizmo extends Blueprint {
             return this.func(...args)
         }
 
-        this.execNotifier = new ExecutionNotifier(this.exec);
+       // this.execNotifier = new ExecutionNotifier(this.exec);
         
-        this.execHook = this.getHook(this.execNotifier, "input");
+       // this.execHook = this.getHook(this.execNotifier, "input");
 
-        this.heading.prepend(this.execHook)
+        //this.heading.prepend(this.execHook)
         //this.exec.bind(this);
 
         this.outputNotifier = new ReturnNotifier("", this.exec);
@@ -153,7 +153,7 @@ class Clone extends FunctionGizmo{
     func(gizmo){
         //console.log(gizmo)
         let clone = gizmo.cloneNode(true);
-
+        //clone.style.opacity = 0.5;
         gizmo.parent.addGizmo(clone)
 
         return clone;

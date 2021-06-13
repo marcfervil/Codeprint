@@ -148,7 +148,10 @@ document.isPreview = false;
             gizmo.redrag();
             
             load(gizmoData.children, gizmo);
-
+            setTimeout(()=>{
+                $(gizmo).trigger("repaint")
+            },0)
+          
             delete data[gizmoData.id];
             return gizmo;
         }
