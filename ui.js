@@ -51,6 +51,7 @@ class UIGizmo extends Gizmo{
     createBlueprint(){
         let blueprint = createGizmo(UIBlueprint, this);
         blueprint.redrag()
+        blueprint.uiGizmo = this
         return blueprint
     }
 

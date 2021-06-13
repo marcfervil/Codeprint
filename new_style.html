@@ -77,53 +77,149 @@ document.isPreview = false;
 
     $(document).ready(()=>{
         let defaultView = new ViewGizmo();
-    let defaultText = new TextGizmo();
+        let defaultText = new TextGizmo();
 
 
-    $("#bp").append(defaultView);
-    defaultView.addGizmo(defaultText)
-    defaultView.addGizmo(new TextBoxGizmo())
-    defaultView.addGizmo(new ButtonGizmo())
-    
-    defaultView.pos(344, 160);
-    //defaultText.createBlueprint();
-    let viewbp = defaultView.createBlueprint();
-    viewbp.pos(822, 116)
-    defaultView.redrag()
+        $("#bp").append(defaultView);
+        defaultView.addGizmo(defaultText)
+        defaultView.addGizmo(new TextBoxGizmo())
+        defaultView.addGizmo(new ButtonGizmo())
+        
+        defaultView.pos(344, 160);
+        //defaultText.createBlueprint();
+        let viewbp = defaultView.createBlueprint();
+        viewbp.pos(822, 116)
+        defaultView.redrag()
 
-    let renderer = new StartGizmo()
-    $("#bp").append(renderer)
+        let renderer = new StartGizmo()
+        $("#bp").append(renderer)
 
-    let lst = new ListGizmo();
-    $("#bp").append(lst)
-    lst.pos(1026, 353)
-    lst.redrag()
+        let lst = new ListGizmo();
+        $("#bp").append(lst)
+        lst.pos(1026, 353)
+        lst.redrag()
 
-    renderer.redrag()
-    renderer.pos(1000, 87)
+        renderer.redrag()
+        renderer.pos(1000, 87)
+ 
 
-
-        setTimeout(()=>{
+       // setTimeout(()=>{
             viewbp.hooks[0].hook(renderer.hooks[0])
-        },100)
+      //  },100)
     })
    
+    defaultLayout = {}
    
+    setTimeout(()=>{
+        defaultLayout = serialize();
+       // console.log(JSON.parse(JSON.stringify(defaultLayout)))
+        $("#bp").empty();
+       // setTimeout(()=>{
+            $("#preview").empty();
+       // },100);
+       
+
+        load(defaultLayout)
+    },10)
+    
+
+
+    function serialize(element="#bp"){
+        let data = {}
+        //console.log("odpk")
+        $(element).contents().each((index, gizmo) => {
+            if(! (gizmo instanceof Gizmo))return;
+            data[gizmo.id] = {
+                name: gizmo.constructor.name,
+                pos: gizmo.pos(),
+                hooks: [],
+                id: gizmo.id,
+                children: serialize(gizmo)
+            }
+            if(gizmo instanceof Blueprint){
+                if(gizmo.uiGizmo !== undefined)data[gizmo.id].uiGizmo = gizmo.uiGizmo.id
+                for(let hook of gizmo.hooks){
+                    let hookOutput = null
+                    
+                    for(let output of hook.outputs){
+                        if(hookOutput==null)hookOutput = {};
+                        hookOutput.blueprintId = output.hook.parent.id;
+                        hookOutput.index = output.hook.index;
+                    }
+
+                    data[gizmo.id].hooks.push(hookOutput)
+                }
+            }
+        });
+        return data;
+    }
+    
+    
+
+ 
+    function load(data, parent = false){
+        
+        function create(gizmoData, arg){
+
+            let gizmo = new (eval(gizmoData.name))(arg)
+            gizmo.pos(gizmoData.pos.x, gizmoData.pos.y);
+            gizmo.id = gizmoData.id;
+
+            for(let hookIndex in gizmoData.hooks){
+                let hookData = gizmoData.hooks[hookIndex];
+                if(hookData!=null){
+                    let hookOutput = gizmo.hooks[hookIndex];
+                    let hookInput = get(hookData.blueprintId).hooks[hookData.index];
+                    hookOutput.hook(hookInput);
+                }
+            }
+            gizmo.redrag();
+            
+            load(gizmoData.children, gizmo);
+
+            delete data[gizmoData.id];
+            return gizmo;
+        }
+
+        function get(id){
+            return (id in data) ? create(data[id]) : $("#"+id)[0]
+        }
+        
+        for(let gizmoId in data){
+            let gizmoData = data[gizmoId];
+            let gizmo = null;
+            if(gizmoData.name == "UIBlueprint"){
+                gizmo = create(gizmoData, get(gizmoData.uiGizmo));
+            }else{
+                gizmo = create(gizmoData);
+            }
+
+            if(parent != false){
+                parent.addGizmo(gizmo);
+            }
+
+        }
+
+    }
+   
+    $(document).keypress((e)=>{
+        //console.log(e.key)
+        if(e.key=="s"){
+            //console.log(serialize());
+        }
+
+        
+    })
 
    function preview(){
         let newWindow  = window.open("preview.html", null, "height=400,width=500,status=yes,toolbar=no,menubar=no,location=no");  
-       // let c = $("<div/>");
-       //newWindow.document.write('html to write...'); 
-       
-       document.isPreview = true;
-        //console.log(newWindow.document.body.isPreview);
-        newWindow.customElements = customElements;
-    
 
-        //x = newWindow.document.createElement("div")
-       // console.log(document.getElementById("preview").firstChild)
+       document.isPreview = true;
+
+        newWindow.customElements = customElements;
+
         let rootGizmo = document.getElementById("preview").firstChild//.cloneNode(true);
-        //newWindow.document.body.appendChild(rootGizmo)
+
         
         $(rootGizmo).css({
             width: "100%",
@@ -137,24 +233,14 @@ document.isPreview = false;
                 }
             },100)
         };
-
-        //newWindow
-        //newWindow.document.body.appendChild(new TextGizmo())
         document.isPreview = false;
 
         setTimeout(()=>{
             newWindow.document.body.innerHTML = '';
             newWindow.document.body.appendChild(rootGizmo)
-    // Your code to run since DOM is loaded and ready
-        
+
     },1000)
-           
-        //
-       // newWindow.document.body.innerText += "owkf";
-       
-    //    newWindow.document.write("fpewkpk")
-    //    newWindow.document.write(" hiii")
-      //  c.append($("#preview"));
+
    }
     
 </script>

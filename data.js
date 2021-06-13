@@ -152,7 +152,7 @@ class Clone extends FunctionGizmo{
   
     func(gizmo){
         
-        return list.items[index];
+        return gizmo.cloneNode(true);
 
     }
 

@@ -45,7 +45,7 @@ class Notifier{
 
     get(){
         if(this.runtimeNotifier!==undefined){
-            console.log("yooo")
+            console.log("yooo",  this.runtimeNotifier.get(true))
             return this.runtimeNotifier.get(true)
         }
         return this.value 
@@ -86,6 +86,8 @@ class Notifier{
             //console.log("yuh", this.constructor.name)
             //return;
             value = value.get(true);
+            this.value = "<Logic>"
+           
         }
 
         this.value = value

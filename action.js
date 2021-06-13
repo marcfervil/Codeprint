@@ -86,14 +86,17 @@ class RenderGizmo extends ActionGizmo{
     constructor(){
         super("Show Gizmo")
         this.notifiers.to.onUpdate((result)=>{
+           
             this.to = result
         })
         this.notifiers.what.onUpdate((result)=>{
+            //console.log("wooow",this.what)
             this.what = result
         })
     }
 
     onExec(){
+        console.log(this.what)
         let what = this.what.getPreview(false)
         //console.log(this);
        // what.setParent(this);

@@ -39,6 +39,7 @@ function initGizmos(){
     customElements.define('typed-gizmo', TypedGizmo);
 
     customElements.define('list-gizmo', ListGizmo);
+    customElements.define('clone-gizmo', Clone);
     customElements.define('get-list-item-gizmo', GetListItem);
 
     

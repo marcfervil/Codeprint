@@ -36,7 +36,9 @@ class Blueprint extends Gizmo {
         });
         hook.inputs = []
         hook.outputs = [];
+        hook.parent = this;
         hook.notifier = notifier
+        hook.index = this.hooks.length;
         
         hook.attr("type", notifier.constructor.name)
         
