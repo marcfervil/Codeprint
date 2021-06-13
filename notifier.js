@@ -329,7 +329,7 @@ class StringNotifier extends Notifier{
        
         //console.log(this.field)
         //this.field.t
-        if(update){
+        if(update || value instanceof ReturnNotifier){
             super.set(value)
             
         }
@@ -350,6 +350,8 @@ class ReturnNotifier extends StringNotifier{
     }
 
     get(runtime=false){
+        //console.log(this.exec)
+       if(runtime) console.log("exec result: ",this.exec)
         return (!runtime) ? this : this.exec()
     }
 

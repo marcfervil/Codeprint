@@ -70,6 +70,7 @@ function initMenu(){
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
         {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
+        {name: "Clone", gizmo: Clone, catagory: "data"},
     ]
 
     for(let item of menuItems){

@@ -80,7 +80,8 @@ class FunctionGizmo extends Blueprint {
             for(let param of params){
                 args.push(this.notifiers[param].get())
             }
-            this.outputNotifier.set(this.func(...args))
+           // this.outputNotifier.set(this.func(...args))
+            return this.func(...args)
         }
 
         this.execNotifier = new ExecutionNotifier(this.exec);
@@ -128,7 +129,29 @@ class GetListItem extends FunctionGizmo{
 
   
     func(list, index){
-        console.log(list.items[index])
+       // console.log("here?", list.items[index])
+        return list.items[index];
+
+    }
+
+    
+
+}
+
+
+
+class Clone extends FunctionGizmo{
+    
+    constructor(){
+        super("Clone", null, {
+            gizmo: SelfNotifier
+        })
+
+    }
+
+  
+    func(gizmo){
+        
         return list.items[index];
 
     }
