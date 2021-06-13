@@ -31,6 +31,8 @@
                 <zen-shelf id="event-menu-drawer" text="Events"></zen-shelf>
                
                 <zen-shelf id="action-menu-drawer" text="Actions"></zen-shelf>
+
+                <zen-shelf id="data-menu-drawer" text="Data"></zen-shelf>
                 
 
                 
@@ -59,8 +61,10 @@
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="notifier.js"></script>
 <script type="text/javascript" src="editor.js"></script>
+
 <script type="text/javascript" src="gizmos.js"></script>
 <script type="text/javascript" src="blueprint.js"></script>
+<script type="text/javascript" src="data.js"></script>
 <script type="text/javascript" src="action.js"></script>
 <script type="text/javascript" src="event.js"></script>
 <script type="text/javascript" src="ui.js"></script>
@@ -71,8 +75,8 @@ document.isPreview = false;
     initMenu();
 
 
-
-    let defaultView = new ViewGizmo();
+    $(document).ready(()=>{
+        let defaultView = new ViewGizmo();
     let defaultText = new TextGizmo();
 
 
@@ -80,6 +84,7 @@ document.isPreview = false;
     defaultView.addGizmo(defaultText)
     defaultView.addGizmo(new TextBoxGizmo())
     defaultView.addGizmo(new ButtonGizmo())
+    
     defaultView.pos(344, 160);
     //defaultText.createBlueprint();
     let viewbp = defaultView.createBlueprint();
@@ -89,14 +94,20 @@ document.isPreview = false;
     let renderer = new StartGizmo()
     $("#bp").append(renderer)
 
-   
+    let lst = new ListGizmo();
+    $("#bp").append(lst)
+    lst.pos(1026, 353)
+    lst.redrag()
 
     renderer.redrag()
     renderer.pos(1000, 87)
 
 
- 
-   viewbp.hooks[0].hook(renderer.hooks[0])
+        setTimeout(()=>{
+            viewbp.hooks[0].hook(renderer.hooks[0])
+        },100)
+    })
+   
    
 
    function preview(){

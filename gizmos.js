@@ -223,11 +223,11 @@ class Gizmo extends HTMLElement {
         document.body.style.cursor = "pointer"
         editor.dragging = this;
         this.style.position = position;
-        //this.style.zIndex=5;
+       // this.style.zIndex=5;
         this.style.pointerEvents = "none"
         this.setParent(null);
         let offset = null;
-       
+        
         $(document).mousemove((event)=>{
             if(offset==null){
                 //this.pos(event.clientX-$("#bp").offset().left, event.clientY-$("#bp").offset().top)

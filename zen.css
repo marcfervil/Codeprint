@@ -71,7 +71,7 @@ body{
 
 svg{
     position: relative;
-    z-index: 1;
+    z-index: 2;
     
   }
 
@@ -167,7 +167,7 @@ zen-shelf .content{
     width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
-    font-size: .9em;
+    font-size: .9em; 
 }
 
 .blueprint input, .blueprint select{
@@ -181,6 +181,49 @@ zen-shelf .content{
     width: 130px;
     margin-left: 10px;
     float: right;
+}
+
+.listItemDiv {
+    border-top: 1px solid #CED4DA;
+    padding-left: 5px;
+}
+
+.listDiv{
+    border-top: 1px solid #CED4DA;
+    background-color: #F8F9FA ;
+    display: inline-grid ;
+    grid-template-columns: 15% 85%;
+    grid-template-rows: 100%;
+   
+    width: 130px;
+    
+   align-items: center;
+}
+
+.listDiv i{
+    color: #6C757D;
+    height: 100%;
+    font-size: 15px;
+    opacity: 0.7;
+}
+
+.listDiv span{
+    text-align: center;
+    font-weight: lighter;
+}
+
+.listInput {
+    
+    border-bottom: none !important;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 17px;
+    background-color: #F8F9FA !important;
+    
+    
+    padding: 2px !important;
+    padding-left: 5px;
+    margin: 0 !important;
+    width: auto !important;
 }
 
 .preview{
@@ -205,7 +248,7 @@ zen-shelf .content{
     background-color: #fff;
     background-size: 50px 50px;
 
-    z-index: 0;
+    /*z-index: 0;*/
     background-image:
       linear-gradient(to right, #DEE2E6 1px, transparent 1px),
       linear-gradient(to bottom, #DEE2E6 1px, transparent 1px);

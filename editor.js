@@ -35,10 +35,12 @@ function initGizmos(){
     customElements.define('right-now-gizmo', RightNowGizmo);
     customElements.define('text-box-gizmo', TextBoxGizmo);
     customElements.define('if-gizmo', IfGizmo);
+    customElements.define('list-gizmo', ListGizmo);
     customElements.define('typed-gizmo', TypedGizmo);
 
     
     customElements.define('ui-shelf', UIShelf);
+    
     customElements.define('zen-shelf', ZenShelf);
     
 }
@@ -63,6 +65,7 @@ function initMenu(){
         {name: "Change Value", gizmo: ChangeValue, catagory: "action"},
         {name: "Show Gizmo", gizmo: RenderGizmo, catagory: "action"},
        
+        {name: "List", gizmo: ListGizmo, catagory: "data"},
     ]
 
     for(let item of menuItems){
@@ -196,7 +199,7 @@ document.addEventListener("wheel",(e)=> {
         
         this.contents.css("padding-left", "30px").addClass("content")
 
-        this.symbol = $("<span/>").addClass("fas fa-chevron-right").css({"paddingRight": "5px", "fontSize":".8em"})
+        this.symbol = $("<i/>").addClass("fas fa-chevron-right").css({"paddingRight": "5px", "fontSize":".8em"})
         this.symbol.css("paddingRight","5px")
         
 
