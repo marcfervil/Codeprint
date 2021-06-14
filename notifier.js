@@ -55,7 +55,7 @@ class Notifier{
 
     updateFieldUI(data){
         if(data instanceof ReturnNotifier) {
-            console.log("eopwfkp")
+            //console.log("eopwfkp")
             data = this.value.exec()
         }
         this.updateField(data)
@@ -63,7 +63,7 @@ class Notifier{
 
     updateField(data){
        
-        console.log(data,)
+        
         if(data instanceof ReturnNotifier) data = data.exec();
         if(this.fieldUpdater!=null)this.fieldUpdater(data)
         //console.log("linked", this.linkedNotifer)
@@ -133,7 +133,7 @@ class SelfNotifier extends Notifier{
     updateField(value){
         super.updateField(value)
         if(this.field != undefined){
-            if(value!=null && value!=undefined ){
+            if(value!=null && value!=undefined  && value!=""){
                 
                 this.field.text(value.constructor.name)
                 this.field.removeClass("italic")
@@ -359,36 +359,39 @@ class StringNotifier extends Notifier{
         //
     }
 
-    
+    superSet(value){
+        
+        super.set(value)
+    }
 }
 
 
 
 class ReturnNotifier extends StringNotifier{
 
-    constructor(initValue, exec){
-        super(initValue)
+    constructor( exec){
+        super(null,exec)
         this.exec = exec;
         this.val = null
         //this.isDeferred = true;
     }
 
+ 
     get(){
-        //console.log(this.exec)
-      // if(runtime) console.log("exec result: ",this.exec)
-       // return (!runtime) ? this : this.exec()
-
-       /*
-        let proxyProps = {
-            get: function(target, prop, receiver) {
-                return this.exec();
-            }
-        };
-      
-        let proxy = new Proxy(this, proxyProps);
-        return proxy  */
-      
+       
         return this;
+    }
+
+    set(value, update){
+        super.set(value, update);
+        //super.superSet(value);
+        //super.super.set(this.value)
+        for(let uiHook of this.outputHook.outputs){
+
+           // uiHook.hook.notifier.set(value);
+            uiHook.hook.notifier.updateFieldUI(value)
+            console.log(uiHook)
+        }
     }
 
     

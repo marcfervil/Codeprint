@@ -74,17 +74,20 @@ class FunctionGizmo extends Blueprint {
         }
 
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
-            notifier.isDeferred = true;
+            //notifier.isDeferred = true;
             notifier.onUpdate((result)=>{
                 //console.log("foewk")
-                if(result!==undefined && result!==null){
+                if(result!==undefined && result!==null ){
                     this.hookResults[key] = result;
-                    console.log(Object.keys(this.hookResults).length,"vs",Object.keys(this.notifiers).length)
+                    //console.log(Object.keys(this.hookResults).length,"vs",Object.keys(this.notifiers).length)
 
                     if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
                         //console.log("ofpwke")
+                        if(this.ready && result=="" && notifier instanceof SelfNotifier){
+                            this.outputNotifier.set(this.outputNotifier);
+                        }
                         this.onReady();
-                        
+                        //if()
                     }
                 }
                 
@@ -109,7 +112,7 @@ class FunctionGizmo extends Blueprint {
 
     
 
-        this.outputNotifier = new ReturnNotifier("", this.exec);
+        this.outputNotifier = new ReturnNotifier( this.exec);
 
 
 
@@ -118,6 +121,10 @@ class FunctionGizmo extends Blueprint {
        // this.outputNotifier.isDeferred = true;
 
         this.outputHook = this.getHook(this.outputNotifier, "output");
+        //console.log(this.outputHook)
+   
+        this.outputHook.notifier.setHooks(null, this.outputHook)
+        //console.log(this.outputHook.outputHook)
         this.heading.append(this.outputHook.css({
             "float": "right",
             "margin": "5px",
@@ -135,7 +142,15 @@ class FunctionGizmo extends Blueprint {
     }
 
     onReady(){
+        console.log("IM READY")
         this.ready = true
+        //console.log("EXEC", this.outputNotifier.exec())
+      //  setTimeout(()=>{
+        console.log("EXEC", this.outputNotifier.exec())
+        this.outputNotifier.set(this.outputNotifier);
+       // },100)
+        
+        //this.outputNotifier.set("dopskop");
     }
 
 }
@@ -152,8 +167,8 @@ class GetListItem extends FunctionGizmo{
   
     func(list, index){
        // console.log("here?", list.items[index]) 
-        //return list.items[index];
-        return "works...!"
+        return list.items[index];
+        //return "works...!"
     }
 
     
@@ -173,7 +188,7 @@ class Clone extends FunctionGizmo{
 
   
     func(gizmo){
-        console.log(gizmo)
+        //console.log(gizmo)
         let clone = gizmo.cloneNode(true);
         //clone.style.opacity = 0.5;
         //gizmo.parent.addGizmo(clone)

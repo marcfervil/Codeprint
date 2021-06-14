@@ -131,7 +131,7 @@ class Blueprint extends Gizmo {
                     //console.log("INSTANCEs", retu)
                     if(returnNoteResult==null)return;
                 }
-                console.log("HOOK RESULT",(hookResult instanceof ReturnNotifier)? returnNoteResult: hookResult)
+                //console.log("HOOK RESULT",(hookResult instanceof ReturnNotifier)? returnNoteResult: hookResult)
                // cc = 
                 input.notifier.set(hookResult)
 
@@ -272,7 +272,7 @@ class Blueprint extends Gizmo {
         //output.css("float","right")
         if(notifier.hasInput())div.append(input)
         if(showKey)div.append("  "+key+": ")
-
+        //console.log(output)
         notifier.setHooks(input, output);
         notifier.setField(notifierField)
         div.append(notifierField);
