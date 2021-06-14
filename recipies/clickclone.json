@@ -1,0 +1,183 @@
+{
+    "ViewGizmo0":{
+       "name":"ViewGizmo",
+       "pos":{
+          "x":271,
+          "y":125
+       },
+       "hooks":[
+          
+       ],
+       "id":"ViewGizmo0",
+       "children":{
+          "TextGizmo1":{
+             "name":"TextGizmo",
+             "pos":{
+                "x":282,
+                "y":136
+             },
+             "hooks":[
+                
+             ],
+             "id":"TextGizmo1",
+             "children":{
+                
+             }
+          },
+          "TextBoxGizmo2":{
+             "name":"TextBoxGizmo",
+             "pos":{
+                "x":282,
+                "y":158
+             },
+             "hooks":[
+                
+             ],
+             "id":"TextBoxGizmo2",
+             "children":{
+                
+             }
+          },
+          "ButtonGizmo3":{
+             "name":"ButtonGizmo",
+             "pos":{
+                "x":282,
+                "y":189
+             },
+             "hooks":[
+                
+             ],
+             "id":"ButtonGizmo3",
+             "children":{
+                
+             }
+          }
+       }
+    },
+    "UIBlueprint4":{
+       "name":"UIBlueprint",
+       "pos":{
+          "x":954,
+          "y":425
+       },
+       "hooks":[
+          {
+             "blueprintId":"StartGizmo5",
+             "index":0,
+             "myIndex":0
+          },
+          {
+             "blueprintId":"RenderGizmo11",
+             "index":2,
+             "myIndex":0
+          }
+       ],
+       "id":"UIBlueprint4",
+       "children":{
+          
+       },
+       "uiGizmo":"ViewGizmo0"
+    },
+    "StartGizmo5":{
+       "name":"StartGizmo",
+       "pos":{
+          "x":1161,
+          "y":430
+       },
+       "hooks":[
+          
+       ],
+       "id":"StartGizmo5",
+       "children":{
+          
+       }
+    },
+    "RenderGizmo11":{
+       "name":"RenderGizmo",
+       "pos":{
+          "x":1153,
+          "y":287
+       },
+       "hooks":[
+          
+       ],
+       "id":"RenderGizmo11",
+       "children":{
+          
+       }
+    },
+    "Clone12":{
+       "name":"Clone",
+       "pos":{
+          "x":923,
+          "y":314
+       },
+       "hooks":[
+          {
+             "blueprintId":"RenderGizmo11",
+             "index":0,
+             "myIndex":2
+          }
+       ],
+       "id":"Clone12",
+       "children":{
+          
+       }
+    },
+    "UIBlueprint13":{
+       "name":"UIBlueprint",
+       "pos":{
+          "x":656,
+          "y":193
+       },
+       "hooks":[
+          {
+             "blueprintId":"ClickGizmo14",
+             "index":0,
+             "myIndex":18
+          }
+       ],
+       "id":"UIBlueprint13",
+       "children":{
+          
+       },
+       "uiGizmo":"ButtonGizmo3"
+    },
+    "ClickGizmo14":{
+       "name":"ClickGizmo",
+       "pos":{
+          "x":924,
+          "y":184
+       },
+       "hooks":[
+          {
+             "blueprintId":"RenderGizmo11",
+             "index":4,
+             "myIndex":3
+          }
+       ],
+       "id":"ClickGizmo14",
+       "children":{
+          
+       }
+    },
+    "UIBlueprint14":{
+       "name":"UIBlueprint",
+       "pos":{
+          "x":662,
+          "y":333
+       },
+       "hooks":[
+          {
+             "blueprintId":"Clone12",
+             "index":0,
+             "myIndex":2
+          }
+       ],
+       "id":"UIBlueprint14",
+       "children":{
+          
+       },
+       "uiGizmo":"TextGizmo1"
+    }
+ }

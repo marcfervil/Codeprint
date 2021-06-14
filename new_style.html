@@ -76,8 +76,11 @@ document.isPreview = false;
     initGizmos();
     initMenu();
 
+    //new TextGizmo();
 
-    
+   
+
+
     defaultLayout = null;
     jQuery.get("recipies/default.json", function(json) {
         //JSON.parse(json)
@@ -127,12 +130,11 @@ document.isPreview = false;
     }
     
     
-
  
     function load(data, parent = false){
         data = JSON.parse(JSON.stringify(data))
         function create(gizmoData, arg){
-
+           // console.log(gizmoData.name, arg)
             let gizmo = new (eval(gizmoData.name))(arg)
             gizmo.pos(gizmoData.pos.x, gizmoData.pos.y);
             gizmo.id = gizmoData.id;
@@ -146,7 +148,7 @@ document.isPreview = false;
                 }
             }
             gizmo.redrag();
-            
+            $("#bp").append(gizmo)
             load(gizmoData.children, gizmo);
             setTimeout(()=>{
                 $(gizmo).trigger("repaint")

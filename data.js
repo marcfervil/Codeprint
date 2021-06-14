@@ -64,7 +64,9 @@ class FunctionGizmo extends Blueprint {
         func = this.func;
 
         this.notifiers = { }
-        
+        this.hookResults = {}
+        this.ready = false
+
         let params = getParamNames(this.func);
         for(let param of params){
             let notifierType = (noteifierTypes[param] !== undefined) ? noteifierTypes[param] : StringNotifier;  
@@ -73,23 +75,39 @@ class FunctionGizmo extends Blueprint {
 
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.isDeferred = true;
+            notifier.onUpdate((result)=>{
+                //console.log("foewk")
+                if(result!==undefined && result!==null){
+                    this.hookResults[key] = result;
+                    console.log(Object.keys(this.hookResults).length,"vs",Object.keys(this.notifiers).length)
+
+                    if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
+                        //console.log("ofpwke")
+                        this.onReady();
+                        
+                    }
+                }
+                
+            });
         });
 
         this.exec = () => {
+            if(!this.ready){
+                console.log("NOT READY")
+                return null
+            }
             let args = []
             for(let param of params){
-                args.push(this.notifiers[param].get())
+                let note = this.notifiers[param]
+                
+            
+                args.push(note.get())
             }
-           // this.outputNotifier.set(this.func(...args))
+            
             return this.func(...args)
         }
 
-       // this.execNotifier = new ExecutionNotifier(this.exec);
-        
-       // this.execHook = this.getHook(this.execNotifier, "input");
-
-        //this.heading.prepend(this.execHook)
-        //this.exec.bind(this);
+    
 
         this.outputNotifier = new ReturnNotifier("", this.exec);
 
@@ -116,13 +134,17 @@ class FunctionGizmo extends Blueprint {
 
     }
 
+    onReady(){
+        this.ready = true
+    }
+
 }
 
 class GetListItem extends FunctionGizmo{
     
     constructor(){
         super("Get List Item", null, {
-            list: SelfNotifier
+            list: SelfNotifier,
         })
 
     }
@@ -130,8 +152,8 @@ class GetListItem extends FunctionGizmo{
   
     func(list, index){
        // console.log("here?", list.items[index]) 
-        return list.items[index];
-
+        //return list.items[index];
+        return "works...!"
     }
 
     
@@ -151,10 +173,10 @@ class Clone extends FunctionGizmo{
 
   
     func(gizmo){
-        //console.log(gizmo)
+        console.log(gizmo)
         let clone = gizmo.cloneNode(true);
         //clone.style.opacity = 0.5;
-        gizmo.parent.addGizmo(clone)
+        //gizmo.parent.addGizmo(clone)
 
         return clone;
         //

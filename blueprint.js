@@ -113,21 +113,38 @@ class Blueprint extends Gizmo {
             hook.outputs.push({hook: input, path: path})
             input.inputs.push(hook);
             
+
+           
+            
+            input.css("backgroundColor", "white")
+            hook.trigger("repaint.hook")
             if(!(hook.notifier.isDeferred)){
+              //  console.log(hook.notifier);
                 //console.log(hook.notifier)
-                input.notifier.set(hook.notifier.get())
-                input.notifier.updateField(hook.notifier.get())
+                let hookResult = hook.notifier.get()
+                //if() hookResult = hookResult.exec()
+                //console.log(hookResult)
+                let returnNoteResult = null;
+                if(hookResult instanceof ReturnNotifier) {
+                    
+                    returnNoteResult = hookResult.exec()
+                    //console.log("INSTANCEs", retu)
+                    if(returnNoteResult==null)return;
+                }
+                console.log("HOOK RESULT",(hookResult instanceof ReturnNotifier)? returnNoteResult: hookResult)
+               // cc = 
+                input.notifier.set(hookResult)
+
+                input.notifier.updateFieldUI((hookResult instanceof ReturnNotifier)? returnNoteResult: hookResult )
                 if(hook.notifier.fieldUpdater != null){
                     //console.log("powk")
-                    hook.notifier.fieldUpdater(input.notifier.get())
+                    //hook.notifier.fieldUpdater(input.notifier.get())
+                    hook.notifier.updateFieldUI(input.notifier.get())
                 }
       
                 hook.notifier.set(input.notifier.get())
             }
-
-            hook.trigger("repaint.hook")
             
-            input.css("backgroundColor", "white")
         }
 
         hook.append(svg);

@@ -155,10 +155,10 @@ class Gizmo extends HTMLElement {
                
             }
             if(document.isPreview == false || document.isPreview===undefined){
-                $("#bp").append(this)
+                //$("#bp").append(this)
             }else{
                 
-                console.log("we found it",document.isPreview)
+              //  console.log("we found it",document.isPreview)
             }
             
             this.style.position = "absolute"
@@ -235,7 +235,7 @@ class Gizmo extends HTMLElement {
         this.style.pointerEvents = "none"
         this.setParent(null);
         let offset = null;
-        
+        //$("#bp").append(this)
         $(document).mousemove((event)=>{
             if(offset==null){
                 //this.pos(event.clientX-$("#bp").offset().left, event.clientY-$("#bp").offset().top)

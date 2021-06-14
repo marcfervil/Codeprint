@@ -98,9 +98,10 @@ class RenderGizmo extends ActionGizmo{
     onExec(){
         //console.log(this.what)
        // console.log( this.notifiers.what.get(true));
-        let what = this.notifiers.what.get(true).getPreview(false)
+        let what = this.notifiers.what.get().getPreview(false)
         //console.log(this);
        // what.setParent(this);
+      // console.log("fodpkop")
         $(this.to.getPreview()).append(what)
         
     }
@@ -146,15 +147,14 @@ class ChangeValue2 extends ActionGizmo{
         
     }
 
+
+
     gizmoUpdate(gizmo){
         
         this.updateNotifiers = {}
 
+        if(gizmo==undefined)return
 
-        //console.log(gizmo.heading, gizmo instanceof Blueprint)
-
-
-        //$(this).append(gizmo.heading);
         for(let notiferKey in gizmo.notifiers){
             let notifier = gizmo.notifiers[notiferKey];
 
@@ -174,10 +174,12 @@ class ChangeValue2 extends ActionGizmo{
     onExec(){
   
         let gizmoNotifier = this.notifiers.gizmo.get().notifiers;
-      
+        //this.notifiers.gizmo.get().blueprint = this.notifiers.gizmo.get().createBlueprint();
         for(let notifierKey in this.updateNotifiers){
             let notifier = this.updateNotifiers[notifierKey];
-            
+            //console.log(notifier.get())
+            //gizmoNotifier[notifierKey].set("apple");
+            console.log(notifier)
             gizmoNotifier[notifierKey].set(notifier.get());
         }
     }

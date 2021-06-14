@@ -12,9 +12,12 @@ editor = {
     resetHover: () => {
 
         if(editor.hovered!=null){
-        editor.hovered.unhover()
-        editor.hovered = null;
-        editor.dragging = false;
+            if(editor.hovered.unhover!=undefined){
+                
+                editor.hovered.unhover()
+            }
+            editor.hovered = null;
+            editor.dragging = false;
         }
     }
 }

@@ -10,7 +10,7 @@ class Notifier{
         this.isRuntime = false; 
         this.linkedNotifer = null;
 
-        
+        this.modified = false;
     }
 
 
@@ -20,7 +20,7 @@ class Notifier{
 
 
     reset(){
-        this.updateField(this.initValue)
+        this.updateFieldUI(this.initValue)
         this.set(this.initValue)
         //this.onUnhooked()
         //console.log("reset, value is ", this.value)
@@ -44,10 +44,7 @@ class Notifier{
     }
 
     get(runtime=false){
-        if(this.runtimeNotifier!==undefined){
-            //console.log("yooo",  this.runtimeNotifier.get(true))
-            return this.runtimeNotifier.get(runtime)
-        }
+        if(this.value instanceof ReturnNotifier) return this.value.exec();
         return this.value 
     }
 
@@ -56,10 +53,21 @@ class Notifier{
         this.field = field
     }
 
+    updateFieldUI(data){
+        if(data instanceof ReturnNotifier) {
+            console.log("eopwfkp")
+            data = this.value.exec()
+        }
+        this.updateField(data)
+    }
+
     updateField(data){
        
+        console.log(data,)
+        if(data instanceof ReturnNotifier) data = data.exec();
         if(this.fieldUpdater!=null)this.fieldUpdater(data)
         //console.log("linked", this.linkedNotifer)
+        return data
     }
 
     onUpdate(callback){
@@ -80,7 +88,7 @@ class Notifier{
 
     set(value){
        // value = this.prefix() + value + this.suffix()
-
+        this.modified = true;
         if(value instanceof ReturnNotifier){
             this.runtimeNotifier = value;
             //console.log("yuh", this.constructor.name)
@@ -174,7 +182,7 @@ class UINotifier extends Notifier{
         
         super(fieldGet(field))
 
-        
+        this.ff = field;
 
         this.fieldGet = fieldGet;
         this.fieldSet = fieldSet;
@@ -191,12 +199,19 @@ class UINotifier extends Notifier{
     }
 
     clone(){
-        return new this.constructor($(this.field).clone(true), this.fieldGet, this.fieldSet)
+        //console.log("iow")
+        console.log(this.initValue)
+        let copy = new this.constructor($(this.ff[0].cloneNode(true)), ()=>{}, ()=>{return "epokw"});
+        //copy.uiFields[0] = this.uiFields[0].clone(true);
+        return copy;
     }
 
     get(){
-        super.get()
-        
+        let get = super.get()
+        // console.log("eopwkpk", this.uiFields)
+        //return get;
+        //if(this.runtimeNotifier!==undefined)return get;
+       // if(this.uiFields[0].length==0)return get;
         return this.fieldGet(this.uiFields[0])
     }
 
@@ -207,13 +222,16 @@ class UINotifier extends Notifier{
     }
 
     updateField(value){
-        //console.log(value)
+        //console.log("UPDATING FIELD???",value)
         //value = this.prefix() + value + this.suffix()
+        
         if(this.field!=undefined)this.field.val(value)
         
     }
 
     setField(field){
+        //console.log("YFIWEHUIE",field)
+        
         super.setField(field)
         $(field).attr(this.fieldAttrs)
         if(this.onFieldSet!=null)this.onFieldSet(field)
@@ -279,10 +297,12 @@ class UINotifier extends Notifier{
 
 
 
-    set(value, updateField = false){
-        //value = 
+    set(value){
+        
         super.set(value)
+        if(value instanceof ReturnNotifier) value = value.exec()
         for(let field of this.uiFields){
+            //console.log("RWOWOWJKO",field,value)
             this.fieldSet(field, this.prefix() + value + this.suffix())
         }
  
@@ -349,12 +369,26 @@ class ReturnNotifier extends StringNotifier{
     constructor(initValue, exec){
         super(initValue)
         this.exec = exec;
+        this.val = null
+        //this.isDeferred = true;
     }
 
-    get(runtime=false){
+    get(){
         //console.log(this.exec)
-       if(runtime) console.log("exec result: ",this.exec)
-        return (!runtime) ? this : this.exec()
+      // if(runtime) console.log("exec result: ",this.exec)
+       // return (!runtime) ? this : this.exec()
+
+       /*
+        let proxyProps = {
+            get: function(target, prop, receiver) {
+                return this.exec();
+            }
+        };
+      
+        let proxy = new Proxy(this, proxyProps);
+        return proxy  */
+      
+        return this;
     }
 
     
