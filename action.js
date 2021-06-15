@@ -42,6 +42,79 @@ class ActionGizmo extends Blueprint{
 
 }
 
+class FunctionAction extends ActionGizmo{
+
+    constructor(name){
+        super(name);
+        this.resultNotifier = new SelfNotifier(null);
+        this.resultNotifier.isDeferred=true;
+        this.resultNotifier.hasOutput = ()=>true;
+        this.resultNotifier.hasInput = ()=>false;
+        this.resultField = this.getNotiferInputField("Result",  this.resultNotifier);
+
+        //this.resultHoo
+        $(this).append($("<hr>").css({padding:0, margin: 0}))
+      //  console.log(this.resultHook)
+        $(this).append(this.resultField);
+
+
+        //this.resultHook.setHooks(null, this.resultHook)
+    }
+
+    
+
+}
+
+
+class Clone extends FunctionAction{
+
+    constructor(){
+        super("Clone");
+       
+    }
+
+    getNotifiers(){
+        return {
+            "gizmo" : new SelfNotifier()
+        }
+    }
+
+    onExec(){
+        let gizmo = this.notifiers.gizmo.get();
+        let clone = gizmo.cloneNode(true);
+     
+        this.resultNotifier.set(clone);
+        this.resultNotifier.updateField(clone);
+    }
+
+}
+
+
+class GetListItem extends FunctionAction{
+
+    constructor(){
+        super("Clone");
+       
+    }
+
+    getNotifiers(){
+        return {
+            "list" : new SelfNotifier(),
+            "index" : new StringNotifier("")
+        }
+    }
+
+    onExec(){
+        let x=  this.notifiers.list.get().items[this.notifiers.index.get()];
+        console.log(x)
+        this.resultNotifier.set(x);
+        this.resultNotifier.updateField(x);
+    }
+
+}
+
+
+
 class PopupGizmo extends ActionGizmo{
 
     constructor(){
@@ -99,11 +172,12 @@ class RenderGizmo extends ActionGizmo{
         //console.log(this.what)
        // console.log( this.notifiers.what.get(true));
        //console.log(this.notifiers.what.value)
-        let what = this.notifiers.what.get().getPreview(false)
+        let what = this.notifiers.what.get()
+        //.getPreview(false)
         //console.log(this);
-       // what.setParent(this);
+        this.notifiers.to.get().addGizmo(what);
       // console.log("fodpkop")
-        $(this.to.getPreview()).append(what)
+      //  $(this.to.getPreview()).append(what)
         
     }
 

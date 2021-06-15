@@ -51,6 +51,8 @@ function initGizmos(){
     customElements.define('ui-shelf', UIShelf);
     
     customElements.define('zen-shelf', ZenShelf);
+
+   // customElements.define('clone-gizmo-2', FunctionAction);
     
 }
 
@@ -73,10 +75,11 @@ function initMenu(){
         {name: "Popup", gizmo: PopupGizmo, catagory: "action"},
         {name: "Change Value", gizmo: ChangeValue, catagory: "action"},
         {name: "Show Gizmo", gizmo: RenderGizmo, catagory: "action"},
+        {name: "Clone", gizmo: Clone, catagory: "action"},
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
         {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
-        {name: "Clone", gizmo: Clone, catagory: "data"},
+
     ]
 
     for(let item of menuItems){

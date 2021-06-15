@@ -130,8 +130,7 @@ class SelfNotifier extends Notifier{
         return false;
     }
 
-    updateField(value){
-        super.updateField(value)
+    update(value){
         if(this.field != undefined){
             if(value!=null && value!=undefined  && value!=""){
                 
@@ -146,7 +145,29 @@ class SelfNotifier extends Notifier{
         }
     }
 
+    updateField(value){
+        super.updateField(value)
+        
+        this.update(value);
 
+    }
+
+    set(value){
+        super.set(value)
+        this.update(value)
+
+        if(this.outputHook!=undefined){
+        for(let uiHook of this.outputHook.outputs){
+            //if(!this.isDeferred){
+            uiHook.hook.notifier.updateField(value);
+           // uiHook.hook.notifier.updateField(value)
+            //}
+        }
+        }
+    }
+
+
+    
 }
 
 

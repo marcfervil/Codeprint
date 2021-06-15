@@ -86,19 +86,5 @@
        "children":{
           
        }
-    },
-    "ListGizmo6":{
-       "name":"ListGizmo",
-       "pos":{
-          "x":1026,
-          "y":353
-       },
-       "hooks":[
-          
-       ],
-       "id":"ListGizmo6",
-       "children":{
-          
-       }
     }
  }
