@@ -13,7 +13,6 @@ class EventGizmo extends Blueprint{
                     this.hookResults[key] = result
                     if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
                         this.updatePreview();
-                        console.log("updating thing")
                     }
                 }
                 

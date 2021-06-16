@@ -10,6 +10,7 @@ class ActionGizmo extends Blueprint{
 
         this.notifiers = this.getNotifiers()
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
+            //notifier.blueprint = this;
             if(!(notifier instanceof ActionNotifier)){
                 notifier.isDeferred = true;
             }
@@ -105,8 +106,8 @@ class GetListItem extends FunctionAction{
     }
 
     onExec(){
-        let x=  this.notifiers.list.get().items[this.notifiers.index.get()];
-        console.log(x)
+        let x = this.notifiers.list.get().items[this.notifiers.index.get()];
+      
         this.resultNotifier.set(x);
         this.resultNotifier.updateField(x);
     }
@@ -208,6 +209,7 @@ class ChangeValue extends ActionGizmo{
     getNotifiers(){
         return {
             to: new StringNotifier("Hello world!")
+            
         }
     }
 
@@ -218,29 +220,40 @@ class ChangeValue2 extends ActionGizmo{
 
     constructor(){
         super("Change Value")
-        this.notifiers.gizmo.onUpdate((gizmo)=>this.gizmoUpdate(gizmo))
-        
+       // this.notifiers.gizmo.onUpdate((gizmo)=>this.gizmoUpdate(gizmo))
+        this.content = $("<div/>");
+       
+        $(this).append(this.content);
+        this.notifiers.type.onUpdate((value)=>{
+            let itemClass = editor.menuItems.find((item)=>item.name == value).gizmo
+            this.gizmoUpdate(new itemClass)
+        });
+        $(this.content).on("repaint", ()=>{
+            
+            $(this.content).children().trigger("repaint.div")
+            
+        });
     }
 
-
+    
 
     gizmoUpdate(gizmo){
         
         this.updateNotifiers = {}
-
+       // console.log("ropwofprk")
         if(gizmo==undefined)return
-
+        this.content.empty()
+        if(Object.entries(gizmo.notifiers).length>0)$(this.content).append($("<hr>").css({padding:0, margin: 0}))
         for(let notiferKey in gizmo.notifiers){
             let notifier = gizmo.notifiers[notiferKey];
 
             let notifierCopy = notifier.clone()
 
+            notifierCopy.modified = false;
             this.updateNotifiers[notiferKey] = notifierCopy;
             let inputField = this.getNotiferInputField(notiferKey, notifierCopy)
-            $(this).append(inputField);
-
-            
-            //this.notifier.fields.push(inputField.gizmo.field)
+            this.content.append(inputField);
+    
         }
         
     }
@@ -254,15 +267,22 @@ class ChangeValue2 extends ActionGizmo{
             let notifier = this.updateNotifiers[notifierKey];
             //console.log(notifier.get())
             //gizmoNotifier[notifierKey].set("apple");
-            console.log(notifier)
-            gizmoNotifier[notifierKey].set(notifier.get());
+            //console.log("MOD???")
+            if(notifier.modified){
+               // console.log(notifier.modified)
+                console.log(notifier.value)
+                gizmoNotifier[notifierKey].set(notifier.value);
+            }
+            
         }
     }
 
     getNotifiers(){
+        let gizmos = editor.menuItems.filter((item)=>item.catagory=="gizmo").map((item)=>item.name)
         return {
+            type: new OptionNotifier(gizmos),
             gizmo: new SelfNotifier(),
-            //to: new StringNotifier("Hello world!")
+           
         }
     }
 

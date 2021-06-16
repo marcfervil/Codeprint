@@ -217,12 +217,16 @@ class UINotifier extends Notifier{
             //console.log(fieldGet(field)+"frog")
         this.set(fieldGet(field))
         //},1)
+        console.log(this.value)
     }
 
     clone(){
-        //console.log("iow")
-        console.log(this.initValue)
-        let copy = new this.constructor($(this.ff[0].cloneNode(true)), ()=>{}, ()=>{return "epokw"});
+       // console.log( )
+        $(this.ff[0]).val("")
+        $(this.ff[0]).text("")
+        //console.log(this.initValue)
+       // $(this.ff[0]).val("opfewkpfkw")
+        let copy = new this.constructor($(this.ff[0].cloneNode(true)), this.fieldGet, this.fieldSet);
         //copy.uiFields[0] = this.uiFields[0].clone(true);
         return copy;
     }
@@ -360,6 +364,38 @@ class StringNotifier extends Notifier{
     constructor(initValue){
         
         super(initValue)
+    }
+
+    updateField(value){
+        super.updateField(value)
+        if(this.field!==undefined)this.field.val(value)
+    }
+
+    set(value, update){
+        this.value = value
+       
+        //console.log(this.field)
+        //this.field.t
+        if(update || value instanceof ReturnNotifier){
+            super.set(value)
+            
+        }
+        this.updateField(value)
+        //
+    }
+
+    superSet(value){
+        
+        super.set(value)
+    }
+}
+
+class OptionNotifier extends Notifier{
+
+    constructor(options, value=""){
+        
+        super(value)
+        this.options = options
     }
 
     updateField(value){

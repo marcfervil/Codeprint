@@ -19,8 +19,14 @@ class Blueprint extends Gizmo {
             $(this).children().trigger("repaint.div")
             
         });
-
         
+        setTimeout(()=>{
+            
+            $(this).children().trigger("repaint.div");
+            $(this.heading).children().trigger("repaint.hook");
+        },0)
+
+     
     }
 
     //TODO: for the love of God, just make a hook class
@@ -252,6 +258,31 @@ class Blueprint extends Gizmo {
             }).attr("autocomplete","off").css({
                // float: "right"
             });
+        }else if(notifier instanceof OptionNotifier){
+            notifierField = $("<select/>", {
+                on: {
+                    
+                    mousedown:(e) =>{
+                        this.unhover()
+                        e.stopPropagation()
+                       // e.select()
+                    },
+                    change: (e) => {
+                        
+                        let me = $(e.target);
+                        let savedVal = me.find("option:selected").attr('value');
+                        
+                        me.val("");
+                
+                        notifier.set(savedVal)
+                        //console.log(savedVal,me.val(),me)
+                    }
+                },
+            })
+            for(let item of notifier.options){
+                notifierField.append($(`<option/>`).val(item).text(item))
+            }
+           // setTimeout(0, ()=>notifierField.val(notifier.options[0]))
         }else if(notifier instanceof SelfNotifier){
             
             notifierField = $("<span/>").text("nothing").addClass("italic");

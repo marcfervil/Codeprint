@@ -58,7 +58,7 @@ function initGizmos(){
 
 function initMenu(){
 
-    let menuItems = [
+    editor.menuItems = [
         {name: "View", gizmo: ViewGizmo, catagory: "gizmo"},
         {name: "Text", gizmo: TextGizmo , catagory: "gizmo"},
         {name: "Button", gizmo: ButtonGizmo, catagory: "gizmo"},
@@ -82,7 +82,7 @@ function initMenu(){
 
     ]
 
-    for(let item of menuItems){
+    for(let item of editor.menuItems){
         //gizmo-menu-drawer
         //$("#menu-items").append(
         let menuItem = ($("<span/>").text(item.name).mousedown((e)=>{
