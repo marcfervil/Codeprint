@@ -70,7 +70,7 @@ class Blueprint extends Gizmo {
                     output.path.attr("stroke-width", "1.5")
 
                     let slope = Math.abs((hookY - (y+yoff)))
-                    console.log(slope)
+                  //  console.log(slope)
 
                    // console.log(hookY)
                     if(slope > 10){
