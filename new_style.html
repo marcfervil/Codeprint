@@ -78,12 +78,10 @@ document.isPreview = false;
 
     //new TextGizmo();
 
-   
-
 
     defaultLayout = null;
     //clonebutton
-    jQuery.get("recipies/clonebutton.json", function(json) {
+    jQuery.get("recipies/default.json", function(json) {
         //JSON.parse(json)
         defaultLayout = JSON.parse(json);
         //Object.freeze(defaultLayout)
@@ -182,6 +180,17 @@ document.isPreview = false;
    
     $(document).keypress((e)=>{
         //console.log(e.key)
+        if(e.metaKey && e.key=="Backspace"){
+            jQuery.get("recipies/clonebutton.json", function(json) {
+                //JSON.parse(json)
+                defaultLayout = JSON.parse(json);
+                //Object.freeze(defaultLayout)
+                
+                load(defaultLayout)
+            //  makeDefault();
+         });
+    
+        }
         if(e.metaKey && e.key=="p"){
             e.preventDefault();
             console.log(JSON.stringify(serialize()));
@@ -195,7 +204,7 @@ document.isPreview = false;
             editor.idNum=0;
             $("#bp").empty();
             $("#preview").empty();
-            console.log(JSON.parse(Cookies.get("layout")));
+            //console.log(JSON.parse(Cookies.get("layout")));
             load(JSON.parse(Cookies.get("layout")));
         }
 

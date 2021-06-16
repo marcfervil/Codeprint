@@ -217,11 +217,13 @@ class UINotifier extends Notifier{
             //console.log(fieldGet(field)+"frog")
         this.set(fieldGet(field))
         //},1)
-        console.log(this.value)
+       // console.log(this.value)
+       this.cloneable = []
     }
 
     clone(){
-       // console.log( )
+       // console.log("eiowfoij", this.constructor.name)
+       // console.log(this.cloneable)
         $(this.ff[0]).val("")
         $(this.ff[0]).text("")
         //console.log(this.initValue)
@@ -241,6 +243,7 @@ class UINotifier extends Notifier{
     }
 
     decorate(prefix, suffix){
+        this.cloneable.push({func: this.decorate, arg:arguments})
         this.prefix = (prefix instanceof Function) ? prefix : () => prefix;
         this.suffix = (suffix instanceof Function) ? suffix : () => suffix;
         return this;
@@ -256,13 +259,13 @@ class UINotifier extends Notifier{
 
     setField(field){
         //console.log("YFIWEHUIE",field)
-        
         super.setField(field)
         $(field).attr(this.fieldAttrs)
         if(this.onFieldSet!=null)this.onFieldSet(field)
     }
 
     slider(min, max, start=min){
+        this.cloneable.push({func: this.slider, arg:arguments})
         this.onFieldSet = () => {
             this.field.attr({
                 type: "range",
@@ -277,6 +280,7 @@ class UINotifier extends Notifier{
     }
 
     dropdown(items){
+        this.cloneable.push({func: this.dropdown, arg:arguments})
         this.onFieldSet = (field) => {
             let select = $("<select/>");
            
@@ -306,6 +310,7 @@ class UINotifier extends Notifier{
     }
 
     color(){
+        this.cloneable.push({func: this.color, arg:arguments})
         this.onFieldSet = () => {
             this.field = this.field.attr({
                 type: "color",
@@ -350,7 +355,7 @@ class StyleNotifier extends UINotifier{
     }
 
     clone(){
-        console.log(this.field)
+        
         return new this.constructor($(this.ff).clone(true), this.fieldName)
     }
 
@@ -520,8 +525,21 @@ class AggregateNotifier extends Notifier {
     
     constructor(notifiers){
         super(notifiers);
+        this.cloneable = []
+        //this.modified = true;
     }
 
+    set(value){
+        let oldValue = this.get()
+        super.set(value);
+       // console.log("efwo", this.value)
+        for(let key in oldValue){
+            let notifier = value[key];
+            //console.log(notifier.value)
+            oldValue[key].set(notifier.value)
+        }
+        this.value = oldValue
+    }
 
     hasOutput(){
         return false;
@@ -529,9 +547,15 @@ class AggregateNotifier extends Notifier {
 
     clone(){
         let cloneifiers = {}
+
         for(let notifierKey in this.value){
+          
             let notifier = this.value[notifierKey];
-            cloneifiers[notifierKey] = notifier.clone();
+            let copy = notifier.clone();
+            cloneifiers[notifierKey] = copy;
+            for(let cloneAction of notifier.cloneable){
+                copy[cloneAction.func.name](...cloneAction.arg)
+            }
         }
         return new this.constructor(cloneifiers)
     }

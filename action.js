@@ -262,15 +262,12 @@ class ChangeValue2 extends ActionGizmo{
     onExec(){
   
         let gizmoNotifier = this.notifiers.gizmo.get().notifiers;
-        //this.notifiers.gizmo.get().blueprint = this.notifiers.gizmo.get().createBlueprint();
+ 
         for(let notifierKey in this.updateNotifiers){
             let notifier = this.updateNotifiers[notifierKey];
-            //console.log(notifier.get())
-            //gizmoNotifier[notifierKey].set("apple");
-            //console.log("MOD???")
-            if(notifier.modified){
-               // console.log(notifier.modified)
-                console.log(notifier.value)
+
+            if(notifier.modified || notifier instanceof AggregateNotifier){
+ 
                 gizmoNotifier[notifierKey].set(notifier.value);
             }
             
@@ -292,10 +289,7 @@ class IfGizmo extends ActionGizmo{
 
     constructor(){
         super("If")
-        
-        
-        
-       
+
     }
 
     eventTrigger(self,value){
