@@ -102,22 +102,48 @@ document.isPreview = false;
                 pos: gizmo.pos(),
                 hooks: [],
                 id: gizmo.id,
-                children: serialize(gizmo)
+                children: serialize(gizmo),
+                notifiers: {}
             }
+
+
+            if(gizmo instanceof UIBlueprint || gizmo instanceof Blueprint){
+               // console.log(gizmo.gizmo.notifiers)
+               //console.log(gizmo)
+               let notes = (gizmo instanceof UIBlueprint )? gizmo.gizmo.notifiers : gizmo.notifiers
+                for(let key in notes){
+                    
+                    let note = notes[key];
+                    let noteVal = note.get()
+                    let init= noteVal;
+                    if(note instanceof AggregateNotifier || note instanceof SelfNotifier){
+                        noteVal = null;
+                    } 
+                    if(noteVal instanceof Object)noteVal = null;
+                    if(noteVal == null)console.log("Nulled", init)
+                    else console.log("Saving", noteVal)
+                    data[gizmo.id].notifiers[key] = noteVal
+                }
+            }
+
             if(gizmo instanceof Blueprint){
+               
+               
+              
+
+
                 if(gizmo.uiGizmo !== undefined)data[gizmo.id].uiGizmo = gizmo.uiGizmo.id
                 for(let hook of gizmo.hooks){
                     //let hookOutput = null
 
-                    
-                    
+                    //console.log("???",noteVal)
                     for(let output of hook.outputs){
                         
                         hookOutput = {};
                         hookOutput.blueprintId = output.hook.parent.id;
                         hookOutput.index = output.hook.index;
                         hookOutput.myIndex = hook.index;
-
+                       
                         data[gizmo.id].hooks.push(hookOutput)
                     }
 
@@ -139,11 +165,26 @@ document.isPreview = false;
             gizmo.id = gizmoData.id;
 
             for(let hookIndex in gizmoData.hooks){
+                
                 let hookData = gizmoData.hooks[hookIndex];
                 if(hookData!=null){
                     let hookOutput = gizmo.hooks[hookData.myIndex];
                     let hookInput = get(hookData.blueprintId).hooks[hookData.index];
                     hookOutput.hook(hookInput);
+                }
+                
+            }
+            for(let noteKey in gizmoData.notifiers){
+                let noteVal = gizmoData.notifiers[noteKey];
+                console.log("setting", gizmoData.notifiers[noteKey], gizmoData)
+                if(noteVal != null){
+                    if(gizmo instanceof UIBlueprint){
+                        gizmo.gizmo.notifiers[noteKey].set(noteVal);
+                    }else{
+                        console.log(gizmo, gizmo.notifiers)
+                        gizmo.notifiers[noteKey].set(noteVal);
+                    }
+                    
                 }
             }
             gizmo.redrag();
@@ -181,7 +222,10 @@ document.isPreview = false;
     $(document).keypress((e)=>{
         //console.log(e.key)
         if(e.metaKey && e.key=="Backspace"){
-            jQuery.get("recipies/clonebutton.json", function(json) {
+            editor.idNum=0;
+            $("#bp").empty();
+            $("#preview").empty();
+            jQuery.get("recipies/cb2.json", function(json) {
                 //JSON.parse(json)
                 defaultLayout = JSON.parse(json);
                 //Object.freeze(defaultLayout)

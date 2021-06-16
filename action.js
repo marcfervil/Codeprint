@@ -225,8 +225,10 @@ class ChangeValue2 extends ActionGizmo{
        
         $(this).append(this.content);
         this.notifiers.type.onUpdate((value)=>{
-            let itemClass = editor.menuItems.find((item)=>item.name == value).gizmo
-            this.gizmoUpdate(new itemClass)
+            
+            let itemClass = editor.menuItems.find((item)=>item.name == value).gizmo;
+            
+            this.gizmoUpdate(new itemClass())
         });
         $(this.content).on("repaint", ()=>{
             
