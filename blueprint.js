@@ -50,7 +50,10 @@ class Blueprint extends Gizmo {
         
 
         let repaint = ()=>{
-           // console.log(input.hooked, input.hooks)
+            //console.log(hook)
+            let hookX = (hook[0].getBoundingClientRect().left)+5;
+            let hookY = (hook[0].getBoundingClientRect().top )+5;
+           
             if(hook.outputs.length>0){
                 
                 for(let output of hook.outputs){
@@ -58,11 +61,26 @@ class Blueprint extends Gizmo {
                     let xoff = hook.offset().left;
                     let yoff = hook.offset().top;
     
-                    let x = output.hook[0].getBoundingClientRect().left - xoff
-                    let y = output.hook[0].getBoundingClientRect().top - yoff
+                    let x = (output.hook[0].getBoundingClientRect().left - xoff)+5
+                    let y = (output.hook[0].getBoundingClientRect().top - yoff)+5
                     
+
+
+                    output.path.attr("fill", "none")
+                    output.path.attr("stroke-width", "1.5")
+
+                    let slope = Math.abs((hookY - (y+yoff)))
+                    console.log(slope)
+
+                   // console.log(hookY)
+                    if(slope > 10){
+                        output.path.attr("d",`m 5 5 C 75 0 ${x-75} ${y} ${x} ${y}`)
+                    }else{
+                        output.path.attr("d",`m 5 5 L ${x} ${y}`)
+                    }
                     
-                   output.path.attr("d",`m 5 5L ${x+5} ${y+5}`)
+
+                   //output.path.attr("d",`m 5 5 L ${x} ${y}`)
 
                    // output.path.attr("d",`m 5 5 q -15 15 30 -15 T ${x+5} ${y+5}`)
                 }
