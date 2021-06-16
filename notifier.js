@@ -246,6 +246,7 @@ class UINotifier extends Notifier{
         this.cloneable.push({func: this.decorate, arg:arguments})
         this.prefix = (prefix instanceof Function) ? prefix : () => prefix;
         this.suffix = (suffix instanceof Function) ? suffix : () => suffix;
+        this.set(this.value)
         return this;
     }
 
@@ -274,8 +275,10 @@ class UINotifier extends Notifier{
                 step: 0.1,
                 value: 0
             })
-            this.field.val(start)
+            console.log(this.get())
+            this.field.val(this.value)
         }
+        //this.set()
         return this
     }
 
@@ -343,15 +346,16 @@ class UINotifier extends Notifier{
 
 class StyleNotifier extends UINotifier{
 
-    constructor(field, fieldName){
+    constructor(field, fieldName, defaultValue){
         
         let getField = (field) => field[0].style[fieldName];
         let setField = (field, value) => field[0].style[fieldName] = value;
         //this.ff = field
         super(field, getField, setField)
         
-        this.set(getField(field))
-        
+       //this.set(getField(field))
+        this.set(defaultValue)
+        setField(field, defaultValue)
     }
 
     clone(){
@@ -532,13 +536,18 @@ class AggregateNotifier extends Notifier {
     set(value){
         let oldValue = this.get()
         super.set(value);
-       // console.log("efwo", this.value)
+      
         for(let key in oldValue){
             let notifier = value[key];
             //console.log(notifier.value)
             oldValue[key].set(notifier.value)
         }
         this.value = oldValue
+    }
+
+    get(key = null){
+        if(key==null)return super.get()
+        return super.get()[key]
     }
 
     hasOutput(){

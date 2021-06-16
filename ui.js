@@ -136,7 +136,7 @@ class ViewGizmo extends UIGizmo{
 class ButtonGizmo extends UIGizmo{
     constructor() {
         super();
-       
+        
     }
 
     initHookedUI(){
@@ -154,13 +154,13 @@ class ButtonGizmo extends UIGizmo{
             "text": new UINotifier(uiField, (field) => field.text(), (field, value) => field.text(value)),
             
             "style": new AggregateNotifier({
-                "textcolor": new StyleNotifier(uiField, "color").color(),
+                "textcolor": new StyleNotifier(uiField, "color", ).color(),
                 "background": new StyleNotifier(uiField, "backgroundColor").color(),
-                "round": new StyleNotifier(uiField, "borderRadius").slider(0, 2).decorate("", "vh"),
+                "round": new StyleNotifier(uiField, "borderRadius", .5).decorate("", "vh").slider(0, 2),
                 "border": new AggregateNotifier({
-                    "thickness": new StyleNotifier(uiField, "border-width"),
-                    "color": new StyleNotifier(uiField, "border-color").color(),
-                    "type": new StyleNotifier(uiField, "border-style").dropdown(["solid", "dotted", "dashed"])
+                    "thickness": new StyleNotifier(uiField, "border-width", 0),
+                    "color": new StyleNotifier(uiField, "border-color", "black").color(),
+                    "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed"])
                 })
             })
             
