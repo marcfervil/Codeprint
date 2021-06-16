@@ -120,8 +120,8 @@ document.isPreview = false;
                         noteVal = null;
                     } 
                     if(noteVal instanceof Object)noteVal = null;
-                    if(noteVal == null)console.log("Nulled", init)
-                    else console.log("Saving", noteVal)
+                    //if(noteVal == null)console.log("Nulled", init)
+                   // else console.log("Saving", noteVal)
                     data[gizmo.id].notifiers[key] = noteVal
                 }
             }
@@ -176,12 +176,12 @@ document.isPreview = false;
             }
             for(let noteKey in gizmoData.notifiers){
                 let noteVal = gizmoData.notifiers[noteKey];
-                console.log("setting", gizmoData.notifiers[noteKey], gizmoData)
+                
                 if(noteVal != null){
                     if(gizmo instanceof UIBlueprint){
                         gizmo.gizmo.notifiers[noteKey].set(noteVal);
                     }else{
-                        console.log(gizmo, gizmo.notifiers)
+                       // console.log(gizmo, gizmo.notifiers)
                         gizmo.notifiers[noteKey].set(noteVal);
                     }
                     
@@ -218,6 +218,7 @@ document.isPreview = false;
         }
        // data = ogData
     }
+    storage = window.localStorage
    
     $(document).keypress((e)=>{
         //console.log(e.key)
@@ -225,7 +226,7 @@ document.isPreview = false;
             editor.idNum=0;
             $("#bp").empty();
             $("#preview").empty();
-            jQuery.get("recipies/cb2.json", function(json) {
+            jQuery.get("recipies/clonebutton.json", function(json) {
                 //JSON.parse(json)
                 defaultLayout = JSON.parse(json);
                 //Object.freeze(defaultLayout)
@@ -245,17 +246,31 @@ document.isPreview = false;
         if(e.metaKey && e.key=="Enter"){
             e.preventDefault();
             e.stopPropagation();
+            try{
             editor.idNum=0;
             $("#bp").empty();
             $("#preview").empty();
             //console.log(JSON.parse(Cookies.get("layout")));
-            load(JSON.parse(Cookies.get("layout")));
+            console.log(Cookies.get("layout"));
+            storage.getItem("layout")
+            load(JSON.parse(storage.getItem("layout")));
+           // load(JSON.parse(Cookies.get("layout")));
+            }catch{
+                console.log("couldn't load",storage.getItem("layout"))
+            }
         }
 
         if(e.metaKey && e.key=="s"){
             e.preventDefault();
-            Cookies.set('layout', JSON.stringify(serialize()));
-            console.log("saved!")
+            let f = serialize();
+            Cookies.set('layout', JSON.stringify(f));
+            storage.setItem("layout", JSON.stringify(f))
+            //storage.setItem("whoa")
+            console.log("saved!");
+
+          //  $("#bp").empty();
+          //  $("#preview").empty();
+          //  load(f)
         }
     })
 
