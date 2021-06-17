@@ -81,21 +81,6 @@ svg{
 
 
 
-.in {
-    width: 9px;
-    height: 9px;
-    padding: 0px;
-    margin: 0px;
-   
-    -webkit-border-radius: 25px;
-    -moz-border-radius: 25px;
-    
-    border-radius: 25px;
-    border: 1px black solid;
-    
-    display:inline-block;
-  
-  }
 
 .blueprint ui-shelf{
     display: inline;
@@ -112,6 +97,42 @@ svg{
     padding:5px
 }
 
+.hookBand {
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    align-items: center;
+    
+    /*width: min-content;*/
+    
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+
+.hook {
+    width: 9px;
+    height: 9px;
+    padding: 0px;
+    margin: 0px;
+   
+    -webkit-border-radius: 25px;
+    -moz-border-radius: 25px;
+    
+    border-radius: 25px;
+    border: 1px black solid;
+    
+    display:inline-block;
+  
+  }
+
+.hookBand .in{
+    margin-right: 5px;
+}
+
+
+.hookBand .out{
+    margin-left: 5px;
+}
 
 
 zen-shelf{

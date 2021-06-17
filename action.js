@@ -323,30 +323,3 @@ class IfGizmo extends ActionGizmo{
     }
 
 }
-
-class IfGizmo extends ActionGizmo{
-
-    constructor(){
-        super("If")
-        
-    }
-
-    onExec(){
-       // console.log(this.notifiers.to)
-        //this.notifiers.to.set(this.notifiers.to.get(), true)
-        //this.notifiers.to.se
-        console.log(this.notifiers.value1.get() == this.notifiers.value2.get())
-        console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
-        return(this.notifiers.value1.get()==this.notifiers.value2.get())
-            
-        
-    }
-
-    getNotifiers(){
-        return {
-            value1: new StringNotifier("first value"),
-            value2: new StringNotifier("second value")
-        }
-    }
-
-}

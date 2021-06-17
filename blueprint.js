@@ -31,7 +31,7 @@ class Blueprint extends Gizmo {
 
     //TODO: for the love of God, just make a hook class
     getHook(notifier, type){
-        let hook = $("<span/>").addClass("in")
+        let hook = $("<span/>").addClass("hook")
         let svg = $($svg("svg")).attr({
             
             width: 10, 
