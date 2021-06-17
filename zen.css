@@ -56,13 +56,33 @@ body{
     overflow: hidden;
 }
 
+.actionHeading{
+    background-color: #ef767a !important;
+    color: white !important
+    
+}
+
+
+.eventHeading{
+    background-color: #eeb868 !important;
+    color: white !important
+}
+
+.uiHeading{
+    background-color: #49beaa !important;
+    color: white !important
+}
+
+
+
 
 .blueprint{
-    background-color: white;
+    background-color: #F8F9FA;
     border: 1px #6C757D solid;
     position: absolute;
     white-space: nowrap;
     border-radius: 2px;
+
     /*Break in case of throwable blueprints*/
     /*transition: all 1s;*/
     
@@ -122,7 +142,7 @@ svg{
     border: 1px black solid;
     
     display:inline-block;
-  
+    background-color: white;
   }
 
 .hookBand .in{
@@ -163,9 +183,10 @@ zen-shelf .content{
 
 .selfNotifier{
     border: 1px black solid;
-    margin: 4px;
+    margin: 5px;
     padding: 2px;
     border-radius: 2px;
+    
 }
 
 

@@ -3,6 +3,7 @@ class UIGizmo extends Gizmo{
     constructor() {
         super();
         this.blueprint = null;
+       
         $(this).dblclick((e)=>{
             if(this instanceof UIGizmo && !this.isPreview){
                 this.blueprint = this.createBlueprint();

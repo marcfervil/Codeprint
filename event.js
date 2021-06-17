@@ -5,6 +5,8 @@ class EventGizmo extends Blueprint{
         super(name);
         this.notifiers = this.getNotifiers()
         this.hookResults = {}
+
+        this.heading.addClass("eventHeading");
         
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
             notifier.onUpdate((result)=>{

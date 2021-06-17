@@ -15,7 +15,8 @@ class ActionGizmo extends Blueprint{
        
         this.heading.prepend(this.execHook)
         //this.exec.bind(this);
-
+//#F8F9FA
+        this.heading.addClass("actionHeading");
         
      
         $(this).dblclick(()=>{

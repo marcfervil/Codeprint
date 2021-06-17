@@ -154,8 +154,8 @@ class FunctionGizmo extends Blueprint {
     }
 
 }
-/*
-class GetListItem extends FunctionGizmo{
+
+class GetListItem2 extends FunctionGizmo{
     
     constructor(){
         super("Get List Item", null, {
@@ -177,7 +177,7 @@ class GetListItem extends FunctionGizmo{
 
 
 
-class Clone extends FunctionGizmo{
+class Clone2 extends FunctionGizmo{
     
     constructor(){
         super("Clone", null, {
@@ -200,4 +200,4 @@ class Clone extends FunctionGizmo{
 
     
 
-}*/
+}

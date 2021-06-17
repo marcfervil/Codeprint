@@ -80,16 +80,17 @@ class Blueprint extends Gizmo {
 
 
                     output.path.attr("fill", "none")
-                    output.path.attr("stroke-width", "1.5")
+                    output.path.attr("stroke-width", "2")
+                    output.path.attr("stroke", "#42a7e5")
 
                     let slope = Math.abs((hookY - (y+yoff)))
                   //  console.log(slope)
 
                    // console.log(hookY)
                     if(slope > 10){
-                        output.path.attr("d",`m 5 5 C 75 0 ${x-75} ${y} ${x} ${y}`)
+                        output.path.attr("d",`m 10 5 C 75 0 ${x-75} ${y} ${x-5} ${y}`)
                     }else{
-                        output.path.attr("d",`m 5 5 L ${x} ${y}`)
+                        output.path.attr("d",`m 10 5 L ${x-5} ${y}`)
                     }
                     
 
@@ -368,7 +369,10 @@ class Blueprint extends Gizmo {
     hookNotifiers(notifiers, lambda=null){
        
         if(notifiers != undefined && Object.keys(notifiers).length > 0){
-            $(this).append($("<hr>").css({padding:0, margin: 0}))
+            //$(this).append($("<hr>").css({padding:0, margin: 0}))
+            this.heading.css({
+                "border-bottom": "1px solid #6C757D"
+            })
         }
         for(let key in notifiers){
             let notifier = notifiers[key]
@@ -392,6 +396,8 @@ class UIBlueprint extends Blueprint {
         super(" "+gizmo.constructor.name+editor.idNum);
         this.gizmo = gizmo;
         this.uiGizmo = gizmo
+
+         this.heading.addClass("uiHeading");
 
         this.selfNotifier.set(gizmo)
 
