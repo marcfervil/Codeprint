@@ -176,6 +176,7 @@ class TextBoxGizmo extends UIGizmo{
     }
 
     initHookedUI(){
+
         this.text = $("<input/>", {
             attr:{
                 "type": "text",

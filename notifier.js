@@ -368,6 +368,7 @@ class StyleNotifier extends UINotifier{
 
 
 
+//deffered value to deffered value should update
 class StringNotifier extends Notifier{
 
     constructor(initValue){

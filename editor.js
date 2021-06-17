@@ -22,6 +22,7 @@ editor = {
     }
 }
 
+
 function initGizmos(){
     customElements.define('text-gizmo', TextGizmo);
     customElements.define('button-gizmo', ButtonGizmo);

@@ -63,7 +63,7 @@ button{
 .preview{
    
     background-color: lightgray;
-   
+    
 
     padding: 5px;
     padding-right: 10px;
@@ -83,11 +83,11 @@ button{
     border: 1px black solid;
     
     display:inline-block;
-  
+ 
   }
 
   svg{
-    position: relative;
+    position: fixed;
     z-index: 1;
     
   }
@@ -103,21 +103,9 @@ button{
     border: 1px black solid;
     position: absolute;
     white-space: nowrap;
-    
-    /*Break in case of throwable blueprints*/
-    /*transition: all 1s;*/
-    
-}
-
-ui-shelf{
-    display: block;
-}
-
-.blueprint ui-shelf{
-    display: inline;
-    font-weight: normal;
-    margin-left: 10px;
-    margin-right: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    /*box-shadow: 2px 2px #888888;*/
 }
 
 .blueprintItem{
@@ -125,7 +113,16 @@ ui-shelf{
 }
 
 .blueprintHeading{
-    padding:5px
+    padding:5px;
+
+    font-weight: bold;
+    display: block;
+    /*
+    border-top-left-radius: 9px;
+    border-top-right-radius: 9px;*/
+    
+
+        
 }
 
 
@@ -172,7 +169,10 @@ button:focus {
 .selfNotifier{
     border: 1px black solid;
     margin: 4px;
+    display: inline-block;
     padding: 2px;
+    font-size: 11px;
+
 }
 
 .page{

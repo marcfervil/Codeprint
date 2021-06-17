@@ -382,7 +382,8 @@ class UIBlueprint extends Blueprint {
         this.heading.append(this.selfHook.css({
             "float": "right",
             "margin": "5px",
-            "marginBottom": "0px"
+            "marginBottom": "0px",
+           // margin: 0 auto;
         }))
         $(this).mouseover(this.hover);
         $(this).mouseout(this.unhover);
