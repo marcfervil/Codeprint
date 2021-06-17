@@ -12,6 +12,7 @@ class EventGizmo extends Blueprint{
                 if(result!==undefined && result!==null){
                     this.hookResults[key] = result
                     if(Object.keys(this.hookResults).length==Object.keys(this.notifiers).length){
+                        
                         this.updatePreview();
                     }
                 }
@@ -108,7 +109,7 @@ class ClickGizmo extends EventGizmo{
     }
 
     eventTrigger(self, target=self.hookResults.gizmo.previewRef){
-        //console.log("EVENT TRIGGERED", target, target.id)
+      //  console.log("EVENT TRIGGERED", target, target.id)
         if(target==null){
             if(self.hookResults.gizmo.onPreviewed.indexOf(self.remove)==-1){
                 self.hookResults.gizmo.onPreviewed.push(self.remove);

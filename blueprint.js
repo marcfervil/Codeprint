@@ -7,8 +7,11 @@ class Blueprint extends Gizmo {
         this.heading = $("<span/>");
         this.hooks = []
         
-        $(this).append(this.heading.text(headingText).addClass("blueprintHeading"))
+        $(this).append(this.heading.text(headingText).addClass("hookBand"))
         
+        this.heading.prepend(this.getHookInput())
+        this.heading.append(this.getHookOutput())
+       
 
         this.heading.on("repaint", ()=>{
             $(this.heading).children().trigger("repaint.hook")
@@ -29,9 +32,19 @@ class Blueprint extends Gizmo {
      
     }
 
+    getHookInput(){
+        return $("<span/>");
+    }
+
+    getHookOutput(){
+        return $("<span/>");
+    }
+
     //TODO: for the love of God, just make a hook class
     getHook(notifier, type){
         let hook = $("<span/>").addClass("hook")
+        if(type == "input") hook.addClass("in")
+        else if(type=="output") hook.addClass("out")
         let svg = $($svg("svg")).attr({
             
             width: 10, 
@@ -243,11 +256,11 @@ class Blueprint extends Gizmo {
 
     getNotiferInputField(key, notifier){
         let notifierField = null;
-        let div = $("<div/>");
+        let div = $("<div/>").addClass("hookBand");
         let input = this.getHook(notifier, "input");
         let output = this.getHook(notifier, "output")
         let showKey = true;
-        if(notifier.hasOutput())div.append(output.css("float","right"))
+       
         if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
             notifierField = $("<input/>", {
                 
@@ -318,13 +331,24 @@ class Blueprint extends Gizmo {
             div.css("paddingRight", "0px")
            
         }
+
+       
         //output.css("float","right")
-        if(notifier.hasInput())div.append(input)
-        if(showKey)div.append("  "+key+": ")
+        if(notifier.hasInput())div.prepend(input)
+        else div.append("<span/>")
+
+        let content = $("<span/>");
+        if(showKey)content.append("  "+key+": ")
+        content.append(notifierField)
+
+       
         //console.log(output)
         notifier.setHooks(input, output);
         notifier.setField(notifierField)
-        div.append(notifierField);
+        div.append(content);
+
+        if(notifier.hasOutput())div.append(output)
+        else div.append("<span/>")
         
 
         div.addClass("blueprintItem").on("repaint.div", ()=>{
@@ -369,6 +393,7 @@ class UIBlueprint extends Blueprint {
         this.gizmo = gizmo;
         this.uiGizmo = gizmo
 
+        this.selfNotifier.set(gizmo)
 
         this.pos(gizmo.pos().x+gizmo.width()-$("#bp").offset().left, gizmo.pos().y-$("#bp").offset().top)
         
@@ -377,14 +402,7 @@ class UIBlueprint extends Blueprint {
             notifier.gizmo = gizmo
         });
 
-        this.selfNotifier = new SelfNotifier(gizmo);
-        this.selfHook = this.getHook(this.selfNotifier, "output");
-        this.heading.append(this.selfHook.css({
-            "float": "right",
-            "margin": "5px",
-            "marginBottom": "0px",
-           // margin: 0 auto;
-        }))
+       
         $(this).mouseover(this.hover);
         $(this).mouseout(this.unhover);
         $(this).mouseleave(()=>this.hintLocked = false);
@@ -398,6 +416,12 @@ class UIBlueprint extends Blueprint {
         this.hintLocked = false
         
         this.hoverTime = null
+    }
+
+    getHookOutput(){
+        this.selfNotifier = new SelfNotifier(this.gizmo);
+        this.selfHook = this.getHook(this.selfNotifier, "output");
+        return this.selfHook;
     }
 
     hover(event){

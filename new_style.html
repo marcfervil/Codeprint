@@ -246,20 +246,26 @@ document.isPreview = false;
     }
     storage = window.localStorage
    
+
+    recipieList = ["clickclone"]
+    function openRecipie(name){
+        
+        editor.idNum=0;
+        $("#bp").empty();
+        $("#preview").empty();
+        jQuery.get("recipies/"+name+".json", function(json) {
+            //JSON.parse(json)
+            defaultLayout = JSON.parse(json);
+            //Object.freeze(defaultLayout)
+            
+            load(defaultLayout)
+        //  makeDefault();
+        });
+    }
     $(document).keypress((e)=>{
         //console.log(e.key)
-        if(e.metaKey && e.key=="Backspace"){
-            editor.idNum=0;
-            $("#bp").empty();
-            $("#preview").empty();
-            jQuery.get("recipies/clonebutton.json", function(json) {
-                //JSON.parse(json)
-                defaultLayout = JSON.parse(json);
-                //Object.freeze(defaultLayout)
-                
-                load(defaultLayout)
-            //  makeDefault();
-         });
+        if(e.metaKey && e.key==1){
+           openRecipie(recipieList[e.key-1])
     
         }
         if(e.metaKey && e.key=="p"){

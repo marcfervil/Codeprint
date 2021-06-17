@@ -2,11 +2,7 @@ class ActionGizmo extends Blueprint{
 
     constructor(name){
         super(" "+name);
-        this.exec = ()=>{
-            let result = this.onExec()
-            //console.log(this.completedNotifier)
-            if(result!=false)this.completedNotifier.exec()
-        }
+        
 
         this.notifiers = this.getNotifiers()
         this.hookNotifiers(this.notifiers, (key, notifier)=>{
@@ -16,24 +12,33 @@ class ActionGizmo extends Blueprint{
             }
         });
  
-        this.execNotifier = new ExecutionNotifier(this.exec);
-        
-        this.execHook = this.getHook(this.execNotifier, "input");
-
+       
         this.heading.prepend(this.execHook)
         //this.exec.bind(this);
 
-        this.completedNotifier = new ActionNotifier()
-        this.completedHook = this.getHook(this.completedNotifier, "output");
-        this.heading.append(this.completedHook.css({
-            "float": "right",
-            "margin": "5px",
-            "marginBottom": "0px"
-        }))
+        
      
         $(this).dblclick(()=>{
             this.exec();
         })
+    }
+
+    getHookInput(){
+        this.exec = ()=>{
+            let result = this.onExec()
+            //console.log(this.completedNotifier)
+            if(result!=false)this.completedNotifier.exec()
+        }
+        this.execNotifier = new ExecutionNotifier(this.exec);
+        
+        this.execHook = this.getHook(this.execNotifier, "input");
+        return this.execHook;
+    }
+
+    getHookOutput(){
+        this.completedNotifier = new ActionNotifier()
+        this.completedHook = this.getHook(this.completedNotifier, "output");
+        return this.completedHook;
     }
 
 

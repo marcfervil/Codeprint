@@ -275,7 +275,7 @@ class UINotifier extends Notifier{
                 step: 0.1,
                 value: 0
             })
-            console.log(this.get())
+           
             this.field.val(this.value)
         }
         //this.set()
