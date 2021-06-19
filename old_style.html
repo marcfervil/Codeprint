@@ -1,0 +1,97 @@
+
+<html>
+    <!doctype html>
+    <head>
+        <title>Codeprint</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com"> 
+
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+HK&display=swap" rel="stylesheet">
+    </head>
+
+    <body oncontextmenu="return false;">
+
+
+       
+
+        <div id="app">
+            
+           
+            
+            <div id="menu-items" class="menu" >
+
+                <h2 style="margin-top: 5;">Gizmos</h2>
+                <hr>
+                <ui-shelf id="gizmo-menu-drawer" text="Gizmos"></ui-shelf>
+                <hr>
+                <ui-shelf id="event-menu-drawer" text="Events"></ui-shelf>
+                <hr>    
+                <ui-shelf id="action-menu-drawer" text="Actions"></ui-shelf>
+                <hr>
+
+            </div>
+            <div class="blueprintArea" id="bparea">
+                <div class="blueprintContainer" id="bp"></div>
+            </div>
+            <div class="preview" id="preview"></div>
+            <!--
+                <svg style="position: fixed; left:100; background-color:red" id="svgenius">
+                    
+                </svg>
+            -->
+            
+            
+        </div>
+    </body>
+    
+</html>
+
+
+<script type="text/javascript" src="util.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.slim.min.js" integrity="sha256-u7e5khyithlIdTpu22PHhENmPcRdFiHRjhAuHcs05RI=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="notifier.js"></script>
+<script type="text/javascript" src="editor.js"></script>
+<script type="text/javascript" src="gizmos.js"></script>
+<script type="text/javascript" src="blueprint.js"></script>
+<script type="text/javascript" src="action.js"></script>
+<script type="text/javascript" src="event.js"></script>
+<script type="text/javascript" src="ui.js"></script>
+
+<!---->
+<script type="text/javascript">
+
+
+    initGizmos();
+    initMenu();
+    
+    
+
+    let defaultView = new ViewGizmo();
+    let defaultText = new TextGizmo();
+
+
+    $("#bp").append(defaultView);
+    defaultView.addGizmo(defaultText)
+    defaultView.addGizmo(new TextBoxGizmo())
+    defaultView.addGizmo(new ButtonGizmo())
+    defaultView.pos(344, 160);
+    //defaultText.createBlueprint();
+    let viewbp = defaultView.createBlueprint();
+    viewbp.pos(822, 116)
+    defaultView.redrag()
+
+    let renderer = new StartGizmo()
+    $("#bp").append(renderer)
+
+   
+
+    renderer.redrag()
+    renderer.pos(1000, 87)
+
+
+ 
+   viewbp.hooks[0].hook(renderer.hooks[0])
+
+
+    //$("#one").replaceWith($("<h1>big</h1>"))
+</script>   
