@@ -275,7 +275,7 @@ document.isPreview = false;
         $("#preview").empty();
         jQuery.get("recipies/"+name+".json", function(json) {
             //JSON.parse(json)
-            defaultLayout = JSON.parse(json);
+            defaultLayout = (json);
             //Object.freeze(defaultLayout)
             
             load(defaultLayout)
