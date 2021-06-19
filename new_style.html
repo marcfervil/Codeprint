@@ -102,7 +102,7 @@ document.isPreview = false;
 
     initGizmos();
     initMenu();
-    recipieList = ["clickclone", "math"]
+    recipieList = ["clickclone", "math", "guess"]
     recipieList[8] = "rand"
     //new TextGizmo();
 
@@ -147,7 +147,8 @@ document.isPreview = false;
                     
                     let note = notes[key];
                     let noteVal = note.get()
-                    let init= noteVal;
+                    
+                    let init = noteVal;
                     if(note instanceof AggregateNotifier || note instanceof SelfNotifier){
                         noteVal = null;
                     } 
@@ -283,7 +284,8 @@ document.isPreview = false;
     }
     $(document).keypress((e)=>{
         //console.log(e.key)
-        if(e.metaKey && (e.key>=1 && e.key <=9)){
+       // console.log(e.keyCode)
+        if(e.ctrlKey && (e.key>=1 && e.key <=9)){
            
            openRecipie(recipieList[e.key-1])
     

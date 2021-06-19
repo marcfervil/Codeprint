@@ -104,7 +104,7 @@ class Add extends FunctionAction{
     onExec(){
         let num1 = parseInt(this.get("number1"));
         let num2 = parseInt(this.get("number2"));
-     
+        
         return num1 + num2;
     }
 }
@@ -291,7 +291,10 @@ class ChangeValue2 extends ActionGizmo{
         for(let notiferKey in gizmo.notifiers){
             let notifier = gizmo.notifiers[notiferKey];
 
-            let notifierCopy = notifier.clone()
+            let cloneifier = notifier.clone()
+            this.notifiers[notiferKey] = cloneifier;
+
+            let notifierCopy = cloneifier
 
             notifierCopy.modified = false;
             this.updateNotifiers[notiferKey] = notifierCopy;
@@ -299,6 +302,7 @@ class ChangeValue2 extends ActionGizmo{
             this.content.append(inputField);
     
         }
+        //console.log(this.notifiers)
         
     }
 

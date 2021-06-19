@@ -76,7 +76,7 @@ class Notifier{
 
     onReset(callback){
         this.resetUpdater = callback
-    }
+    }   
 
     hasOutput(){
         return true;
@@ -203,7 +203,7 @@ class UINotifier extends Notifier{
         
         super(fieldGet(field))
 
-        this.ff = field;
+        this.fieldCloneRef = field;
 
         this.fieldGet = fieldGet;
         this.fieldSet = fieldSet;
@@ -224,11 +224,14 @@ class UINotifier extends Notifier{
     clone(){
        // console.log("eiowfoij", this.constructor.name)
        // console.log(this.cloneable)
-        $(this.ff[0]).val("")
-        $(this.ff[0]).text("")
+        $(this.fieldCloneRef[0]).val("")
+        $(this.fieldCloneRef[0]).text("")
         //console.log(this.initValue)
        // $(this.ff[0]).val("opfewkpfkw")
-        let copy = new this.constructor($(this.ff[0].cloneNode(true)), this.fieldGet, this.fieldSet);
+        //let copy = new this.constructor($(this.fieldCloneRef[0].cloneNode(true)), this.fieldGet, this.fieldSet);
+        let fakeValue = "";
+        let copy = new this.constructor($(this.fieldCloneRef[0].cloneNode(true)),(field)=>fakeValue, (field, value)=>fakeValue=value);
+        //copy.cloneifier = true;
         //copy.uiFields[0] = this.uiFields[0].clone(true);
         return copy;
     }
