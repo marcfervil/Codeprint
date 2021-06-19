@@ -102,7 +102,7 @@ document.isPreview = false;
 
     initGizmos();
     initMenu();
-    recipieList = ["clickclone", "math", "guess"]
+    recipieList = ["clickclone", "math", "guess", "list"]
     recipieList[8] = "rand"
     //new TextGizmo();
 
@@ -127,7 +127,7 @@ document.isPreview = false;
             if(! (gizmo instanceof Gizmo))return;
             data[gizmo.id] = {
                 name: gizmo.constructor.name,
-                pos: gizmo.pos(),
+                pos: gizmo.pos(true),
                 hooks: [],
                 id: gizmo.id,
                 
@@ -158,12 +158,11 @@ document.isPreview = false;
                     data[gizmo.id].notifiers[key] = noteVal
                 }
             }
+            if (gizmo instanceof ListGizmo){
+                data[gizmo.id].items = gizmo.items;
+            }
 
             if(gizmo instanceof Blueprint){
-               
-               
-              
-
 
                 if(gizmo.uiGizmo !== undefined)data[gizmo.id].uiGizmo = gizmo.uiGizmo.id
                 for(let hook of gizmo.hooks){
@@ -197,12 +196,13 @@ document.isPreview = false;
             let gizmo = null;
             if(gizmoData.name == "UIBlueprint"){
                 gizmo = createGizmo(eval(gizmoData.name), get(gizmoData.uiGizmo))
+            }else if(gizmoData.name == "ListGizmo"){
+              
+                gizmo = createGizmo(eval(gizmoData.name), gizmoData.items)
             }else{
                 gizmo = createGizmo(eval(gizmoData.name))
             }
              
-
-        
             //new (eval(gizmoData.name))(arg)
             gizmo.pos(gizmoData.pos.x, gizmoData.pos.y);
             gizmo.id = gizmoData.id;
@@ -223,6 +223,7 @@ document.isPreview = false;
                 if(noteVal != null){
                     if(gizmo instanceof UIBlueprint){
                         gizmo.gizmo.notifiers[noteKey].set(noteVal);
+                    
                     }else{
                        // console.log(gizmo, gizmo.notifiers)
                         gizmo.notifiers[noteKey].set(noteVal);
@@ -243,10 +244,7 @@ document.isPreview = false;
         }
 
         function get(id){
-            let f = (id in data) ? create(data[id]) : $("#"+id)[0]
-            //console.log(f)
-          //  if(f==undefined || f==null)console.log("undef",f)
-            return f
+            return (id in data) ? create(data[id]) : $("#"+id)[0]
         }
         
         for(let gizmoId in data){

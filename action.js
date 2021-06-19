@@ -324,11 +324,16 @@ class ChangeValue2 extends ActionGizmo{
 
     getNotifiers(){
         let gizmos = editor.menuItems.filter((item)=>item.catagory=="gizmo").map((item)=>item.name)
-        return {
+
+        let notes = {
             type: new OptionNotifier(gizmos),
             gizmo: new SelfNotifier(),
            
         }
+
+        notes.gizmo.hasOutput = ()=>true;
+
+        return notes;
     }
 
 }
@@ -345,11 +350,7 @@ class IfGizmo extends ActionGizmo{
     }
 
     onExec(){
-       // console.log(this.notifiers.to)
-        //this.notifiers.to.set(this.notifiers.to.get(), true)
-        //this.notifiers.to.se
-        //console.log(this.notifiers.value1.get() == this.notifiers.value2.get())
-        //console.log(this.notifiers.value1.get(), this.notifiers.value2.get())
+
         let check = this.notifiers.value1.get()==this.notifiers.value2.get()
         if(!check) {
            // console.log("woa", this.notifiers.else)
@@ -369,3 +370,44 @@ class IfGizmo extends ActionGizmo{
     }
 
 }
+
+
+class ForGizmo extends ActionGizmo{
+
+    constructor(){
+        super("For Each")
+
+    }
+
+ 
+    onExec(){
+
+       
+       // this.notifiers.else.exec()
+        let iter = this.get("in");
+        //console.log(each)
+        if(iter instanceof ListGizmo){
+            for(let item of iter.items){
+                this.notifiers.element.set(item)
+                this.notifiers.do.exec()
+                //console.log(item)
+            }
+        }
+        
+        
+    }
+
+    getNotifiers(){
+        let notes = {
+            
+            element: new SelfNotifier(),
+            in: new SelfNotifier(),
+            do: new ActionNotifier()
+        }
+        //notes.each.hasOutput = ()=>true;
+        notes.element.hasOutput = ()=>true;
+        return notes;
+    }
+
+}
+

@@ -88,7 +88,7 @@ function initMenu(){
         {name: "When Typed", gizmo: TypedGizmo, catagory: "event"},
 
         
-
+        {name: "For", gizmo: ForGizmo, catagory: "action"},
         {name: "If", gizmo: IfGizmo, catagory: "action"},
         {name: "Change Value2", gizmo: ChangeValue2, catagory: "action"},
         {name: "Log", gizmo: LogGizmo, catagory: "action"},
@@ -99,6 +99,7 @@ function initMenu(){
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
         {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
+        
         //{name: "Get List Item", gizmo: GetListItem, catagory: "data"},
 
     ])

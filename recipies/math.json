@@ -1,48 +1,4 @@
 {
-    "ViewGizmo0": {
-        "name": "ViewGizmo",
-        "pos": {
-            "x": -33,
-            "y": 178
-        },
-        "hooks": [],
-        "id": "ViewGizmo0",
-        "parent": null,
-        "notifiers": {}
-    },
-    "TextGizmo1": {
-        "name": "TextGizmo",
-        "pos": {
-            "x": -22,
-            "y": 189
-        },
-        "hooks": [],
-        "id": "TextGizmo1",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
-    "TextBoxGizmo2": {
-        "name": "TextBoxGizmo",
-        "pos": {
-            "x": -22,
-            "y": 211
-        },
-        "hooks": [],
-        "id": "TextBoxGizmo2",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
-    "ButtonGizmo3": {
-        "name": "ButtonGizmo",
-        "pos": {
-            "x": -22,
-            "y": 242
-        },
-        "hooks": [],
-        "id": "ButtonGizmo3",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
     "StartGizmo5": {
         "name": "StartGizmo",
         "pos": {
@@ -55,6 +11,50 @@
         "notifiers": {
             "render": null
         }
+    },
+    "ViewGizmo0": {
+        "name": "ViewGizmo",
+        "pos": {
+            "x": 14,
+            "y": 158
+        },
+        "hooks": [],
+        "id": "ViewGizmo0",
+        "parent": null,
+        "notifiers": {}
+    },
+    "TextGizmo1": {
+        "name": "TextGizmo",
+        "pos": {
+            "x": 25,
+            "y": 169
+        },
+        "hooks": [],
+        "id": "TextGizmo1",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "TextBoxGizmo2": {
+        "name": "TextBoxGizmo",
+        "pos": {
+            "x": 25,
+            "y": 191
+        },
+        "hooks": [],
+        "id": "TextBoxGizmo2",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "ButtonGizmo3": {
+        "name": "ButtonGizmo",
+        "pos": {
+            "x": 25,
+            "y": 222
+        },
+        "hooks": [],
+        "id": "ButtonGizmo3",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
     },
     "UIBlueprint4": {
         "name": "UIBlueprint",
@@ -75,22 +75,22 @@
     "UIBlueprint15": {
         "name": "UIBlueprint",
         "pos": {
-            "x": 1181,
-            "y": 359
+            "x": 1195,
+            "y": 357
         },
         "hooks": [],
         "id": "UIBlueprint15",
         "parent": null,
         "notifiers": {
-            "text": "45"
+            "text": ""
         },
         "uiGizmo": "TextBoxGizmo2"
     },
     "Add10": {
         "name": "Add",
         "pos": {
-            "x": 874,
-            "y": 294
+            "x": 917,
+            "y": 292
         },
         "hooks": [{
             "blueprintId": "UIBlueprint15",
@@ -122,11 +122,45 @@
             "do": null
         }
     },
+    "NumberGizmo12": {
+        "name": "NumberGizmo",
+        "pos": {
+            "x": 596,
+            "y": 459
+        },
+        "hooks": [{
+            "blueprintId": "Add10",
+            "index": 4,
+            "myIndex": 1
+        }],
+        "id": "NumberGizmo12",
+        "parent": null,
+        "notifiers": {
+            "number": "5"
+        }
+    },
+    "NumberGizmo11": {
+        "name": "NumberGizmo",
+        "pos": {
+            "x": 600,
+            "y": 361
+        },
+        "hooks": [{
+            "blueprintId": "Add10",
+            "index": 2,
+            "myIndex": 1
+        }],
+        "id": "NumberGizmo11",
+        "parent": null,
+        "notifiers": {
+            "number": "40"
+        }
+    },
     "UIBlueprint13": {
         "name": "UIBlueprint",
         "pos": {
-            "x": 361,
-            "y": 261
+            "x": 390,
+            "y": 255
         },
         "hooks": [{
             "blueprintId": "ClickGizmo14",
@@ -141,38 +175,18 @@
         },
         "uiGizmo": "ButtonGizmo3"
     },
-    "NumberGizmo11": {
-        "name": "NumberGizmo",
+    "UIBlueprint16": {
+        "name": "UIBlueprint",
         "pos": {
-            "x": 547,
-            "y": 387
+            "x": 388,
+            "y": 132
         },
-        "hooks": [{
-            "blueprintId": "Add10",
-            "index": 2,
-            "myIndex": 1
-        }],
-        "id": "NumberGizmo11",
+        "hooks": [],
+        "id": "UIBlueprint16",
         "parent": null,
         "notifiers": {
-            "number": "40"
-        }
-    },
-    "NumberGizmo12": {
-        "name": "NumberGizmo",
-        "pos": {
-            "x": 545,
-            "y": 481
+            "text": "You know what's even funnier than 40?"
         },
-        "hooks": [{
-            "blueprintId": "Add10",
-            "index": 4,
-            "myIndex": 1
-        }],
-        "id": "NumberGizmo12",
-        "parent": null,
-        "notifiers": {
-            "number": "5"
-        }
+        "uiGizmo": "TextGizmo1"
     }
 }

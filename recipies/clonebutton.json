@@ -1,334 +1,257 @@
 {
-    "ViewGizmo0":{
-       "name":"ViewGizmo",
-       "pos":{
-          "x":-81,
-          "y":112
-       },
-       "hooks":[
-          
-       ],
-       "id":"ViewGizmo0",
-       "children":{
-          "TextGizmo1":{
-             "name":"TextGizmo",
-             "pos":{
-                "x":-70,
-                "y":123
-             },
-             "hooks":[
-                
-             ],
-             "id":"TextGizmo1",
-             "children":{
-                
-             },
-             "notifiers":{
-                
-             }
-          },
-          "TextBoxGizmo2":{
-             "name":"TextBoxGizmo",
-             "pos":{
-                "x":-70,
-                "y":145
-             },
-             "hooks":[
-                
-             ],
-             "id":"TextBoxGizmo2",
-             "children":{
-                
-             },
-             "notifiers":{
-                
-             }
-          },
-          "ButtonGizmo3":{
-             "name":"ButtonGizmo",
-             "pos":{
-                "x":-70,
-                "y":176
-             },
-             "hooks":[
-                
-             ],
-             "id":"ButtonGizmo3",
-             "children":{
-                
-             },
-             "notifiers":{
-                
-             }
-          }
-       },
-       "notifiers":{
-          
-       }
+    "StartGizmo5": {
+        "name": "StartGizmo",
+        "pos": {
+            "x": 446,
+            "y": 27
+        },
+        "hooks": [],
+        "id": "StartGizmo5",
+        "parent": null,
+        "notifiers": {
+            "render": null
+        }
     },
-    "ListGizmo6":{
-       "name":"ListGizmo",
-       "pos":{
-          "x":234,
-          "y":-153
-       },
-       "hooks":[
-          
-       ],
-       "id":"ListGizmo6",
-       "children":{
-          
-       },
-       "notifiers":{
-          
-       }
+    "UIBlueprint4": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 268,
+            "y": 56
+        },
+        "hooks": [{
+            "blueprintId": "StartGizmo5",
+            "index": 0,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint4",
+        "parent": null,
+        "notifiers": {},
+        "uiGizmo": "ViewGizmo0"
     },
-    "ChangeValue217":{
-       "name":"ChangeValue2",
-       "pos":{
-          "x":1147,
-          "y":216
-       },
-       "hooks":[
-          
-       ],
-       "id":"ChangeValue217",
-       "children":{
-          
-       },
-       "notifiers":{
-          "type":"Text",
-          "gizmo":null
-       }
+    "ChangeValue217": {
+        "name": "ChangeValue2",
+        "pos": {
+            "x": 1192,
+            "y": 244
+        },
+        "hooks": [],
+        "id": "ChangeValue217",
+        "parent": null,
+        "notifiers": {
+            "type": "Text",
+            "gizmo": null,
+            "text": ""
+        }
     },
-    "RenderGizmo16":{
-       "name":"RenderGizmo",
-       "pos":{
-          "x":907,
-          "y":21
-       },
-       "hooks":[
-          {
-             "blueprintId":"ChangeValue217",
-             "index":4,
-             "myIndex":5
-          }
-       ],
-       "id":"RenderGizmo16",
-       "children":{
-          
-       },
-       "notifiers":{
-          "what":null,
-          "to":null
-       }
+    "RenderGizmo15": {
+        "name": "RenderGizmo",
+        "pos": {
+            "x": 990,
+            "y": 144
+        },
+        "hooks": [{
+            "blueprintId": "ChangeValue217",
+            "index": 0,
+            "myIndex": 1
+        }],
+        "id": "RenderGizmo15",
+        "parent": null,
+        "notifiers": {
+            "what": null,
+            "to": null
+        }
     },
-    "Clone14":{
-       "name":"Clone",
-       "pos":{
-          "x":591,
-          "y":220
-       },
-       "hooks":[
-          {
-             "blueprintId":"RenderGizmo16",
-             "index":4,
-             "myIndex":3
-          },
-          {
-             "blueprintId":"RenderGizmo16",
-             "index":0,
-             "myIndex":5
-          },
-          {
-             "blueprintId":"ChangeValue217",
-             "index":2,
-             "myIndex":5
-          },
-          {
-             "blueprintId":"ClickGizmo17",
-             "index":0,
-             "myIndex":5
-          }
-       ],
-       "id":"Clone14",
-       "children":{
-          
-       },
-       "notifiers":{
-          "gizmo":null
-       }
+    "PopupGizmo29": {
+        "name": "PopupGizmo",
+        "pos": {
+            "x": 935,
+            "y": 485
+        },
+        "hooks": [],
+        "id": "PopupGizmo29",
+        "parent": null,
+        "notifiers": {
+            "message": "Gizmo isn't convoluted!"
+        }
     },
-    "ClickGizmo13":{
-       "name":"ClickGizmo",
-       "pos":{
-          "x":593,
-          "y":29
-       },
-       "hooks":[
-          {
-             "blueprintId":"Clone14",
-             "index":2,
-             "myIndex":3
-          }
-       ],
-       "id":"ClickGizmo13",
-       "children":{
-          
-       },
-       "notifiers":{
-          "gizmo":null,
-          "do":null
-       }
+    "ClickGizmo28": {
+        "name": "ClickGizmo",
+        "pos": {
+            "x": 757,
+            "y": 375
+        },
+        "hooks": [{
+            "blueprintId": "PopupGizmo29",
+            "index": 0,
+            "myIndex": 3
+        }],
+        "id": "ClickGizmo28",
+        "parent": null,
+        "notifiers": {
+            "gizmo": null,
+            "do": null
+        }
     },
-    "UIBlueprint11":{
-       "name":"UIBlueprint",
-       "pos":{
-          "x":366,
-          "y":36
-       },
-       "hooks":[
-          {
-             "blueprintId":"ClickGizmo13",
-             "index":0,
-             "myIndex":18
-          }
-       ],
-       "id":"UIBlueprint11",
-       "children":{
-          
-       },
-       "notifiers":{
-          "text":"Click me!",
-          "style":null
-       },
-       "uiGizmo":"ButtonGizmo3"
+    "Clone13": {
+        "name": "Clone",
+        "pos": {
+            "x": 589,
+            "y": 245
+        },
+        "hooks": [{
+            "blueprintId": "RenderGizmo15",
+            "index": 0,
+            "myIndex": 1
+        }, {
+            "blueprintId": "RenderGizmo15",
+            "index": 2,
+            "myIndex": 5
+        }, {
+            "blueprintId": "ChangeValue217",
+            "index": 4,
+            "myIndex": 5
+        }, {
+            "blueprintId": "ClickGizmo28",
+            "index": 0,
+            "myIndex": 5
+        }],
+        "id": "Clone13",
+        "parent": null,
+        "notifiers": {
+            "gizmo": null
+        }
     },
-    "StartGizmo5":{
-       "name":"StartGizmo",
-       "pos":{
-          "x":955,
-          "y":213
-       },
-       "hooks":[
-          
-       ],
-       "id":"StartGizmo5",
-       "children":{
-          
-       },
-       "notifiers":{
-          "render":null
-       }
+    "UIBlueprint10": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 330,
+            "y": 327
+        },
+        "hooks": [{
+            "blueprintId": "Clone13",
+            "index": 2,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint10",
+        "parent": null,
+        "notifiers": {
+            "text": "placeholder"
+        },
+        "uiGizmo": "TextGizmo1"
     },
-    "UIBlueprint4":{
-       "name":"UIBlueprint",
-       "pos":{
-          "x":795,
-          "y":244
-       },
-       "hooks":[
-          {
-             "blueprintId":"StartGizmo5",
-             "index":0,
-             "myIndex":0
-          },
-          {
-             "blueprintId":"RenderGizmo16",
-             "index":2,
-             "myIndex":0
-          }
-       ],
-       "id":"UIBlueprint4",
-       "children":{
-          
-       },
-       "notifiers":{
-          
-       },
-       "uiGizmo":"ViewGizmo0"
+    "ClickGizmo11": {
+        "name": "ClickGizmo",
+        "pos": {
+            "x": 352,
+            "y": 187
+        },
+        "hooks": [{
+            "blueprintId": "Clone13",
+            "index": 0,
+            "myIndex": 3
+        }],
+        "id": "ClickGizmo11",
+        "parent": null,
+        "notifiers": {
+            "gizmo": null,
+            "do": null
+        }
     },
-    "UIBlueprint15":{
-       "name":"UIBlueprint",
-       "pos":{
-          "x":332,
-          "y":244
-       },
-       "hooks":[
-          {
-             "blueprintId":"Clone14",
-             "index":0,
-             "myIndex":2
-          }
-       ],
-       "id":"UIBlueprint15",
-       "children":{
-          
-       },
-       "notifiers":{
-          "text":"placeholder"
-       },
-       "uiGizmo":"TextGizmo1"
+    "UIBlueprint14": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 832,
+            "y": 281
+        },
+        "hooks": [{
+            "blueprintId": "RenderGizmo15",
+            "index": 4,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint14",
+        "parent": null,
+        "notifiers": {},
+        "uiGizmo": "ViewGizmo0"
     },
-    "ClickGizmo17":{
-       "name":"ClickGizmo",
-       "pos":{
-          "x":720,
-          "y":369
-       },
-       "hooks":[
-          {
-             "blueprintId":"PopupGizmo18",
-             "index":2,
-             "myIndex":3
-          }
-       ],
-       "id":"ClickGizmo17",
-       "children":{
-          
-       },
-       "notifiers":{
-          "gizmo":null,
-          "do":null
-       }
+    "UIBlueprint12": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 96,
+            "y": 183
+        },
+        "hooks": [{
+            "blueprintId": "ClickGizmo11",
+            "index": 0,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint12",
+        "parent": null,
+        "notifiers": {
+            "text": "Click me!",
+            "style": null
+        },
+        "uiGizmo": "ButtonGizmo3"
     },
-    "PopupGizmo18":{
-       "name":"PopupGizmo",
-       "pos":{
-          "x":753,
-          "y":557
-       },
-       "hooks":[
-          
-       ],
-       "id":"PopupGizmo18",
-       "children":{
-          
-       },
-       "notifiers":{
-          "message":"Hello World!"
-       }
+    "UIBlueprint16": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 939,
+            "y": 378
+        },
+        "hooks": [{
+            "blueprintId": "ChangeValue217",
+            "index": 6,
+            "myIndex": 2
+        }],
+        "id": "UIBlueprint16",
+        "parent": null,
+        "notifiers": {
+            "text": ""
+        },
+        "uiGizmo": "TextBoxGizmo2"
     },
-    "UIBlueprint21":{
-       "name":"UIBlueprint",
-       "pos":{
-          "x":914,
-          "y":377
-       },
-       "hooks":[
-          {
-             "blueprintId":"ChangeValue217",
-             "index":6,
-             "myIndex":1
-          }
-       ],
-       "id":"UIBlueprint21",
-       "children":{
-          
-       },
-       "notifiers":{
-          "text":""
-       },
-       "uiGizmo":"TextBoxGizmo2"
+    "ViewGizmo0": {
+        "name": "ViewGizmo",
+        "pos": {
+            "x": 66,
+            "y": 409
+        },
+        "hooks": [],
+        "id": "ViewGizmo0",
+        "parent": null,
+        "notifiers": {}
+    },
+    "TextGizmo1": {
+        "name": "TextGizmo",
+        "pos": {
+            "x": 77,
+            "y": 420
+        },
+        "hooks": [],
+        "id": "TextGizmo1",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "TextBoxGizmo2": {
+        "name": "TextBoxGizmo",
+        "pos": {
+            "x": 77,
+            "y": 442
+        },
+        "hooks": [],
+        "id": "TextBoxGizmo2",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "ButtonGizmo3": {
+        "name": "ButtonGizmo",
+        "pos": {
+            "x": 77,
+            "y": 473
+        },
+        "hooks": [],
+        "id": "ButtonGizmo3",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
     }
- }
+}

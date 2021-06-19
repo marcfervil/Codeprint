@@ -15,8 +15,8 @@
     "ViewGizmo0": {
         "name": "ViewGizmo",
         "pos": {
-            "x": -293,
-            "y": 158
+            "x": 58,
+            "y": 436
         },
         "hooks": [],
         "id": "ViewGizmo0",
@@ -26,8 +26,8 @@
     "TextGizmo1": {
         "name": "TextGizmo",
         "pos": {
-            "x": -282,
-            "y": 169
+            "x": 69,
+            "y": 447
         },
         "hooks": [],
         "id": "TextGizmo1",
@@ -37,8 +37,8 @@
     "TextBoxGizmo2": {
         "name": "TextBoxGizmo",
         "pos": {
-            "x": -282,
-            "y": 191
+            "x": 69,
+            "y": 469
         },
         "hooks": [],
         "id": "TextBoxGizmo2",
@@ -48,8 +48,8 @@
     "ButtonGizmo3": {
         "name": "ButtonGizmo",
         "pos": {
-            "x": -282,
-            "y": 222
+            "x": 69,
+            "y": 500
         },
         "hooks": [],
         "id": "ButtonGizmo3",
@@ -83,7 +83,8 @@
         "parent": null,
         "notifiers": {
             "type": "Text",
-            "gizmo": null
+            "gizmo": null,
+            "text": ""
         }
     },
     "RenderGizmo15": {

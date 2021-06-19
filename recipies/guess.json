@@ -1,82 +1,20 @@
 {
-    "ViewGizmo0": {
-        "name": "ViewGizmo",
-        "pos": {
-            "x": -196,
-            "y": 119
-        },
-        "hooks": [],
-        "id": "ViewGizmo0",
-        "parent": null,
-        "notifiers": {}
-    },
     "TextGizmo1": {
         "name": "TextGizmo",
         "pos": {
-            "x": -185,
-            "y": 130
+            "x": 28,
+            "y": 132
         },
         "hooks": [],
         "id": "TextGizmo1",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
-    "TextBoxGizmo2": {
-        "name": "TextBoxGizmo",
-        "pos": {
-            "x": -185,
-            "y": 152
-        },
-        "hooks": [],
-        "id": "TextBoxGizmo2",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
-    "ButtonGizmo3": {
-        "name": "ButtonGizmo",
-        "pos": {
-            "x": -185,
-            "y": 183
-        },
-        "hooks": [],
-        "id": "ButtonGizmo3",
-        "parent": "ViewGizmo0",
-        "notifiers": {}
-    },
-    "StartGizmo5": {
-        "name": "StartGizmo",
-        "pos": {
-            "x": 460,
-            "y": 26
-        },
-        "hooks": [],
-        "id": "StartGizmo5",
         "parent": null,
-        "notifiers": {
-            "render": null
-        }
-    },
-    "UIBlueprint4": {
-        "name": "UIBlueprint",
-        "pos": {
-            "x": 282,
-            "y": 55
-        },
-        "hooks": [{
-            "blueprintId": "StartGizmo5",
-            "index": 0,
-            "myIndex": 0
-        }],
-        "id": "UIBlueprint4",
-        "parent": null,
-        "notifiers": {},
-        "uiGizmo": "ViewGizmo0"
+        "notifiers": {}
     },
     "ChangeValue214": {
         "name": "ChangeValue2",
         "pos": {
-            "x": 1046,
-            "y": 264
+            "x": 1235,
+            "y": 248
         },
         "hooks": [],
         "id": "ChangeValue214",
@@ -87,26 +25,11 @@
             "text": "You guessed it!"
         }
     },
-    "ChangeValue218": {
-        "name": "ChangeValue2",
-        "pos": {
-            "x": 1044,
-            "y": 436
-        },
-        "hooks": [],
-        "id": "ChangeValue218",
-        "parent": null,
-        "notifiers": {
-            "type": "Text",
-            "gizmo": null,
-            "text": "try again :("
-        }
-    },
     "IfGizmo12": {
         "name": "IfGizmo",
         "pos": {
-            "x": 650,
-            "y": 265
+            "x": 911,
+            "y": 246
         },
         "hooks": [{
             "blueprintId": "ChangeValue214",
@@ -128,8 +51,8 @@
     "TypedGizmo11": {
         "name": "TypedGizmo",
         "pos": {
-            "x": 435,
-            "y": 147
+            "x": 663,
+            "y": 145
         },
         "hooks": [{
             "blueprintId": "IfGizmo12",
@@ -143,11 +66,121 @@
             "do": null
         }
     },
+    "ViewGizmo0": {
+        "name": "ViewGizmo",
+        "pos": {
+            "x": 17,
+            "y": 121
+        },
+        "hooks": [],
+        "id": "ViewGizmo0",
+        "parent": null,
+        "notifiers": {}
+    },
+    "TextGizmo19": {
+        "name": "TextGizmo",
+        "pos": {
+            "x": 28,
+            "y": 132
+        },
+        "hooks": [],
+        "id": "TextGizmo19",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "TextBoxGizmo2": {
+        "name": "TextBoxGizmo",
+        "pos": {
+            "x": 28,
+            "y": 154
+        },
+        "hooks": [],
+        "id": "TextBoxGizmo2",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "ButtonGizmo3": {
+        "name": "ButtonGizmo",
+        "pos": {
+            "x": 28,
+            "y": 185
+        },
+        "hooks": [],
+        "id": "ButtonGizmo3",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "StartGizmo5": {
+        "name": "StartGizmo",
+        "pos": {
+            "x": 733,
+            "y": 412
+        },
+        "hooks": [],
+        "id": "StartGizmo5",
+        "parent": null,
+        "notifiers": {
+            "render": null
+        }
+    },
+    "UIBlueprint4": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 541,
+            "y": 363
+        },
+        "hooks": [{
+            "blueprintId": "StartGizmo5",
+            "index": 0,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint4",
+        "parent": null,
+        "notifiers": {},
+        "uiGizmo": "ViewGizmo0"
+    },
+    "ChangeValue218": {
+        "name": "ChangeValue2",
+        "pos": {
+            "x": 1235,
+            "y": 397
+        },
+        "hooks": [],
+        "id": "ChangeValue218",
+        "parent": null,
+        "notifiers": {
+            "type": "Text",
+            "gizmo": null,
+            "text": "try again :("
+        }
+    },
+    "UIBlueprint21": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 932,
+            "y": 405
+        },
+        "hooks": [{
+            "blueprintId": "ChangeValue214",
+            "index": 4,
+            "myIndex": 0
+        }, {
+            "blueprintId": "ChangeValue218",
+            "index": 4,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint21",
+        "parent": null,
+        "notifiers": {
+            "text": "Guess the password!"
+        },
+        "uiGizmo": "TextGizmo19"
+    },
     "UIBlueprint10": {
         "name": "UIBlueprint",
         "pos": {
-            "x": 182,
-            "y": 261
+            "x": 398,
+            "y": 243
         },
         "hooks": [{
             "blueprintId": "TypedGizmo11",
@@ -164,27 +197,5 @@
             "text": ""
         },
         "uiGizmo": "TextBoxGizmo2"
-    },
-    "UIBlueprint17": {
-        "name": "UIBlueprint",
-        "pos": {
-            "x": 654,
-            "y": 491
-        },
-        "hooks": [{
-            "blueprintId": "ChangeValue214",
-            "index": 4,
-            "myIndex": 0
-        }, {
-            "blueprintId": "ChangeValue218",
-            "index": 4,
-            "myIndex": 0
-        }],
-        "id": "UIBlueprint17",
-        "parent": null,
-        "notifiers": {
-            "text": "Guess the secret!"
-        },
-        "uiGizmo": "TextGizmo1"
     }
 }

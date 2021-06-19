@@ -106,8 +106,15 @@ class Gizmo extends HTMLElement {
     }
 
     pos(x, y){
-        if(x===undefined && y===undefined){
+        if(x==true){
+            
+            let off = $("#bp").offset();
             let rect = this.getBoundingClientRect();
+            return {x: rect.left-off.left, y: rect.top - off.top}
+        }
+        if(x===undefined && y===undefined){
+            let rect = $(this).offset()
+            //this.getBoundingClientRect();
             return {x: rect.left, y: rect.top}
         }
         this.style.left = x;

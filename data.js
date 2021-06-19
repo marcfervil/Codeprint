@@ -1,9 +1,10 @@
 
 class ListGizmo extends Blueprint {
-    constructor(){
+    constructor(items=[]){
         super("List")
         
         this.items = []
+      
    
         this.appendBox = $("<input/>").addClass("listInput").attr({
             "type": "text",
@@ -33,6 +34,11 @@ class ListGizmo extends Blueprint {
             $(e.target).val("")
             
         });
+        if(items.length > 0){
+            for(let item of items){
+                this.addItem(item);
+            }
+        }
     }
 
     getHookOutput(){
