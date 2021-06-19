@@ -112,7 +112,7 @@ document.isPreview = false;
     jQuery.get("recipies/default.json", function(json) {
         console.log(json)
         //JSON.parse(json)
-        defaultLayout = JSON.parse(json);
+        defaultLayout = json;
         //Object.freeze(defaultLayout)
         
         //load(defaultLayout)
