@@ -1,0 +1,107 @@
+{
+    "ViewGizmo0": {
+        "name": "ViewGizmo",
+        "pos": {
+            "x": 344,
+            "y": 170
+        },
+        "hooks": [],
+        "id": "ViewGizmo0",
+        "parent": null,
+        "notifiers": {}
+    },
+    "TextGizmo1": {
+        "name": "TextGizmo",
+        "pos": {
+            "x": 355,
+            "y": 181
+        },
+        "hooks": [],
+        "id": "TextGizmo1",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "TextBoxGizmo2": {
+        "name": "TextBoxGizmo",
+        "pos": {
+            "x": 355,
+            "y": 203
+        },
+        "hooks": [],
+        "id": "TextBoxGizmo2",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "ButtonGizmo3": {
+        "name": "ButtonGizmo",
+        "pos": {
+            "x": 355,
+            "y": 234
+        },
+        "hooks": [],
+        "id": "ButtonGizmo3",
+        "parent": "ViewGizmo0",
+        "notifiers": {}
+    },
+    "UIBlueprint4": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 822,
+            "y": 116
+        },
+        "hooks": [{
+            "blueprintId": "StartGizmo5",
+            "index": 0,
+            "myIndex": 0
+        }],
+        "id": "UIBlueprint4",
+        "parent": null,
+        "notifiers": {},
+        "uiGizmo": "ViewGizmo0"
+    },
+    "StartGizmo5": {
+        "name": "StartGizmo",
+        "pos": {
+            "x": 1000,
+            "y": 87
+        },
+        "hooks": [],
+        "id": "StartGizmo5",
+        "parent": null,
+        "notifiers": {
+            "render": null
+        }
+    },
+    "UIBlueprint10": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 731,
+            "y": 232
+        },
+        "hooks": [{
+            "blueprintId": "UIBlueprint11",
+            "index": 1,
+            "myIndex": 2
+        }],
+        "id": "UIBlueprint10",
+        "parent": null,
+        "notifiers": {
+            "text": "placeholder"
+        },
+        "uiGizmo": "TextGizmo1"
+    },
+    "UIBlueprint11": {
+        "name": "UIBlueprint",
+        "pos": {
+            "x": 1123,
+            "y": 271
+        },
+        "hooks": [],
+        "id": "UIBlueprint11",
+        "parent": null,
+        "notifiers": {
+            "text": "placeholder"
+        },
+        "uiGizmo": "TextBoxGizmo2"
+    }
+}

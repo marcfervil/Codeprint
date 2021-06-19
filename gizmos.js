@@ -2,7 +2,8 @@
 
 
 class Gizmo extends HTMLElement {
-    constructor(x) {
+    constructor() {
+        
         super();
         
         

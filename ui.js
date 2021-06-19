@@ -117,6 +117,11 @@ class ViewGizmo extends UIGizmo{
         return this
     }
 
+    addGizmo(gizmo){
+        super.addGizmo(gizmo);
+        //gizmo.style.display = "inline"
+    }
+
     setParent(gizmo){
         super.setParent(gizmo)
        

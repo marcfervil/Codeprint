@@ -88,6 +88,7 @@
 <script type="text/javascript" src="recipies/justincase.js"></script>
 <script type="text/javascript" src="util.js"></script>
 <script type="text/javascript" src="notifier.js"></script>
+
 <script type="text/javascript" src="editor.js"></script>
 
 <script type="text/javascript" src="gizmos.js"></script>
@@ -101,7 +102,8 @@ document.isPreview = false;
 
     initGizmos();
     initMenu();
-
+    recipieList = ["clickclone", "math"]
+    recipieList[8] = "rand"
     //new TextGizmo();
 
 
@@ -112,8 +114,8 @@ document.isPreview = false;
         defaultLayout = JSON.parse(json);
         //Object.freeze(defaultLayout)
         
-        load(defaultLayout)
-      //  makeDefault();
+        //load(defaultLayout)
+        makeDefault();
     });
     
 
@@ -128,11 +130,15 @@ document.isPreview = false;
                 pos: gizmo.pos(),
                 hooks: [],
                 id: gizmo.id,
-                children: serialize(gizmo),
+                
+                parent: (gizmo.parent?.id ==undefined) ? null  : gizmo.parent.id,
                 notifiers: {}
             }
 
-
+           // console.log(gizmo.parent?.id)
+            //serialize(gizmo)
+            data = Object.assign(data, serialize(gizmo))
+            
             if(gizmo instanceof UIBlueprint || gizmo instanceof Blueprint){
                // console.log(gizmo.gizmo.notifiers)
                //console.log(gizmo)
@@ -184,9 +190,19 @@ document.isPreview = false;
  
     function load(data, parent = false){
         data = JSON.parse(JSON.stringify(data))
-        function create(gizmoData, arg){
+        function create(gizmoData){
            // console.log(gizmoData.name, arg)
-            let gizmo = new (eval(gizmoData.name))(arg)
+           
+            let gizmo = null;
+            if(gizmoData.name == "UIBlueprint"){
+                gizmo = createGizmo(eval(gizmoData.name), get(gizmoData.uiGizmo))
+            }else{
+                gizmo = createGizmo(eval(gizmoData.name))
+            }
+             
+
+        
+            //new (eval(gizmoData.name))(arg)
             gizmo.pos(gizmoData.pos.x, gizmoData.pos.y);
             gizmo.id = gizmoData.id;
 
@@ -215,7 +231,8 @@ document.isPreview = false;
             }
             gizmo.redrag();
             $("#bp").append(gizmo)
-            load(gizmoData.children, gizmo);
+            
+            //load(gizmoData.children, gizmo);
             setTimeout(()=>{
                 $(gizmo).trigger("repaint")
             },0)
@@ -225,20 +242,21 @@ document.isPreview = false;
         }
 
         function get(id){
-            return (id in data) ? create(data[id]) : $("#"+id)[0]
+            let f = (id in data) ? create(data[id]) : $("#"+id)[0]
+            //console.log(f)
+          //  if(f==undefined || f==null)console.log("undef",f)
+            return f
         }
         
         for(let gizmoId in data){
             let gizmoData = data[gizmoId];
             let gizmo = null;
-            if(gizmoData.name == "UIBlueprint"){
-                gizmo = create(gizmoData, get(gizmoData.uiGizmo));
-            }else{
-                gizmo = create(gizmoData);
-            }
-
-            if(parent != false){
-                parent.addGizmo(gizmo);
+         
+            gizmo = create(gizmoData);
+            
+            
+            if(gizmoData.parent != null){
+                get(gizmoData.parent).addGizmo(gizmo);
             }
 
         }
@@ -247,7 +265,8 @@ document.isPreview = false;
     storage = window.localStorage
    
 
-    recipieList = ["clickclone"]
+   
+   // console.log(recipieList)
     function openRecipie(name){
         
         editor.idNum=0;
@@ -264,7 +283,8 @@ document.isPreview = false;
     }
     $(document).keypress((e)=>{
         //console.log(e.key)
-        if(e.metaKey && e.key==1){
+        if(e.metaKey && (e.key>=1 && e.key <=9)){
+           
            openRecipie(recipieList[e.key-1])
     
         }
@@ -278,7 +298,7 @@ document.isPreview = false;
         if(e.metaKey && e.key=="Enter"){
             e.preventDefault();
             e.stopPropagation();
-            try{
+          //  try{
             editor.idNum=0;
             $("#bp").empty();
             $("#preview").empty();
@@ -287,9 +307,9 @@ document.isPreview = false;
             storage.getItem("layout")
             load(JSON.parse(storage.getItem("layout")));
            // load(JSON.parse(Cookies.get("layout")));
-            }catch{
-                console.log("couldn't load",storage.getItem("layout"))
-            }
+         //   }catch{
+               
+          //  }
         }
 
         if(e.metaKey && e.key=="s"){

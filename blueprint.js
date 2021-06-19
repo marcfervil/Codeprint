@@ -9,8 +9,12 @@ class Blueprint extends Gizmo {
         
         $(this).append(this.heading.text(headingText).addClass("hookBand"))
         
-        this.heading.prepend(this.getHookInput())
-        this.heading.append(this.getHookOutput())
+        let input = this.getHookInput()
+        let output = this.getHookOutput()
+        //input.isHeading = true;
+        //soutput.isHeading = true;
+        this.heading.prepend(input)
+        this.heading.append(output)
        
 
         this.heading.on("repaint", ()=>{
@@ -138,6 +142,13 @@ class Blueprint extends Gizmo {
              //   console.log("unhooking ",remove.hook.notifier.constructor.name)
                 remove.path.remove();
                 remove.hook.notifier.reset();
+                let hookStyle= {
+                    backgroundColor: "white",
+                    borderColor: "black"
+                }
+    
+                hook.css(hookStyle)
+                remove.hook.css(hookStyle)
                 //remove.hook.notifier.onUnhooked();
                 hook.outputs.splice(hook.outputs.indexOf(remove), 1)
             }else{
@@ -151,10 +162,13 @@ class Blueprint extends Gizmo {
             hook.outputs.push({hook: input, path: path})
             input.inputs.push(hook);
             
+            let hookStyle= {
+                backgroundColor: "#42a7e5",
+                //borderColor: (hook.isHeading == true) ? "white" : "#42a7e5"
+            }
 
-           
-            
-            input.css("backgroundColor", "white")
+            hook.css(hookStyle)
+            input.css(hookStyle)
             hook.trigger("repaint.hook")
             if(!(hook.notifier.isDeferred)){
               //  console.log(hook.notifier);
@@ -253,6 +267,10 @@ class Blueprint extends Gizmo {
         });
         this.hooks.push(hook)
         return hook
+    }
+
+    get(key){
+        return this.notifiers[key].get()
     }
 
     getNotiferInputField(key, notifier){

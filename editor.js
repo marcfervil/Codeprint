@@ -9,6 +9,7 @@ editor = {
         x: 0,
         y: 0
     },
+    menuItems: [],
     resetHover: () => {
 
         if(editor.hovered!=null){
@@ -19,11 +20,29 @@ editor = {
             editor.hovered = null;
             editor.dragging = false;
         }
+    },
+    addToMenu: (gizmoClass, catagory=null) => {
+        catagory = (catagory == null)? gizmoClass.getCatagory() : catagory
+        //let catagory = ;
+        //if(catagory.prototype instanceof ActionGizmo)catagory = "action"
+
+        editor.menuItems.push({
+            name: gizmoClass.getMenuName(), 
+            gizmo: gizmoClass, 
+            catagory: catagory
+        })
     }
 }
 
 
 function initGizmos(){
+    customElements.define('ui-shelf', UIShelf);
+    
+    customElements.define('zen-shelf', ZenShelf);
+    //customElements.define('ui-blueprint-gizmo', UIBlueprint);
+   // customElements.define('start-gizmo', StartGizmo);
+   // customElements.define('view-gizmo', ViewGizmo);
+    /*
     customElements.define('text-gizmo', TextGizmo);
     customElements.define('button-gizmo', ButtonGizmo);
     customElements.define('view-gizmo', ViewGizmo);
@@ -51,7 +70,7 @@ function initGizmos(){
     
     customElements.define('ui-shelf', UIShelf);
     
-    customElements.define('zen-shelf', ZenShelf);
+    customElements.define('zen-shelf', ZenShelf);*/
 
    // customElements.define('clone-gizmo-2', FunctionAction);
     
@@ -59,7 +78,7 @@ function initGizmos(){
 
 function initMenu(){
 
-    editor.menuItems = [
+    editor.menuItems.push(...[
         {name: "View", gizmo: ViewGizmo, catagory: "gizmo"},
         {name: "Text", gizmo: TextGizmo , catagory: "gizmo"},
         {name: "Button", gizmo: ButtonGizmo, catagory: "gizmo"},
@@ -80,13 +99,20 @@ function initMenu(){
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
         {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
+        //{name: "Get List Item", gizmo: GetListItem, catagory: "data"},
 
-    ]
+    ])
 
     for(let item of editor.menuItems){
         //gizmo-menu-drawer
         //$("#menu-items").append(
+
+            //console.log(item.gizmo.name, camel_to_snake(item.gizmo.name)+"-gizmo")
+        //customElements.define(camel_to_snake(item.gizmo.name)+"-gizmo", item.gizmo);
         let menuItem = ($("<span/>").text(item.name).mousedown((e)=>{
+            //console.log("")
+            
+
             let gizmo = createGizmo(item.gizmo);
             gizmo.style.display = "none"; 
             gizmo.style.zIndex = 5;
@@ -253,14 +279,14 @@ document.addEventListener("wheel",(e)=> {
  }
 
 function createGizmo(gizmoClass, ...args){
-    let gizmo = new gizmoClass(...args);
-    
-    if(gizmo instanceof UIGizmo){
+    //console.log(gizmoClass.name)
+    let elementName = camel_to_snake(gizmoClass.name)+"-gizmo";
+    if(customElements.get(elementName)==undefined){
         
-        //gizmo.drag();
+        customElements.define(elementName, gizmoClass)
     }
-    
 
+    let gizmo = new gizmoClass(...args);
     
     
     $("#bp").append(gizmo);

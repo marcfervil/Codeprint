@@ -17,7 +17,7 @@ body{
     font-family: 'Source Sans Pro', sans-serif;
 
     /*font-family: 'Roboto', sans-serif;*/
-    eletter-spacing: 1px;
+    /*letter-spacing: 1px;*/
     font-size: 17px;
 }
 
@@ -60,6 +60,12 @@ body{
     background-color: #ef767a !important;
     color: white !important
     
+}
+
+.dataHeading{
+    background-color: #7768AE !important;
+    color: white !important
+
 }
 
 

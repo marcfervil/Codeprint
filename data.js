@@ -4,21 +4,12 @@ class ListGizmo extends Blueprint {
         super("List")
         
         this.items = []
-        //this.notifiers = {"": new Notifier(this)}
-
-        this.outputNotifier = new Notifier(this);
-        this.completedHook = this.getHook(this.outputNotifier, "output");
-        this.heading.append(this.completedHook.css({
-            "float": "right",
-            "margin": "5px",
-            "marginBottom": "0px"
-        }))
-        
+   
         this.appendBox = $("<input/>").addClass("listInput").attr({
             "type": "text",
             "placeholder": "Add list item"
         })
-
+        this.heading.addClass("dataHeading")
         this.appendDiv = $("<div/>").addClass("listDiv")
         
         this.appendButton = $("<span/>").append($("<i/>").addClass("fas fa-plus"))
@@ -27,7 +18,7 @@ class ListGizmo extends Blueprint {
         this.itemDiv = $("<div/>")
         //$(this).append($("<hr>").css({padding:0, margin: 0}))
 
-        $(this).append($("<br/>"))
+//        $(this).append($("<br/>"))
        
 
         this.appendDiv.append(this.appendButton);
@@ -44,6 +35,16 @@ class ListGizmo extends Blueprint {
         });
     }
 
+    getHookOutput(){
+        this.outputNotifier = new Notifier(this);
+        this.completedHook = this.getHook(this.outputNotifier, "output");
+        this.heading.append(this.completedHook.css({
+            "float": "right",
+            "margin": "5px",
+            "marginBottom": "0px"
+        }))
+    }
+
     addItem(item){
         this.itemDiv.css("display", "block")
         this.itemDiv.append($("<div/>").html(`<b>${this.items.length}</b>: ${item}`).addClass("listItemDiv"))
@@ -54,7 +55,7 @@ class ListGizmo extends Blueprint {
 
 }
 
-
+/*
 class FunctionGizmo extends Blueprint {
     constructor(name, func = null, noteifierTypes){
         super(" "+name)
@@ -96,7 +97,7 @@ class FunctionGizmo extends Blueprint {
 
         this.exec = () => {
             if(!this.ready){
-                console.log("NOT READY")
+                //console.log("NOT READY")
                 return null
             }
             let args = []
@@ -153,51 +154,43 @@ class FunctionGizmo extends Blueprint {
         //this.outputNotifier.set("dopskop");
     }
 
-}
+}*/
 
-class GetListItem2 extends FunctionGizmo{
-    
+
+class NumberGizmo extends Blueprint {
+
+   
+   // static catagory = "data";
+
     constructor(){
-        super("Get List Item", null, {
-            list: SelfNotifier,
-        })
-
+        super("Number");
+        this.notifiers = this.getNotifiers()
+        this.heading.addClass("dataHeading");
+        
+        this.hookNotifiers(this.notifiers )
+        
+       // console.log(this.notifiers)
+        //$(this).append(this.getNotiferInputField("number", this.notifiers.number))
+        //this.notifiers.number.isDeferred = false;
     }
 
-  
-    func(list, index){
-       // console.log("here?", list.items[index]) 
-        return list.items[index];
-        //return "works...!"
+    getNotifiers(){
+        return {
+            "number":  new StringNotifier(0, false)
+        }
     }
 
-    
+    static getMenuName(){
+        return "Number"
+    } 
+
+    static getCatagory(){
+        return "data";
+    }
 
 }
+editor.addToMenu(NumberGizmo);
 
+//console.log(NumberGizmo.prototype instanceof Blueprint);
 
-
-class Clone2 extends FunctionGizmo{
-    
-    constructor(){
-        super("Clone", null, {
-            gizmo: SelfNotifier
-        })
-
-    }
-
-  
-    func(gizmo){
-        //console.log(gizmo)
-        let clone = gizmo.cloneNode(true);
-        //clone.style.opacity = 0.5;
-        //gizmo.parent.addGizmo(clone)
-
-        return clone;
-        //
-
-    }
-
-    
-
-}
+//editor.menuItems.push({name: "Number", gizmo: NumberGizmo , catagory: "data"})

@@ -371,9 +371,10 @@ class StyleNotifier extends UINotifier{
 //deffered value to deffered value should update
 class StringNotifier extends Notifier{
 
-    constructor(initValue){
+    constructor(initValue, isDeferred = true){
         
         super(initValue)
+        this.isDeferred = isDeferred;
     }
 
     updateField(value){
@@ -382,11 +383,12 @@ class StringNotifier extends Notifier{
     }
 
     set(value, update){
+
         this.value = value
        
         //console.log(this.field)
         //this.field.t
-        if(update || value instanceof ReturnNotifier){
+        if(update || this.isDeferred==false){
             super.set(value)
             
         }

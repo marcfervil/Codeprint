@@ -14,14 +14,17 @@ class ActionGizmo extends Blueprint{
  
        
         this.heading.prepend(this.execHook)
-        //this.exec.bind(this);
-//#F8F9FA
+
         this.heading.addClass("actionHeading");
         
      
         $(this).dblclick(()=>{
             this.exec();
         })
+    }
+
+    getCatagory(){
+        return "action"
     }
 
     getHookInput(){
@@ -53,24 +56,60 @@ class FunctionAction extends ActionGizmo{
 
     constructor(name){
         super(name);
+       
         this.resultNotifier = new SelfNotifier(null);
         this.resultNotifier.isDeferred=true;
         this.resultNotifier.hasOutput = ()=>true;
         this.resultNotifier.hasInput = ()=>false;
         this.resultField = this.getNotiferInputField("Result",  this.resultNotifier);
 
-        //this.resultHoo
+    
         $(this).append($("<hr>").css({padding:0, margin: 0}))
-      //  console.log(this.resultHook)
+
         $(this).append(this.resultField);
 
+        this.exec = ()=>{
+            let result = this.onExec()
+            this.resultNotifier.set(result);
+            this.resultNotifier.updateField(result);
+            if(result!=false)this.completedNotifier.exec()
+        }
 
-        //this.resultHook.setHooks(null, this.resultHook)
+        this.execNotifier.value = this.exec
     }
 
     
 
 }
+
+
+class Add extends FunctionAction{
+
+    constructor(){
+        super("Add");
+       
+    }
+
+    static getMenuName(){
+        return "Add"
+    }
+
+    getNotifiers(){
+        return {
+            "number1" : new StringNotifier(),
+            "number2" : new StringNotifier()
+        }
+    }
+
+    onExec(){
+        let num1 = parseInt(this.get("number1"));
+        let num2 = parseInt(this.get("number2"));
+     
+        return num1 + num2;
+    }
+}
+
+editor.addToMenu(Add, "action")
 
 
 class Clone extends FunctionAction{
@@ -90,8 +129,7 @@ class Clone extends FunctionAction{
         let gizmo = this.notifiers.gizmo.get();
         let clone = gizmo.cloneNode(true);
      
-        this.resultNotifier.set(clone);
-        this.resultNotifier.updateField(clone);
+        return clone;
     }
 
 }
@@ -100,7 +138,7 @@ class Clone extends FunctionAction{
 class GetListItem extends FunctionAction{
 
     constructor(){
-        super("Clone");
+        super("Get list item");
        
     }
 
@@ -112,10 +150,8 @@ class GetListItem extends FunctionAction{
     }
 
     onExec(){
-        let x = this.notifiers.list.get().items[this.notifiers.index.get()];
-      
-        this.resultNotifier.set(x);
-        this.resultNotifier.updateField(x);
+        return this.notifiers.list.get().items[this.notifiers.index.get()];
+        
     }
 
 }
