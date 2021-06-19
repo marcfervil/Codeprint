@@ -109,7 +109,7 @@ document.isPreview = false;
 
     defaultLayout = null;
     //clonebutton
-    jQuery.get("recipies/default.json", function(json) {
+    jQuery.get("/recipies/default.json", function(json) {
         //JSON.parse(json)
         defaultLayout = JSON.parse(json);
         //Object.freeze(defaultLayout)
