@@ -160,19 +160,62 @@ $("#bparea").mousemove((e)=>{
         $("#bp").offset({left:px + (e.clientX - editor.pan.x) , top: py+(e.clientY-editor.pan.y)})
     }
 })
+scale = 1;
+document.addEventListener('gesturestart',   e => e.preventDefault());
+document.addEventListener('gesturechange', e => e.preventDefault());
+document.addEventListener('gestureend', e => e.preventDefault());
 
+
+mouseX = 0;
+mouseY = 0;
+document.addEventListener("mousemove",(e)=> {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+
+let lastOff = {left:0, top:0}
 document.addEventListener("wheel",(e)=> {
             
     e.preventDefault();
 
-     
 
-     if(e.ctrlKey){
+    window.requestAnimationFrame(()=>{
+        let x = $("#bp").offset().left;
+        let y = $("#bp").offset().top;
+        let w = $("#bparea")[0].getBoundingClientRect().width;
+        let h = $("#bparea")[0].getBoundingClientRect().height;
+        let xx = $("#bparea")[0].getBoundingClientRect().x;
+        let yy = $("#bparea")[0].getBoundingClientRect().y;
+        console.log(x,y)
+        if(e.ctrlKey){
         //zoom
-     }else{
-       
-        $("#bp").offset({left: $("#bp").offset().left-e.deltaX, top: $("#bp").offset().top-e.deltaY})
-     }
+        
+         //   this.zoom();
+        // console.log("eopwkf")
+         //   $("#bp")[0].style.zoom = "0.1%"
+
+           
+            scale += e.deltaY * 0.01;
+            //$("#bp").offset({left: 10000, top: 1000})
+            $("#bp")[0].style.transform = ` scale(${scale}) `;
+           // console.log(x, $("#bp")[0].getBoundingClientRect().left)
+            //$("#bp").offset({left: (xx-(w/2)), top: yy-(h/2) })
+           
+            $("#bp").offset({left: x, top: y })
+            
+            //+= (e.deltaY)
+           
+
+        //    $("#bp").offset({left: "+=100", top: "+=100" })
+          
+        }else{
+            lastOff = {left: x - e.deltaX, top: y - e.deltaY}
+            $("#bp").offset(lastOff)
+            
+            
+        }
+    })
 
     
  }, {passive: false});

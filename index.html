@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
 </head>
 
-    <body>
+    <body  oncontextmenu="return false;">
 
         <button style="position: fixed; z-index: 5;bottom: 10px; right: 10px;" onclick="preview()">Preview</button>
         
@@ -110,7 +110,7 @@ document.isPreview = false;
     defaultLayout = null;
     //clonebutton
     jQuery.get("recipies/default.json", function(json) {
-        console.log(json)
+      //  console.log(json)
         //JSON.parse(json)
         defaultLayout = json;
         //Object.freeze(defaultLayout)
@@ -275,7 +275,7 @@ document.isPreview = false;
         $("#preview").empty();
         jQuery.get("recipies/"+name+".json", function(json) {
             //JSON.parse(json)
-            defaultLayout = (json);
+            defaultLayout = JSON.parse(json);
             //Object.freeze(defaultLayout)
             
             load(defaultLayout)
@@ -292,8 +292,8 @@ document.isPreview = false;
         }
         if(e.metaKey && e.key=="p"){
             e.preventDefault();
-            console.log(JSON.stringify(serialize()));
-            console.log(serialize());
+            //console.log(JSON.stringify(serialize()));
+            //console.log(serialize());
            // console.log(serialize())
         }
         

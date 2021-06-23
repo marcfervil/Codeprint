@@ -15,7 +15,7 @@ class Notifier{
 
 
     clone(){
-        return new this.constructor(this.value)
+        return new this.constructor(this.value) 
     }
 
 
