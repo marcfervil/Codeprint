@@ -187,7 +187,7 @@ document.addEventListener("wheel",(e)=> {
         let h = $("#bparea")[0].getBoundingClientRect().height;
         let xx = $("#bparea")[0].getBoundingClientRect().x;
         let yy = $("#bparea")[0].getBoundingClientRect().y;
-        console.log(x,y)
+       // console.log(x,y)
         if(e.ctrlKey){
         //zoom
         
