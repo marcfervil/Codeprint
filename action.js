@@ -382,17 +382,20 @@ class ForGizmo extends ActionGizmo{
  
     onExec(){
 
-       
-       // this.notifiers.else.exec()
         let iter = this.get("in");
-        //console.log(each)
+       
+        let items = null;
         if(iter instanceof ListGizmo){
-            for(let item of iter.items){
-                this.notifiers.element.set(item)
-                this.notifiers.do.exec()
-                //console.log(item)
-            }
+            items = iter.items
+        }else if(iter instanceof Gizmo){
+            items = $(iter).children()
         }
+        for(let item of items){
+            this.notifiers.element.set(item)
+            this.notifiers.do.exec()
+            //console.log(item)
+        }
+        
         
         
     }

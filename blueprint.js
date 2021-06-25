@@ -33,6 +33,10 @@ class Blueprint extends Gizmo {
             $(this.heading).children().trigger("repaint.hook");
         },0)
 
+        new ResizeObserver(()=>{
+            $(this).children().trigger("repaint.div");
+            $(this.heading).children().trigger("repaint.hook");
+        }).observe(this);
      
     }
 

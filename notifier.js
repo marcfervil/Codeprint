@@ -560,6 +560,10 @@ class AggregateNotifier extends Notifier {
         return false;
     }
 
+    hasInput(){
+        return false;
+    }
+
     clone(){
         let cloneifiers = {}
 

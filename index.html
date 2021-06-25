@@ -275,6 +275,7 @@ document.isPreview = false;
         $("#preview").empty();
         jQuery.get("recipies/"+name+".json", function(json) {
             //JSON.parse(json)
+            
             defaultLayout = (json);
             //Object.freeze(defaultLayout)
             
@@ -285,18 +286,23 @@ document.isPreview = false;
     $(document).keypress((e)=>{
         //console.log(e.key)
        // console.log(e.keyCode)
-        if(e.ctrlKey && (e.key>=1 && e.key <=9)){
+
+        
+       
+       
+        if((e.ctrlKey ) && (e.key>=1 && e.key <=9)){
            
            openRecipie(recipieList[e.key-1])
     
         }
         if(e.metaKey && e.key=="p"){
             e.preventDefault();
-            //console.log(JSON.stringify(serialize()));
-            //console.log(serialize());
+            console.log(JSON.stringify(serialize()));
+            console.log(serialize());
            // console.log(serialize())
         }
         
+
         if(e.metaKey && e.key=="Enter"){
             e.preventDefault();
             e.stopPropagation();
@@ -314,6 +320,7 @@ document.isPreview = false;
           //  }
         }
 
+        
         if(e.metaKey && e.key=="s"){
             e.preventDefault();
             let f = serialize();
