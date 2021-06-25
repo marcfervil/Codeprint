@@ -39,7 +39,7 @@ button{
     background-color: lightgray;
     padding: 10px;
     margin: 0px;
-    z-index: 2;
+    z-index: 3;
 }
 
 .blueprintArea{
