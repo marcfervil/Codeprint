@@ -61,7 +61,8 @@ class StartGizmo extends EventGizmo{
 
     updatePreview(gizmo){
         
-        
+       // console.log("update",gizmo)
+
         editor.preview.children().detach()
         if(gizmo!=null && gizmo!=undefined){
             editor.preview[0].appendChild(gizmo.getPreview())

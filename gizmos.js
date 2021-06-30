@@ -17,7 +17,7 @@ class Gizmo extends HTMLElement {
         this.previewRef = null;
         this.onPreviewed = []
         this.style.display = "block"; 
-        if(this.hasChildren()){
+        if(this.hasChildren() && !this.isPreview){
             $(this).mouseover(this.hover);
             $(this).mouseout(this.unhover);
         }
@@ -126,7 +126,8 @@ class Gizmo extends HTMLElement {
         
         if(!this.hasChildren() || !(editor.dragging instanceof UIGizmo) ||this.isPreview)return;
         if((editor.dragging!=false && editor.dragging!=this )|| event==true){
-            this.style.backgroundColor = "lightgrey";
+           // this.style.backgroundColor = "lightgrey";
+           this.style.filter = "brightness(90%)";
             //if(editor.hovered!=null)editor.hovered.unhover();
             editor.hovered = this;
             if(event!=true && event!=undefined)event.stopPropagation();
@@ -137,7 +138,8 @@ class Gizmo extends HTMLElement {
        
         
         if(editor.dragging!=false && editor.dragging!=this){
-            this.style.backgroundColor = null;
+           // this.style.backgroundColor = null;
+           this.style.filter = null;
             if(!this.isPreview)editor.hovered = null;
 
         }

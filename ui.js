@@ -141,7 +141,10 @@ class ViewGizmo extends UIGizmo{
     setParent(gizmo){
         super.setParent(gizmo)
        
-        //if(!this.hasAttribute("isPreview")){
+        if(this.hasAttribute("isPreview")){
+            this.style.boxSizing =  "border-box"; 
+            this.style.padding = "5px";
+        }
         if(gizmo!=null){
             
             this.style.width = null;
@@ -158,23 +161,28 @@ class ViewGizmo extends UIGizmo{
         }
     }
 
+    alignmentChange(field, value){
+        console.log(value)
+    }
+
     getNotifiers(){
         let uiField = $(this.getUiField());
         //onsole.log(uiField[0].style.color)
         return {
-           
+        
+            "alignment": new UINotifier(uiField, (field)=>field.text(), this.alignmentChange).dropdown(["horizontal", "vertical"]),
              
             "style": new AggregateNotifier({
                 "textcolor": new StyleNotifier($(uiField), "color" ).color(),
 
-                /*
+                
                 "background": new StyleNotifier(uiField, "backgroundColor").color(),
                 "round": new StyleNotifier(uiField, "borderRadius", .5).decorate("", "vh").slider(0, 2),
                 "border": new AggregateNotifier({
-                    "thickness": new StyleNotifier(uiField, "border-width", 0),
+                    "thickness": new StyleNotifier(uiField, "border-width", 1),
                     "color": new StyleNotifier(uiField, "border-color", "black").color(),
                     "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed"])
-                })*/
+                })
             })
             
         }

@@ -3,6 +3,7 @@ class Notifier{
     constructor(value){
         this.value = value
         this.initValue = value;
+        this.lastValue = value;
 
         this.fieldUpdater = null;
         this.resetUpdater= null
@@ -20,8 +21,10 @@ class Notifier{
 
 
     reset(){
-        this.updateFieldUI(this.initValue)
-        this.set(this.initValue)
+        this.updateFieldUI(this.lastValue)
+        this.set(this.lastValue)
+        //this.updateFieldUI(this.initValue)
+        //this.set(this.initValue)
         //this.onUnhooked()
         //console.log("reset, value is ", this.value)
         if(this.resetUpdater!=null){
@@ -88,6 +91,7 @@ class Notifier{
 
     set(value){
        // value = this.prefix() + value + this.suffix()
+        this.lastValue = this.value
         this.modified = true;
         if(value instanceof ReturnNotifier){
             this.runtimeNotifier = value;
@@ -155,7 +159,7 @@ class SelfNotifier extends Notifier{
     set(value){
         super.set(value)
         this.update(value)
-
+        //alert("yo")
         if(this.outputHook!=undefined){
         for(let uiHook of this.outputHook.outputs){
             //if(!this.isDeferred){
