@@ -85,19 +85,34 @@ class TextGizmo extends UIGizmo{
         //console.log(this.text)
     }
 
+
     initHookedUI(){
         this.text = $(this).text("placeholder");
     }
 
     getUiField(){
+       // console.trace("fewfe")
+        //console.log(this.text)
         return this.text
     }
 
 
     getNotifiers(){
-        
+        let uiField = (this.getUiField());
         return {
-            "text": new UINotifier(this.text, (field)=>field.text(), (field, value)=>field.text(value))
+            "text": new UINotifier(this.text, (field)=>field.text(), (field, value)=>field.text(value)),
+            "style": new AggregateNotifier({
+                "textcolor": new StyleNotifier(uiField, "color" ).color(),
+
+                /*
+                "background": new StyleNotifier(uiField, "backgroundColor").color(),
+                "round": new StyleNotifier(uiField, "borderRadius", .5).decorate("", "vh").slider(0, 2),
+                "border": new AggregateNotifier({
+                    "thickness": new StyleNotifier(uiField, "border-width", 0),
+                    "color": new StyleNotifier(uiField, "border-color", "black").color(),
+                    "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed"])
+                })*/
+            })
         }
     }
 }
@@ -114,7 +129,8 @@ class ViewGizmo extends UIGizmo{
     }
 
     getUiField(){
-        return this
+    
+        return this;
     }
 
     addGizmo(gizmo){
@@ -139,6 +155,28 @@ class ViewGizmo extends UIGizmo{
             this.style.width = "2%";
             this.style.minHeight = "6%";
             this.style.marginTop = null;
+        }
+    }
+
+    getNotifiers(){
+        let uiField = $(this.getUiField());
+        //onsole.log(uiField[0].style.color)
+        return {
+           
+             
+            "style": new AggregateNotifier({
+                "textcolor": new StyleNotifier($(uiField), "color" ).color(),
+
+                /*
+                "background": new StyleNotifier(uiField, "backgroundColor").color(),
+                "round": new StyleNotifier(uiField, "borderRadius", .5).decorate("", "vh").slider(0, 2),
+                "border": new AggregateNotifier({
+                    "thickness": new StyleNotifier(uiField, "border-width", 0),
+                    "color": new StyleNotifier(uiField, "border-color", "black").color(),
+                    "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed"])
+                })*/
+            })
+            
         }
     }
 }

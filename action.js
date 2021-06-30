@@ -390,6 +390,7 @@ class ForGizmo extends ActionGizmo{
         }else if(iter instanceof Gizmo){
             items = $(iter).children()
         }
+        
         for(let item of items){
             this.notifiers.element.set(item)
             this.notifiers.do.exec()

@@ -339,6 +339,7 @@ class UINotifier extends Notifier{
         if(value instanceof ReturnNotifier) value = value.exec()
         for(let field of this.uiFields){
             //console.log("RWOWOWJKO",field,value)
+            //if(field==undefined)console.log("WeeWoo")
             this.fieldSet(field, this.prefix() + value + this.suffix())
         }
  
@@ -350,9 +351,15 @@ class UINotifier extends Notifier{
 class StyleNotifier extends UINotifier{
 
     constructor(field, fieldName, defaultValue){
-        
+       
+     //   console.log(field);
         let getField = (field) => field[0].style[fieldName];
-        let setField = (field, value) => field[0].style[fieldName] = value;
+        
+        let setField = (field, value) => {
+            //yes this line of code looks dumb, but in my defence....it is dumb
+            $(field)[0].style[fieldName] = value;
+           
+        }
         //this.ff = field
         super(field, getField, setField)
         
