@@ -7,7 +7,7 @@ class Blueprint extends Gizmo {
         this.heading = $("<span/>");
         this.hooks = []
         
-        $(this).append(this.heading.text(headingText).addClass("hookBand"))
+        $(this).append(this.heading.append($("<span/>").text(headingText)).addClass("hookBand"))
         
         let input = this.getHookInput()
         let output = this.getHookOutput()
@@ -17,11 +17,11 @@ class Blueprint extends Gizmo {
         this.heading.append(output)
        
 
-        this.heading.on("repaint", ()=>{
+        this.heading.on("repaint", () => {
             $(this.heading).children().trigger("repaint.hook")
         })
 
-        $(this).on("repaint", ()=>{
+        $(this).on("repaint", () => {
             
             $(this).children().trigger("repaint.div")
             
@@ -33,9 +33,11 @@ class Blueprint extends Gizmo {
             $(this.heading).children().trigger("repaint.hook");
         },0)
 
-        new ResizeObserver(()=>{
+        new ResizeObserver((cr)=>{
+            //console.log(`Element size: ${$(cr).width()}px ${$(cr).height()}px`);
             $(this).children().trigger("repaint.div");
             $(this.heading).children().trigger("repaint.hook");
+
         }).observe(this);
      
     }
@@ -46,6 +48,10 @@ class Blueprint extends Gizmo {
 
     getHookOutput(){
         return $("<span/>");
+    }
+
+    setHeading(text){
+        this.heading.children().eq(1).text(text)
     }
 
     //TODO: for the love of God, just make a hook class
@@ -146,6 +152,7 @@ class Blueprint extends Gizmo {
              //   console.log("unhooking ",remove.hook.notifier.constructor.name)
                 remove.path.remove();
                 remove.hook.notifier.reset();
+                
                 let hookStyle= {
                     backgroundColor: "white",
                     borderColor: "black"
@@ -270,6 +277,9 @@ class Blueprint extends Gizmo {
             }
         });
         this.hooks.push(hook)
+        hook[0].hook = hook.hook;
+        hook[0].unhook = hook.unhook;
+        
         return hook
     }
 
@@ -285,11 +295,13 @@ class Blueprint extends Gizmo {
         let showKey = true;
        
         if(notifier instanceof TextInputNotifier || notifier instanceof StringNotifier || notifier instanceof UINotifier ){
-            notifierField = $("<input/>", {
+            let type = (notifier.area ===undefined ) ? "input" : "textarea";
+            
+            notifierField = $(`<${type}/>`, {
                 
                 
                 val: notifier.get(),
-                prop: {type: "text"},
+                //prop: {type: "text"},
                 on: {
                     
                     mousedown:(e) =>{
@@ -300,11 +312,15 @@ class Blueprint extends Gizmo {
                     input: (e) => {
                         
                         let me = $(e.target);
+                        var startPos = me[0].selectionStart;
+                        var endPos = me[0].selectionEnd;
                         let savedVal = me.val();
                         
                         me.val("");
                 
                         notifier.set(savedVal)
+
+                        me[0].setSelectionRange(startPos, endPos);
                         //console.log(savedVal,me.val(),me)
                     }
                 },
@@ -312,6 +328,11 @@ class Blueprint extends Gizmo {
             }).attr("autocomplete","off").css({
                // float: "right"
             });
+            if(notifier.area !==undefined ){
+                notifierField.attr(notifier.area)
+                notifierField.css("marginLeft", "10px")
+            }
+            
         }else if(notifier instanceof OptionNotifier){
             notifierField = $("<select/>", {
                 on: {
@@ -355,12 +376,22 @@ class Blueprint extends Gizmo {
            
         }
 
-       
+        //notifierField.notifier = notifier;
         //output.css("float","right")
         if(notifier.hasInput())div.prepend(input)
         else div.append("<span/>")
 
-        let content = $("<span/>");
+        let content = $("<span/>")
+
+        
+        if(notifier.area !==undefined ){
+        content.css({
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            
+        });
+        }
         if(showKey)content.append("  "+key+": ")
         content.append(notifierField)
 
@@ -427,7 +458,7 @@ class UIBlueprint extends Blueprint {
         
         this.hookNotifiers(this.gizmo.notifiers, (key, notifier)=>{
             notifier.key = key;
-            notifier.gizmo = gizmo
+            notifier.gizmo = gizmo;
         });
 
        
@@ -447,7 +478,7 @@ class UIBlueprint extends Blueprint {
     }
 
     getHookOutput(){
-        this.selfNotifier = new SelfNotifier(this.gizmo);
+        this.selfNotifier = new SelfNotifier(null);
         this.selfHook = this.getHook(this.selfNotifier, "output");
         return this.selfHook;
     }

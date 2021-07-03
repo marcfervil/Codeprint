@@ -21,8 +21,11 @@ class Notifier{
 
 
     reset(){
-        this.updateFieldUI(this.lastValue)
-        this.set(this.lastValue)
+        //let last = this.lastValue
+       // console.log(this.initValue)
+        if(this instanceof ActionNotifier || this instanceof ExecutionNotifier)this.initValue=null;
+        this.updateFieldUI(this.initValue)
+        this.set(this.initValue)
         //this.updateFieldUI(this.initValue)
         //this.set(this.initValue)
         //this.onUnhooked()
@@ -91,7 +94,10 @@ class Notifier{
 
     set(value){
        // value = this.prefix() + value + this.suffix()
-        this.lastValue = this.value
+        //console.log(this.lastValue)
+        this.lastValue = this.value;
+
+        if(this.initValue===null) this.initValue=value; 
         this.modified = true;
         if(value instanceof ReturnNotifier){
             this.runtimeNotifier = value;
@@ -128,6 +134,7 @@ class Notifier{
 
 class SelfNotifier extends Notifier{
     constructor(self){
+        //console.log(self)
        super(self);
     }
     hasOutput(){
@@ -357,7 +364,12 @@ class StyleNotifier extends UINotifier{
     constructor(field, fieldName, defaultValue){
        
      //   console.log(field);
-        let getField = (field) => field[0].style[fieldName];
+        //if(!(field instanceof jQuery))field = $(field)
+        
+        let getField = (field) => {
+           // console.log(field)
+            $(field)[0].style[fieldName];
+        }
         
         let setField = (field, value) => {
             //yes this line of code looks dumb, but in my defence....it is dumb
@@ -374,7 +386,7 @@ class StyleNotifier extends UINotifier{
 
     clone(){
         
-        return new this.constructor($(this.ff).clone(true), this.fieldName)
+        return new this.constructor($(this.fieldCloneRef).clone(true), this.fieldName)
     }
 
    
@@ -389,11 +401,17 @@ class StringNotifier extends Notifier{
         
         super(initValue)
         this.isDeferred = isDeferred;
+        //this.area = null;
     }
 
     updateField(value){
         super.updateField(value)
         if(this.field!==undefined)this.field.val(value)
+    }
+
+    textarea(rows, cols){
+        this.area = {rows, cols}
+        return this;
     }
 
     set(value, update){
@@ -497,13 +515,11 @@ class ActionNotifier extends Notifier{
         if(this.value!=null)this.value()
     }
 
-    reset(){
-        super.reset();
-     //    console.log("reset, value is ", this.value)
-    }
+   
 
     onUnhooked(){
         super.onUnhooked()
+        this.reset()
         //console.log("action unhooked!")
     }
 

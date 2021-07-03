@@ -3,7 +3,7 @@ class UIGizmo extends Gizmo{
     constructor() {
         super();
         this.blueprint = null;
-       
+        
         $(this).dblclick((e)=>{
             if(this instanceof UIGizmo && !this.isPreview){
                 this.blueprint = this.createBlueprint();
@@ -13,7 +13,7 @@ class UIGizmo extends Gizmo{
                 
                 if(editor.hovered!=null){
                     editor.hovered.unhover()
-
+                    
                 }
                 editor.dragging = false;
             }
@@ -23,9 +23,21 @@ class UIGizmo extends Gizmo{
         
     }
 
-    cloneNode(){
+    cloneNode(deep=false){
+       // console.log('here', this)
         let node = super.cloneNode();
-        
+        if(deep){
+            $(this).children().each((index, child)=>{
+                //console.log(child)
+                if(child instanceof Gizmo)
+                node.addGizmo(child.cloneNode(deep))
+            });
+        }
+        if(node.getAttribute("isPreview")==null){
+           // node.childNodes.forEach((node)=>node.style.position="static")
+            //node.childNodes[0].style.position = "static"
+        }
+        //if(node.getAttribute("isPreview")==false)node.style.position = "static"
         for(let notifier in this.notifiers){
             node.notifiers[notifier].set(this.notifiers[notifier].get());
         }
@@ -46,7 +58,7 @@ class UIGizmo extends Gizmo{
     getNotifiers(){
         return {
 
-        }
+        } 
     }
 
     createBlueprint(){
@@ -130,7 +142,7 @@ class ViewGizmo extends UIGizmo{
 
     getUiField(){
     
-        return this;
+        return $(this);
     }
 
     addGizmo(gizmo){
@@ -162,15 +174,23 @@ class ViewGizmo extends UIGizmo{
     }
 
     alignmentChange(field, value){
-        console.log(value)
+        //console.log(field)
+        if(value=="horizontal"){
+            //field[0].style.display = "inline-flex";
+            field[0].style.display = "flex";
+            field[0].style.flexDirection = "row";
+           // field[0].style.gridAutoFlow = "column";
+        }else{
+            field[0].style.display = "block";
+        }
     }
 
     getNotifiers(){
-        let uiField = $(this.getUiField());
+        let uiField = (this.getUiField());
         //onsole.log(uiField[0].style.color)
         return {
         
-            "alignment": new UINotifier(uiField, (field)=>field.text(), this.alignmentChange).dropdown(["horizontal", "vertical"]),
+           // "alignment": new UINotifier(uiField, (field)=>field.text(), this.alignmentChange).dropdown(["vertical", "horizontal"]),
              
             "style": new AggregateNotifier({
                 "textcolor": new StyleNotifier($(uiField), "color" ).color(),
@@ -181,7 +201,7 @@ class ViewGizmo extends UIGizmo{
                 "border": new AggregateNotifier({
                     "thickness": new StyleNotifier(uiField, "border-width", 1),
                     "color": new StyleNotifier(uiField, "border-color", "black").color(),
-                    "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed"])
+                    "type": new StyleNotifier(uiField, "border-style", "solid").dropdown(["solid", "dotted", "dashed", "none"])
                 })
             })
             

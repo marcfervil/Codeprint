@@ -197,6 +197,100 @@ class NumberGizmo extends Blueprint {
 }
 editor.addToMenu(NumberGizmo);
 
+
+
+class CustomGizmo extends Blueprint {
+
+   
+    // static catagory = "data";
+ 
+     constructor(){
+         super("CustomGizmo");
+         this.notifiers = this.getNotifiers()
+         this.heading.addClass("dataHeading");
+         
+         this.hookNotifiers(this.notifiers, (key, note)=>{
+           //  console.log(note)
+            if(key=="root"){
+                note.onUpdate((gizmo)=>{
+                    //console.log(gizmo);
+
+                    $(gizmo).children().each((index, child)=>{
+                    
+                        
+                        let note = new SelfNotifier(child);
+                        note.hasOutput = () => true;
+                        note.hasInput = () => false;
+                        //console.log(child)
+                        
+                        $(this).append(this.getNotiferInputField(child.constructor.name, note))
+                        note.set(child)
+                        
+                        
+                    })
+                    setTimeout(()=>{
+                        console.log("gizmo",gizmo)
+                    let clone = gizmo.cloneNode(true);
+                    console.log("clone",clone)
+                    //clone.getCatagory = ()=> "gizmo";
+                    //console.log(clone.class, this.class)
+                    //clone.constructor.getMenuName = ()=> this.get("name");
+                    
+                    function UserGizmo()
+                    {
+                        const newTarget = clone.__proto__.constructor;
+                        return Reflect.construct(clone.constructor, [], newTarget);
+                    }
+                    Object.setPrototypeOf(UserGizmo, HTMLElement);
+                    Object.setPrototypeOf(UserGizmo.prototype, HTMLElement.prototype);
+
+                    let name = this.get("name") 
+                    class CustomUserGizmo extends UserGizmo {
+                        constructor() {
+                            super();
+                            //console.log($(clone))
+                            $(clone).children().each((index, child)=>{
+                                console.log(child)
+                                //this.addGizmo(child)
+                            });
+                        }
+                        static getMenuName() {
+                            return name;
+                        }
+                    }
+
+                    editor.addToMenu(CustomUserGizmo, "gizmo", true);
+
+
+                },100)
+                });
+            }
+         })
+         
+        // console.log(this.notifiers)
+         //$(this).append(this.getNotiferInputField("number", this.notifiers.number))
+         //this.notifiers.number.isDeferred = false;
+     }
+ 
+     getNotifiers(){
+         return {
+            "name":  new StringNotifier(),
+             "root":  new SelfNotifier(),
+             //"control":  new StringNotifier()
+         }
+     }
+ 
+     static getMenuName(){
+         return "Custom Gizmo"
+     } 
+ 
+     static getCatagory(){
+         return "data";
+     }
+ 
+ }
+ editor.addToMenu(CustomGizmo);
+
 //console.log(NumberGizmo.prototype instanceof Blueprint);
 
 //editor.menuItems.push({name: "Number", gizmo: NumberGizmo , catagory: "data"})

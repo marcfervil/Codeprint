@@ -21,16 +21,21 @@ editor = {
             editor.dragging = false;
         }
     },
-    addToMenu: (gizmoClass, catagory=null) => {
+    addToMenu: (gizmoClass, catagory=null, rightNow=false) => {
         catagory = (catagory == null)? gizmoClass.getCatagory() : catagory
         //let catagory = ;
         //if(catagory.prototype instanceof ActionGizmo)catagory = "action"
-
-        editor.menuItems.push({
+        let gizmoData = {
             name: gizmoClass.getMenuName(), 
             gizmo: gizmoClass, 
             catagory: catagory
-        })
+        }
+        console.log(gizmoData)
+        if(!rightNow){
+            editor.menuItems.push(gizmoData)
+        }else{
+            editor.addGizmo(gizmoData)
+        }
     }
 }
 
@@ -76,6 +81,21 @@ function initGizmos(){
     
 }
 
+editor.addGizmo = function(item){
+    let menuItem = ($("<span/>").text(item.name).mousedown((e)=>{
+        let gizmo = createGizmo(item.gizmo);
+        gizmo.style.display = "none"; 
+        gizmo.style.zIndex = 5;
+        gizmo.drag();
+        gizmo.pos(e.clientX-$("#bp").offset().left, e.clientY-$("#bp").offset().top)
+    }));
+    if(item.catagory!=undefined){
+        $(`#${item.catagory}-menu-drawer`).append(menuItem)
+    }else{
+        $("#menu-items").append(menuItem)
+    }
+}
+
 function initMenu(){
 
     editor.menuItems.push(...[
@@ -96,13 +116,17 @@ function initMenu(){
         {name: "Change Value", gizmo: ChangeValue, catagory: "action"},
         {name: "Show Gizmo", gizmo: RenderGizmo, catagory: "action"},
         {name: "Clone", gizmo: Clone, catagory: "action"},
+        {name: "Function", gizmo: FunctionGizmo, catagory: "action"},
        
         {name: "List", gizmo: ListGizmo, catagory: "data"},
         {name: "Get List Item", gizmo: GetListItem, catagory: "data"},
         
+        
         //{name: "Get List Item", gizmo: GetListItem, catagory: "data"},
 
     ])
+
+
 
     for(let item of editor.menuItems){
         //gizmo-menu-drawer
@@ -110,26 +134,7 @@ function initMenu(){
 
             //console.log(item.gizmo.name, camel_to_snake(item.gizmo.name)+"-gizmo")
         //customElements.define(camel_to_snake(item.gizmo.name)+"-gizmo", item.gizmo);
-        let menuItem = ($("<span/>").text(item.name).mousedown((e)=>{
-            //console.log("")
-            
-
-            let gizmo = createGizmo(item.gizmo);
-            gizmo.style.display = "none"; 
-            gizmo.style.zIndex = 5;
-            gizmo.drag();
-            gizmo.pos(e.clientX-$("#bp").offset().left, e.clientY-$("#bp").offset().top)
-           // setTimeout(()=>{
-                
-           // },1000)   
-           //if()
-            
-        }));
-        if(item.catagory!=undefined){
-            $(`#${item.catagory}-menu-drawer`).append(menuItem)
-        }else{
-            $("#menu-items").append(menuItem)
-        }
+        editor.addGizmo(item)
     }
 }
 

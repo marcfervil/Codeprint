@@ -157,6 +157,70 @@ class GetListItem extends FunctionAction{
 }
 
 
+class FunctionGizmo extends FunctionAction{
+
+    constructor(){
+        super("Function");
+        //console.log(this.notifiers.code.field);
+        $(this).find(".blueprintItem").toArray().forEach((item)=>{
+            $(item).attr("removeable", "false")
+        })
+        this.notifiers.code.field.on("focusout", ()=>this.resetParamHooks());
+        this.resetParamHooks();
+    }
+
+    resetParamHooks(){
+        
+
+        this.setHeading(this.getFunc().name)
+
+        $(this).find(".blueprintItem, .removeHr").filter("[removeable!='false']").toArray().forEach((item)=>{
+            let unhook = null
+            //console.log( $(item)[0].childNodes[0])
+            //.unHook)
+
+            
+            //if((unhook = $(item)[0].childNodes[0]?.unhook)!=undefined)unhook()
+          //  if((unhook = $(item)[2].childNodes[0]?.unhook)!=undefined)unhook()
+            
+            item.remove()
+        })
+        
+        let paramNames = getParamNames(this.get("code"));
+        if(paramNames.length>1)$(this).append($("<hr class='removeHr'>").css("margin","0px"))
+        
+        let newNotifiers = paramNames.reduce((notifiers, param)=>{
+            notifiers[param]=new StringNotifier("")
+            return notifiers;
+        }, {});
+
+        this.hookNotifiers(newNotifiers);
+        Object.assign(this.notifiers, newNotifiers)
+    }
+
+    getFunc(){
+        
+        return eval("("+this.get("code")+")")
+    }
+    
+    onExec(){
+        let args = Object.entries(this.notifiers).map(([key, value])=>value.get()).splice(1);
+        
+        return this.getFunc()(...args); 
+    }
+
+    getNotifiers(){
+        return {
+            
+            "code" : new StringNotifier(`function concat(var1, var2){\n\treturn var1+" "+var2\n}`).textarea(4,20),
+           // "woo" : new StringNotifier("dpsok")
+        }
+    }
+
+
+}
+
+
 
 class PopupGizmo extends ActionGizmo{
 
